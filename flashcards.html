@@ -201,8 +201,8 @@ const CARDS = [
     trap: "Through-line: this is exactly why <b>precision is low on rare-event detection</b> (scam/fraud classifiers)." },
 
   { cluster: "C · Experiments", q: "What drives A/B sample size? (4 inputs + directions)",
-    a: "<p>(1) <strong>Variance</strong> ↑ → n ↑. (2) <strong>MDE</strong> (min detectable effect) ↓ → n ↑. (3) <strong>α</strong> ↓ (stricter) → n ↑. (4) <strong>Power</strong> ↑ → n ↑.</p><p>Key intuition: <code>n ∝ variance / MDE²</code> — <strong>MDE is squared</strong>, so halving the effect you want to detect <strong>quadruples</strong> the sample.</p><p>Duration: run ≥ one full business cycle (1–2 weeks) even if n is hit sooner (seasonality, novelty).</p>",
-    trap: null },
+    a: "<p>(1) <strong>Variance</strong> ↑ → n ↑. (2) <strong>MDE</strong> (min detectable effect) ↓ → n ↑. (3) <strong>α</strong> ↓ (stricter) → n ↑ — <em>typically 0.05</em>. (4) <strong>Power (1−β)</strong> ↑ → n ↑ — <em>typically 80%, sometimes 90%</em>.</p><p>Key intuition: <code>n ∝ variance / MDE²</code> — <strong>MDE is squared</strong>, so halving the effect you want to detect <strong>quadruples</strong> the sample.</p><p>Duration: run ≥ one full business cycle (1–2 weeks) even if n is hit sooner (seasonality, novelty).</p>",
+    trap: "Default conventions to state out loud: <b>α = 0.05</b> (5% false-positive rate) and <b>power = 80%</b> (β = 0.20, so 20% chance of missing a real effect). Name these unprompted when you design a test." },
 
   { cluster: "C · Experiments", q: "Testing 10 metrics at α=0.05 — the problem and fix?",
     a: "<p>Testing many metrics inflates the chance of a false positive. With 10 independent tests: <code>1 − 0.95^10 ≈ 40%</code> chance of ≥1 false positive.</p><p>Fix: designate <strong>one primary metric</strong> up front; for the rest apply a correction — <strong>Bonferroni</strong> (α ÷ #tests, conservative) or <strong>Benjamini-Hochberg / FDR</strong> (controls false discovery rate, less conservative).</p>",
