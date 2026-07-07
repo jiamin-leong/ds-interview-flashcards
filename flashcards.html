@@ -239,6 +239,38 @@ const CARDS = [
   { cluster: "D · ML", q: "The 6-step modeling framing template (\"build a model to do X\")?",
     a: "<p><strong>Frame → Data/Labels → Features → Model → Evaluate → Deploy/Monitor.</strong></p><p>1. <strong>Frame:</strong> classification vs regression, the unit, <strong>define the label precisely</strong>, and the <strong>cost of each error</strong> (drives the metric).<br>2. <strong>Data/Labels:</strong> sources, expert + weak labels (reports/enforcement), handle <strong>class imbalance</strong>.<br>3. <strong>Features:</strong> general + <strong>domain-specific</strong> signals (e.g. similarity-to-known-brand for impersonation).<br>4. <strong>Model:</strong> simple baseline (logistic) → stronger (gradient-boosted trees); note interpretability.<br>5. <strong>Evaluate:</strong> right metric for imbalance (<strong>PR-AUC, precision/recall</strong>), proper <strong>train/val/test split</strong>, watch <strong>leakage</strong>.<br>6. <strong>Deploy/Monitor:</strong> how it's used (auto-action vs human-review queue), threshold by cost asymmetry, monitor <strong>drift + adversarial adaptation</strong>.</p>",
     trap: "Lead with framing (don't jump to data/tools), and always close with deployment/monitoring." },
+
+  { cluster: "D2 · ML models", q: "Supervised vs. unsupervised learning?",
+    a: "<p><strong>Supervised</strong> = you have <strong>labeled</strong> examples (input → known output); the model learns the mapping. E.g. fake/real reviews, install counts.</p><p><strong>Unsupervised</strong> = <strong>no labels</strong>; the model finds structure itself — clustering (k-means), dimensionality reduction (PCA), anomaly detection.</p>",
+    trap: "Random forests and gradient-boosted trees are <b>supervised</b>, not unsupervised — a common slip." },
+
+  { cluster: "D2 · ML models", q: "Classification vs. regression — how do you decide, and which metrics?",
+    a: "<p>Look at the <strong>target's type</strong>:</p><p>• <strong>Category</strong> → <strong>classification</strong> → precision, recall, F1, PR-AUC, ROC-AUC.<br>• <strong>Number</strong> → <strong>regression</strong> → RMSE, MAE, MAPE, R².</p>",
+    trap: "Never cross the metrics — accuracy/precision/recall are classification only; RMSE/MAE/R² are regression only." },
+
+  { cluster: "D2 · ML models", q: "The regression metric set?",
+    a: "<p>• <strong>RMSE</strong> — penalizes large errors most (outlier-sensitive).<br>• <strong>MAE</strong> — average absolute error, robust to outliers.<br>• <strong>MAPE</strong> — percentage error, good when scale varies hugely.<br>• <strong>R²</strong> — share of variance explained.</p>",
+    trap: "R² alone is insufficient — it shows variance explained but not error size. Pair an error metric (<b>RMSE/MAE</b>) with R²." },
+
+  { cluster: "D2 · ML models", q: "Problem shapes beyond classification/regression?",
+    a: "<p>• <strong>Ranking</strong> — order items by relevance (search, recommendations); metrics NDCG, MAP.<br>• <strong>Binary vs. multi-class</strong> classification — one-of-two vs. one-of-many.<br>• <strong>Anomaly detection</strong> — often unsupervised, for rare events when you lack labels.</p>",
+    trap: "\"How would you rank search results\" is a <b>ranking</b> problem, not plain classification." },
+
+  { cluster: "D2 · ML models", q: "Basic / baseline models — name them and when to use?",
+    a: "<p>• <strong>Linear regression</strong> (regression) — weighted sum of features.<br>• <strong>Logistic regression</strong> (classification) — linear + sigmoid → probability.<br>• <strong>Decision tree</strong> — if/else rule splits; interpretable but overfits alone.<br>• <strong>kNN</strong> — predict from the k closest points; simple, weak in high dimensions.<br>• <strong>Naive Bayes</strong> — Bayes + feature-independence; fast, strong for text/spam.<br>• <strong>k-means</strong> — unsupervised clustering.</p>",
+    trap: "Start here for <b>interpretability</b> and to set a baseline you must beat before adding complexity." },
+
+  { cluster: "D2 · ML models", q: "Advanced / high-performance models — name them and their tradeoffs?",
+    a: "<p>• <strong>Random forest</strong> — bagging (parallel trees, averaged); robust, cuts overfitting.<br>• <strong>Gradient-boosted trees</strong> (XGBoost, LightGBM) — boosting (sequential error-correction); usually <strong>best for tabular data</strong>.<br>• <strong>SVM</strong> — max-margin boundary + kernels for non-linearity.<br>• <strong>Neural nets / deep learning</strong> — excel at <strong>unstructured data</strong> (images, text); need lots of data + compute, black-box.</p>",
+    trap: "Advanced = more performance, but at the cost of <b>interpretability + tuning</b>." },
+
+  { cluster: "D2 · ML models", q: "Bagging vs. boosting?",
+    a: "<p><strong>Bagging</strong> (random forest) = train many models <em>in parallel</em> on random data subsets, then <strong>average</strong> them → cuts <strong>variance</strong> (overfitting).</p><p><strong>Boosting</strong> (gradient-boosted trees) = train models <em>sequentially</em>, each correcting the previous one's errors → cuts <strong>bias</strong>, higher accuracy but more overfitting-prone.</p>",
+    trap: "Naming this distinction shows you understand <b>why ensembles beat a single tree</b> — a strong signal." },
+
+  { cluster: "D2 · ML models", q: "The model-choice heuristic (\"what model would you use?\")",
+    a: "<p><strong>Tabular</strong> product problem → start with <strong>logistic/linear regression</strong> baseline → move to <strong>gradient-boosted trees</strong> (usually win on tabular).</p><p><strong>Unstructured</strong> data (images, text, huge volume) → <strong>neural networks</strong>.</p><p>Always weigh <strong>interpretability</strong> — in enforcement/T&S, an explainable model may beat a marginally more accurate black box.</p>",
+    trap: "This one paragraph answers ~80% of \"what model would you use\" questions — with real justification, not just a name." },
 ];
 
 // ---- state ----
