@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DS Interview Flashcards — Inference & ML</title>
+<style>
+  :root {
+    --bg: #0f1420;
+    --panel: #1a2130;
+    --panel-2: #222b3d;
+    --text: #e6ebf2;
+    --muted: #8b97ab;
+    --accent: #5b9dff;
+    --accent-soft: #1e3a5f;
+    --trap-bg: #3a2415;
+    --trap-border: #d98a3d;
+    --trap-text: #f0c99a;
+    --good: #3ddc97;
+    --star: #ffd24a;
+    --border: #2c3648;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 780px; margin: 0 auto; padding: 24px 18px 80px; }
+  header { text-align: center; margin-bottom: 18px; }
+  h1 { font-size: 20px; margin: 0 0 4px; font-weight: 650; }
+  .sub { color: var(--muted); font-size: 13px; }
+
+  .controls {
+    display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+    justify-content: center; margin: 16px 0;
+  }
+  .chip {
+    background: var(--panel); color: var(--muted); border: 1px solid var(--border);
+    padding: 6px 12px; border-radius: 20px; font-size: 12.5px; cursor: pointer;
+    user-select: none; transition: all .12s ease;
+  }
+  .chip:hover { color: var(--text); border-color: var(--accent); }
+  .chip.active { background: var(--accent-soft); color: #cfe2ff; border-color: var(--accent); }
+
+  .btn {
+    background: var(--panel); color: var(--text); border: 1px solid var(--border);
+    padding: 7px 14px; border-radius: 8px; font-size: 13px; cursor: pointer;
+    transition: all .12s ease;
+  }
+  .btn:hover { border-color: var(--accent); }
+  .btn.primary { background: var(--accent); color: #04101f; border-color: var(--accent); font-weight: 600; }
+  .btn.primary:hover { filter: brightness(1.08); }
+
+  .meta { display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 12.5px; margin: 8px 4px; }
+
+  .card {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 16px;
+    padding: 26px 24px; min-height: 260px; position: relative;
+    box-shadow: 0 8px 30px rgba(0,0,0,.25);
+  }
+  .tag {
+    display: inline-block; font-size: 11px; letter-spacing: .04em; text-transform: uppercase;
+    color: var(--accent); background: var(--accent-soft); padding: 3px 9px; border-radius: 6px; margin-bottom: 14px;
+  }
+  .q { font-size: 19px; font-weight: 600; margin: 0 0 6px; }
+  .answer { margin-top: 18px; padding-top: 18px; border-top: 1px dashed var(--border); }
+  .answer.hidden { display: none; }
+  .answer p { margin: 0 0 10px; }
+  .answer code {
+    background: var(--panel-2); padding: 1px 6px; border-radius: 5px;
+    font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 13px; color: #b8e0ff;
+  }
+  .answer strong { color: #fff; }
+  .trap {
+    background: var(--trap-bg); border-left: 3px solid var(--trap-border);
+    color: var(--trap-text); padding: 10px 14px; border-radius: 8px; font-size: 14px; margin-top: 12px;
+  }
+  .trap b { color: #ffd9ad; }
+
+  .reveal-hint { color: var(--muted); font-size: 13px; margin-top: 22px; font-style: italic; }
+
+  .nav { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 16px; }
+  .star {
+    background: none; border: none; cursor: pointer; font-size: 22px; line-height: 1;
+    color: var(--border); transition: transform .1s ease, color .1s ease;
+  }
+  .star:hover { transform: scale(1.15); }
+  .star.marked { color: var(--star); }
+
+  .progress-bar { height: 4px; background: var(--panel-2); border-radius: 4px; overflow: hidden; margin: 4px 0 14px; }
+  .progress-fill { height: 100%; background: var(--good); width: 0%; transition: width .2s ease; }
+
+  .kbd { font-family: "SF Mono", Menlo, monospace; background: var(--panel-2); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; font-size: 11.5px; }
+  .footer-hint { text-align: center; color: var(--muted); font-size: 12px; margin-top: 22px; }
+  .empty { text-align: center; color: var(--muted); padding: 60px 20px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>DS Interview Flashcards</h1>
+    <div class="sub">Statistical Inference &amp; ML Fundamentals · say it out loud, then reveal</div>
+  </header>
+
+  <div class="controls" id="clusterFilters"></div>
+  <div class="controls">
+    <button class="btn" id="shuffleBtn">🔀 Shuffle</button>
+    <button class="btn" id="orderBtn">↩︎ Original order</button>
+    <button class="chip" id="reviewFilter">★ Review only</button>
+  </div>
+
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="meta">
+    <span id="counter">—</span>
+    <span id="markedCount"></span>
+  </div>
+
+  <div id="cardHost"></div>
+
+  <div class="footer-hint">
+    <span class="kbd">Space</span> reveal · <span class="kbd">←</span>/<span class="kbd">→</span> prev/next · <span class="kbd">M</span> mark for review
+  </div>
+</div>
+
+<script>
+const CARDS = [
+  { cluster: "A · Inference", q: "What is a p-value?",
+    a: "<p>The probability of observing a result <strong>at least as extreme</strong> as what you saw, <strong>assuming the null hypothesis is true</strong>. It's <code>P(data | null true)</code>.</p>",
+    trap: "It is NOT a confidence level, NOT \"95% sure we can reject,\" and NOT <code>P(null true | data)</code>. Never flip the conditional." },
+
+  { cluster: "A · Inference", q: "p-value vs. significance level (α)?",
+    a: "<p><strong>α</strong> is the threshold you set <em>in advance</em> — the false-positive rate you'll tolerate if the null were true (e.g. 0.05). The <strong>p-value</strong> is computed <em>from the data</em>. You reject the null when p &lt; α.</p>",
+    trap: "p = 0.03 does NOT mean \"3% chance this is a false positive.\" That conflates the p-value with α." },
+
+  { cluster: "A · Inference", q: "Type I vs. Type II error?",
+    a: "<p><strong>Type I (α)</strong> = false positive — rejecting a true null (seeing an effect that isn't real).<br><strong>Type II (β)</strong> = false negative — failing to reject a false null (missing a real effect).</p><p>Mnemonic: Type I = crying wolf; Type II = missing the wolf.</p>",
+    trap: null },
+
+  { cluster: "A · Inference", q: "What is statistical power?",
+    a: "<p>Power = <code>1 − β</code> = the probability of <strong>detecting a real effect</strong> when one truly exists. Driven up by: larger n, larger true effect, lower variance, higher α.</p>",
+    trap: "Power is a <b>design input</b> you choose (usually 80%), not something you read off after the test." },
+
+  { cluster: "A · Inference", q: "What does a 95% confidence interval actually mean?",
+    a: "<p>The range of <strong>plausible values for the true parameter</strong> consistent with the data. Precisely: if you repeated the experiment many times and built a CI each time, ~95% of those intervals would contain the true value.</p>",
+    trap: "NOT \"95% of data points fall in this range.\" NOT (strictly) \"95% probability the true value is in <i>this</i> interval\" — that's a Bayesian credible interval." },
+
+  { cluster: "A · Inference", q: "CI ↔ hypothesis testing shortcut?",
+    a: "<p>A 95% CI that <strong>excludes 0</strong> ⇔ statistically significant at α = 0.05. If the CI <strong>includes 0</strong>, you can't rule out \"no effect\" (or even harm) → not significant.</p><p>Applied: CI of <code>[−0.5%, +4.5%]</code> crosses 0 → not significant → lean no-ship / gather more data (it's underpowered).</p>",
+    trap: null },
+
+  { cluster: "A · Inference", q: "What does the Central Limit Theorem say?",
+    a: "<p>The distribution of the <strong>sample mean</strong> approaches a <strong>normal distribution</strong> as n grows, <strong>regardless of the shape of the underlying data</strong> (given finite variance).</p>",
+    trap: "CLT does NOT assume the underlying data is normal — it <b>manufactures</b> normality in the mean from non-normal data. That's its whole power." },
+
+  { cluster: "A · Inference", q: "Why can I A/B test a skewed metric (e.g. revenue/user) using CLT?",
+    a: "<p>Because you're doing inference on the <strong>mean</strong>, not individual values. Even if revenue/user is heavily skewed, the sampling distribution of the <em>mean</em> is ~normal for large n, so z/t-tests, SEs, and CIs are valid.</p><p>Nuance that scores: heavy skew needs a <strong>larger n</strong>, and outliers inflate variance → often <strong>winsorize/cap</strong> or <strong>bootstrap</strong>.</p>",
+    trap: null },
+
+  { cluster: "A · Inference", q: "Statistical vs. practical significance?",
+    a: "<p><strong>Statistical</strong> significance = the effect is unlikely to be noise. <strong>Practical</strong> significance = the effect is big enough to matter for the business. With huge n, a trivial effect can be statistically significant but useless.</p>",
+    trap: "Always separate the two — mention it unprompted." },
+
+  { cluster: "A · Inference", q: "The \"peeking\" problem — what is it and why does it matter?",
+    a: "<p>Checking results repeatedly and stopping the first time p &lt; 0.05 <strong>inflates the Type I error rate</strong> — each look is another chance to cross the line by luck (true FP rate can hit 20–30%+). Under the null, peek forever → <em>guaranteed</em> eventual false \"significance.\"</p><p>Fix: predefine a fixed sample size / horizon, evaluate once. If you must monitor live → <strong>sequential testing / alpha-spending / always-valid p-values</strong>.</p>",
+    trap: "The reason is repeated-looks inflating α — NOT just \"the effect might not persist.\"" },
+
+  { cluster: "B · Bayes", q: "Bayes via natural frequencies — the recipe?",
+    a: "<p>Don't juggle formulas — <strong>imagine a concrete population and count.</strong></p><p>1. Pick a big round population (e.g. 1,000,000).<br>2. Apply the <strong>base rate</strong> → how many have the condition.<br>3. Apply the <strong>true-positive rate</strong> → sick who test positive.<br>4. Apply the <strong>false-positive rate</strong> → healthy who test positive.<br>5. <code>P(sick | +) = true positives ÷ all positives</code>.</p><p>Example: 1-in-10k disease, 99% accurate test → <code>99 / (99 + 9,999) ≈ 1%</code>.</p>",
+    trap: null },
+
+  { cluster: "B · Bayes", q: "Base-rate neglect?",
+    a: "<p>When a condition is <strong>rare</strong>, a positive test is dominated by <strong>false positives</strong> — the small error rate applied to the huge negative population produces more false positives than there are true positives. So \"99% accurate\" ≠ \"99% likely sick.\"</p>",
+    trap: "Through-line: this is exactly why <b>precision is low on rare-event detection</b> (scam/fraud classifiers)." },
+
+  { cluster: "C · Experiments", q: "What drives A/B sample size? (4 inputs + directions)",
+    a: "<p>(1) <strong>Variance</strong> ↑ → n ↑. (2) <strong>MDE</strong> (min detectable effect) ↓ → n ↑. (3) <strong>α</strong> ↓ (stricter) → n ↑. (4) <strong>Power</strong> ↑ → n ↑.</p><p>Key intuition: <code>n ∝ variance / MDE²</code> — <strong>MDE is squared</strong>, so halving the effect you want to detect <strong>quadruples</strong> the sample.</p><p>Duration: run ≥ one full business cycle (1–2 weeks) even if n is hit sooner (seasonality, novelty).</p>",
+    trap: null },
+
+  { cluster: "C · Experiments", q: "Testing 10 metrics at α=0.05 — the problem and fix?",
+    a: "<p>Testing many metrics inflates the chance of a false positive. With 10 independent tests: <code>1 − 0.95^10 ≈ 40%</code> chance of ≥1 false positive.</p><p>Fix: designate <strong>one primary metric</strong> up front; for the rest apply a correction — <strong>Bonferroni</strong> (α ÷ #tests, conservative) or <strong>Benjamini-Hochberg / FDR</strong> (controls false discovery rate, less conservative).</p>",
+    trap: null },
+
+  { cluster: "C · Experiments", q: "Novelty vs. primacy effect?",
+    a: "<p><strong>Novelty</strong> = users engage more just because something is <em>new</em> (early lift fades). <strong>Primacy</strong> = existing users react to <em>any</em> change (up or down) before settling. Both distort early A/B readings.</p><p>Diagnose by splitting <strong>new vs. returning users</strong>; evaluate the <strong>steady-state</strong> effect after a full cycle.</p>",
+    trap: null },
+
+  { cluster: "C · Experiments", q: "Network effects / interference — problem and fix?",
+    a: "<p>When one user's treatment affects control users (social, marketplace, messaging), <strong>user-level randomization is contaminated</strong> and biases the estimate.</p><p>Fix: <strong>cluster / geo randomization</strong> — randomize groups (cities, social clusters) instead of individuals.</p>",
+    trap: null },
+
+  { cluster: "D · ML", q: "Bias-variance tradeoff?",
+    a: "<p><strong>Bias</strong> = error from a model too <em>simple</em> to capture the real pattern → <strong>underfitting</strong>. <strong>Variance</strong> = error from a model too <em>sensitive</em> to the training data → <strong>overfitting</strong>. Total error ≈ bias² + variance + irreducible noise; you minimize the <em>sum</em>.</p>",
+    trap: "Name the terms explicitly: overfitting = <b>high variance</b>, underfitting = <b>high bias</b>." },
+
+  { cluster: "D · ML", q: "How do you fix an overfit (high-variance) model?",
+    a: "<p>(1) <strong>More training data</strong> (most reliable). (2) <strong>Regularization</strong> (L1/L2). (3) <strong>Reduce complexity</strong> / feature selection / lower depth. (4) <strong>Cross-validation</strong> to tune honestly. (5) <strong>Early stopping</strong>, <strong>dropout</strong> (NNs), <strong>bagging/ensembles</strong>.</p><p><strong>L1 vs L2:</strong> L1 (Lasso) → sparsity / feature selection; L2 (Ridge) → shrinks weights smoothly.</p>",
+    trap: null },
+
+  { cluster: "D · ML", q: "Precision vs. recall?",
+    a: "<p><strong>Precision</strong> = of what we <em>flagged</em> positive, what fraction <em>actually is</em> → <code>TP / (TP + FP)</code> (\"how often we cry wolf\").<br><strong>Recall</strong> = of all <em>actual</em> positives, what fraction we <em>caught</em> → <code>TP / (TP + FN)</code> (\"how much we miss\").</p><p>Which to favor = depends on the <strong>cost of each error</strong> and the action taken.</p>",
+    trap: null },
+
+  { cluster: "D · ML", q: "Why does accuracy fail on imbalanced data?",
+    a: "<p>With rare positives (e.g. 0.1% scams), a model that predicts \"negative\" for <em>everything</em> scores ~99.9% accuracy while catching <strong>zero</strong> positives — the majority-class baseline is trivially high.</p><p>Use instead: <strong>precision/recall, F-beta, and PR-AUC</strong> (precision-recall AUC is the right summary for rare-positive problems — better than ROC-AUC).</p>",
+    trap: null },
+
+  { cluster: "D · ML", q: "Logistic vs. linear regression for classification?",
+    a: "<p>Use <strong>logistic regression</strong> for binary classification — it outputs a <strong>probability in [0,1]</strong> (via the sigmoid), which you threshold to 0/1. <strong>Linear regression</strong> outputs unbounded values and is for continuous targets.</p>",
+    trap: "\"Linear regression to output a probability\" is wrong — that's logistic regression." },
+
+  { cluster: "D · ML", q: "The 6-step modeling framing template (\"build a model to do X\")?",
+    a: "<p><strong>Frame → Data/Labels → Features → Model → Evaluate → Deploy/Monitor.</strong></p><p>1. <strong>Frame:</strong> classification vs regression, the unit, <strong>define the label precisely</strong>, and the <strong>cost of each error</strong> (drives the metric).<br>2. <strong>Data/Labels:</strong> sources, expert + weak labels (reports/enforcement), handle <strong>class imbalance</strong>.<br>3. <strong>Features:</strong> general + <strong>domain-specific</strong> signals (e.g. similarity-to-known-brand for impersonation).<br>4. <strong>Model:</strong> simple baseline (logistic) → stronger (gradient-boosted trees); note interpretability.<br>5. <strong>Evaluate:</strong> right metric for imbalance (<strong>PR-AUC, precision/recall</strong>), proper <strong>train/val/test split</strong>, watch <strong>leakage</strong>.<br>6. <strong>Deploy/Monitor:</strong> how it's used (auto-action vs human-review queue), threshold by cost asymmetry, monitor <strong>drift + adversarial adaptation</strong>.</p>",
+    trap: "Lead with framing (don't jump to data/tools), and always close with deployment/monitoring." },
+];
+
+// ---- state ----
+let order = CARDS.map((_, i) => i);
+let pos = 0;
+let revealed = false;
+let activeCluster = "All";
+let reviewOnly = false;
+const marked = new Set(JSON.parse(localStorage.getItem("marked_cards") || "[]"));
+
+const clusters = ["All", ...Array.from(new Set(CARDS.map(c => c.cluster)))];
+
+function saveMarked() { localStorage.setItem("marked_cards", JSON.stringify([...marked])); }
+
+function visibleIndices() {
+  return order.filter(i => {
+    if (activeCluster !== "All" && CARDS[i].cluster !== activeCluster) return false;
+    if (reviewOnly && !marked.has(i)) return false;
+    return true;
+  });
+}
+
+function renderFilters() {
+  const host = document.getElementById("clusterFilters");
+  host.innerHTML = "";
+  clusters.forEach(cl => {
+    const el = document.createElement("span");
+    el.className = "chip" + (cl === activeCluster ? " active" : "");
+    el.textContent = cl;
+    el.onclick = () => { activeCluster = cl; pos = 0; revealed = false; render(); };
+    host.appendChild(el);
+  });
+}
+
+function render() {
+  renderFilters();
+  document.getElementById("reviewFilter").classList.toggle("active", reviewOnly);
+
+  const vis = visibleIndices();
+  const host = document.getElementById("cardHost");
+  const markedCountEl = document.getElementById("markedCount");
+  markedCountEl.textContent = marked.size ? `★ ${marked.size} marked` : "";
+
+  if (vis.length === 0) {
+    host.innerHTML = '<div class="card"><div class="empty">No cards match this filter.<br>Try a different cluster or turn off “Review only.”</div></div>';
+    document.getElementById("counter").textContent = "0 / 0";
+    document.getElementById("progressFill").style.width = "0%";
+    return;
+  }
+  if (pos >= vis.length) pos = vis.length - 1;
+  if (pos < 0) pos = 0;
+
+  const idx = vis[pos];
+  const c = CARDS[idx];
+  const isMarked = marked.has(idx);
+
+  host.innerHTML = `
+    <div class="card">
+      <span class="tag">${c.cluster}</span>
+      <p class="q">${c.q}</p>
+      <div class="answer ${revealed ? "" : "hidden"}">
+        ${c.a}
+        ${c.trap ? `<div class="trap"><b>⚠️ Trap:</b> ${c.trap}</div>` : ""}
+      </div>
+      ${revealed ? "" : '<div class="reveal-hint">Answer it out loud, then press Space (or click Reveal).</div>'}
+      <div class="nav">
+        <button class="btn" id="prevBtn">← Prev</button>
+        <button class="star ${isMarked ? "marked" : ""}" id="starBtn" title="Mark for review (M)">${isMarked ? "★" : "☆"}</button>
+        <button class="btn primary" id="revealBtn">${revealed ? "Next →" : "Reveal"}</button>
+      </div>
+    </div>`;
+
+  document.getElementById("counter").textContent = `Card ${pos + 1} / ${vis.length}`;
+  document.getElementById("progressFill").style.width = `${((pos + 1) / vis.length) * 100}%`;
+
+  document.getElementById("prevBtn").onclick = prev;
+  document.getElementById("starBtn").onclick = toggleMark;
+  document.getElementById("revealBtn").onclick = () => { revealed ? next() : reveal(); };
+}
+
+function reveal() { revealed = true; render(); }
+function next() { const vis = visibleIndices(); if (pos < vis.length - 1) pos++; else pos = 0; revealed = false; render(); }
+function prev() { const vis = visibleIndices(); if (pos > 0) pos--; else pos = vis.length - 1; revealed = false; render(); }
+function toggleMark() {
+  const vis = visibleIndices(); const idx = vis[pos];
+  if (marked.has(idx)) marked.delete(idx); else marked.add(idx);
+  saveMarked(); render();
+}
+
+document.getElementById("shuffleBtn").onclick = () => {
+  for (let i = order.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [order[i], order[j]] = [order[j], order[i]]; }
+  pos = 0; revealed = false; render();
+};
+document.getElementById("orderBtn").onclick = () => { order = CARDS.map((_, i) => i); pos = 0; revealed = false; render(); };
+document.getElementById("reviewFilter").onclick = () => { reviewOnly = !reviewOnly; pos = 0; revealed = false; render(); };
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === " ") { e.preventDefault(); revealed ? next() : reveal(); }
+  else if (e.key === "ArrowRight") { e.preventDefault(); next(); }
+  else if (e.key === "ArrowLeft") { e.preventDefault(); prev(); }
+  else if (e.key.toLowerCase() === "m") { e.preventDefault(); toggleMark(); }
+});
+
+render();
+</script>
+</body>
+</html>
