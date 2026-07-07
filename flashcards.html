@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>DS Interview Flashcards — Inference & ML</title>
 <style>
   :root {
@@ -325,9 +328,9 @@ const CARDS = [
     a: "<p><strong>Supervised</strong> (need labels):</p><p>• <strong>Linear regression</strong> — regression; weighted sum of features.<br>• <strong>Logistic regression</strong> — classification; linear + sigmoid → probability.<br>• <strong>Decision tree</strong> — both; if/else rule splits; interpretable but overfits alone.<br>• <strong>kNN</strong> — both; predict from the k closest points; weak in high dimensions.<br>• <strong>Naive Bayes</strong> — classification; Bayes + feature-independence; fast, strong for text/spam.</p><p><strong>Unsupervised</strong> (no labels):</p><p>• <strong>k-means</strong> — clustering / segmentation.</p>",
     trap: "Call out the split explicitly: everything here is <b>supervised except k-means</b>. Start basic for interpretability and to set a baseline you must beat." },
 
-  { cluster: "D2 · ML models", q: "Advanced / high-performance models — name them and their tradeoffs?",
-    a: "<p>• <strong>Random forest</strong> — bagging (parallel trees, averaged); robust, cuts overfitting.<br>• <strong>Gradient-boosted trees</strong> (XGBoost, LightGBM) — boosting (sequential error-correction); usually <strong>best for tabular data</strong>.<br>• <strong>SVM</strong> — max-margin boundary + kernels for non-linearity.<br>• <strong>Neural nets / deep learning</strong> — excel at <strong>unstructured data</strong> (images, text); need lots of data + compute, black-box.</p>",
-    trap: "Advanced = more performance, but at the cost of <b>interpretability + tuning</b>." },
+  { cluster: "D2 · ML models", q: "Advanced / high-performance models — name them, their learning type, and tradeoffs?",
+    a: "<p>All <strong>supervised</strong> (except where noted):</p><p>• <strong>Random forest</strong> — both; bagging (parallel trees, averaged); robust, cuts overfitting.<br>• <strong>Gradient-boosted trees</strong> (XGBoost, LightGBM) — both; boosting (sequential error-correction); usually <strong>best for tabular data</strong>.<br>• <strong>SVM</strong> — classification (also regression via SVR); max-margin boundary + kernels for non-linearity.<br>• <strong>Neural nets / deep learning</strong> — both; excel at <strong>unstructured data</strong> (images, text); need lots of data + compute, black-box. <span style=\"opacity:.8\">(Can also be unsupervised — e.g. autoencoders.)</span></p>",
+    trap: "Advanced = more performance, but at the cost of <b>interpretability + tuning</b>. These are supervised by default; neural nets are the flexible exception." },
 
   { cluster: "D2 · ML models", q: "Bagging vs. boosting?",
     a: "<p><strong>Bagging</strong> (random forest) = train many models <em>in parallel</em> on random data subsets, then <strong>average</strong> them → cuts <strong>variance</strong> (overfitting).</p><p><strong>Boosting</strong> (gradient-boosted trees) = train models <em>sequentially</em>, each correcting the previous one's errors → cuts <strong>bias</strong>, higher accuracy but more overfitting-prone.</p>",
