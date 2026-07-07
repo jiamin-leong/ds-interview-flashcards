@@ -165,8 +165,8 @@
       <table class="cs">
         <tr><td class="term">α (alpha)</td><td>Significance level — the pre-set <strong>false-positive</strong> rate: <code>P(reject H₀ | H₀ true)</code> = Type I error. <span class="hint">Typically 0.05.</span></td></tr>
         <tr><td class="term">β (beta)</td><td><strong>False-negative</strong> rate: <code>P(fail to reject H₀ | H₀ false)</code> = Type II error. <strong>Power = 1 − β.</strong> <span class="hint">Typically β = 0.20 → 80% power.</span></td></tr>
-        <tr><td class="term">t-test</td><td>Compares means when the population SD is <strong>unknown</strong> / small n. Uses the t-distribution (fatter tails). <span class="hint">Means with estimated variance.</span></td></tr>
-        <tr><td class="term">z-test</td><td>Compares means/proportions when SD is <strong>known</strong> or n is large. Uses the normal distribution. <span class="hint">Standard for proportions / large samples.</span></td></tr>
+        <tr><td class="term">z-test</td><td>Compares a mean when the population SD (σ) is <strong>known</strong> or n is large; normal distribution. <code>Z = (X̄ − μ) / (σ / √n)</code><br><span class="hint">X̄ = sample mean, μ = population mean, σ = population SD, n = sample size. Also the standard test for proportions.</span></td></tr>
+        <tr><td class="term">t-test</td><td>Compares a mean when the population SD is <strong>unknown</strong> (estimated by sample SD s) / small n; t-distribution (fatter tails). <code>t = (X̄ − μ) / (s / √n)</code>, df = n − 1<br><span class="hint">Same shape as z, but with sample SD s in place of σ.</span></td></tr>
       </table>
     </div>
     <div class="footer-hint">Quick reference · switch to 🎴 Flashcards to self-quiz</div>
