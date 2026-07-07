@@ -168,6 +168,30 @@ const CARDS = [
     a: "<p>Checking results repeatedly and stopping the first time p &lt; 0.05 <strong>inflates the Type I error rate</strong> — each look is another chance to cross the line by luck (true FP rate can hit 20–30%+). Under the null, peek forever → <em>guaranteed</em> eventual false \"significance.\"</p><p>Fix: predefine a fixed sample size / horizon, evaluate once. If you must monitor live → <strong>sequential testing / alpha-spending / always-valid p-values</strong>.</p>",
     trap: "The reason is repeated-looks inflating α — NOT just \"the effect might not persist.\"" },
 
+  { cluster: "A2 · Test math", q: "t-test vs. z-test — when do you use each?",
+    a: "<p>Both test whether means differ; the difference is how you handle the variance.</p><p><strong>z-test:</strong> use when the population SD (σ) is <em>known</em>, OR n is large (≳30) so the sample SD is a reliable estimate and the sampling distribution is ~normal. Also the standard choice for <strong>proportions</strong> (large n).</p><p><strong>t-test:</strong> use when σ is <em>unknown</em> and estimated from the sample — especially small n. The t-distribution has <strong>fatter tails</strong> to account for the extra uncertainty of estimating SD; it converges to z as n grows.</p>",
+    trap: "In large A/B tests t ≈ z (same answer). Rule of thumb: <b>means with unknown variance → t-test; conversion/proportions → z-test.</b>" },
+
+  { cluster: "A2 · Test math", q: "One-sided vs. two-sided test — when and what's the catch?",
+    a: "<p><strong>Two-sided (two-tailed):</strong> testing for <em>any</em> difference (H₁: effect ≠ 0), either direction matters. The <strong>default</strong> for A/B tests. α is split across both tails (2.5% each at 0.05).</p><p><strong>One-sided (one-tailed):</strong> you only care about a difference in <em>one pre-specified direction</em> (H₁: treatment &gt; control); the other direction counts as \"no win.\" All α goes in one tail → <strong>more power</strong> to detect that direction.</p>",
+    trap: "Pick the sidedness <b>before</b> seeing data. One-sided gives easier significance and can look like p-hacking → default to two-sided unless there's a strong a priori reason." },
+
+  { cluster: "A2 · Test math", q: "The general test-statistic formula + the standard errors?",
+    a: "<p>Every z/t statistic has the same shape:</p><p><code>statistic = (estimate − null value) / standard error</code></p><p>Standard errors (SE):</p><p>• Mean: <code>SE = s / √n</code><br>• Difference of two means (independent): <code>SE = √(s²_A/n_A + s²_B/n_B)</code><br>• Proportion: <code>SE = √(p(1−p)/n)</code><br>• Difference of two proportions (pooled): <code>SE = √(p̂(1−p̂)(1/n_A + 1/n_B))</code>, with pooled <code>p̂ = (x_A + x_B)/(n_A + n_B)</code></p><p>Then compare the statistic to a critical value, or convert it to a p-value.</p>",
+    trap: "The numerator is always <b>effect vs. the null</b>; the denominator is the <b>SE</b> (noise). Big signal ÷ small noise → big statistic → significant." },
+
+  { cluster: "A2 · Test math", q: "Two-proportion z-test — the A/B conversion workhorse formula?",
+    a: "<p>For comparing conversion rates between control (A) and treatment (B):</p><p><code>z = (p̂_B − p̂_A) / √( p̂(1−p̂)(1/n_A + 1/n_B) )</code></p><p>where <code>p̂ = (x_A + x_B)/(n_A + n_B)</code> is the <strong>pooled</strong> conversion rate — used because under H₀ both groups share the same true rate.</p><p>Reject H₀ (two-sided, α = 0.05) if <code>|z| &gt; 1.96</code>.</p>",
+    trap: null },
+
+  { cluster: "A2 · Test math", q: "Worked example: two-proportion z-test (do the math out loud)",
+    a: "<p>Control: 200 / 2,000 convert (10.0%). Treatment: 240 / 2,000 (12.0%).</p><p>1. Pooled <code>p̂ = (200+240)/(2000+2000) = 0.11</code><br>2. <code>SE = √(0.11 × 0.89 × (1/2000 + 1/2000)) = √0.0000979 ≈ 0.0099</code><br>3. <code>z = (0.12 − 0.10) / 0.0099 ≈ 2.02</code><br>4. <code>|z| = 2.02 &gt; 1.96</code> → <strong>significant</strong> at 5% (two-sided). p ≈ 0.043.</p>",
+    trap: "Practice saying this end-to-end: pooled rate → SE → z → compare to 1.96. Being able to actually compute it is a differentiator." },
+
+  { cluster: "A2 · Test math", q: "Critical values & converting a statistic to a decision?",
+    a: "<p>Compare your statistic to the critical value for your α:</p><p>• Two-sided 95% (α = 0.05): <code>±1.96</code><br>• One-sided 95%: <code>1.645</code><br>• Two-sided 99%: <code>±2.576</code><br>• Two-sided 90%: <code>±1.645</code></p><p>The <strong>p-value</strong> = the tail area beyond your observed statistic (both tails if two-sided). Reject H₀ when <code>p &lt; α</code>, i.e. when <code>|statistic|</code> exceeds the critical value.</p>",
+    trap: "Memorize <b>1.96</b> (two-sided 95%) and <b>1.645</b> (one-sided 95%) cold — they come up constantly." },
+
   { cluster: "B · Bayes", q: "Bayes via natural frequencies — the recipe?",
     a: "<p>Don't juggle formulas — <strong>imagine a concrete population and count.</strong></p><p>1. Pick a big round population (e.g. 1,000,000).<br>2. Apply the <strong>base rate</strong> → how many have the condition.<br>3. Apply the <strong>true-positive rate</strong> → sick who test positive.<br>4. Apply the <strong>false-positive rate</strong> → healthy who test positive.<br>5. <code>P(sick | +) = true positives ÷ all positives</code>.</p><p>Example: 1-in-10k disease, 99% accurate test → <code>99 / (99 + 9,999) ≈ 1%</code>.</p>",
     trap: null },
