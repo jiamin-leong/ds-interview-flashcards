@@ -7,6 +7,10 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>DS Interview Flashcards — Inference & ML</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
 <style>
   :root {
     --bg: #0f1420;
@@ -136,8 +140,8 @@
     <div class="cs-section">
       <h2>Classification metrics</h2>
       <table class="cs">
-        <tr><td class="term">Precision</td><td><code>TP / (TP + FP)</code> — of everything we <em>flagged</em> positive, how much truly is. <span class="hint">"How often we cry wolf."</span></td></tr>
-        <tr><td class="term">Recall</td><td><code>TP / (TP + FN)</code> — of all <em>actual</em> positives, how much we caught (a.k.a. sensitivity, TPR). <span class="hint">"How much we miss."</span></td></tr>
+        <tr><td class="term">Precision</td><td>\( \dfrac{TP}{TP+FP} \) — of everything we <em>flagged</em> positive, how much truly is. <span class="hint">"How often we cry wolf."</span></td></tr>
+        <tr><td class="term">Recall</td><td>\( \dfrac{TP}{TP+FN} \) — of all <em>actual</em> positives, how much we caught (a.k.a. sensitivity, TPR). <span class="hint">"How much we miss."</span></td></tr>
         <tr><td class="term">PR-AUC</td><td>Area under the <strong>precision-recall</strong> curve across thresholds. <span class="hint">Best summary for imbalanced / rare-positive problems.</span></td></tr>
         <tr><td class="term">ROC-AUC</td><td>Area under the ROC curve (TPR vs. FPR). = P(model ranks a random positive above a random negative). 0.5 = random, 1.0 = perfect. <span class="hint">Can look optimistic under heavy imbalance → prefer PR-AUC there.</span></td></tr>
       </table>
@@ -146,27 +150,27 @@
     <div class="cs-section">
       <h2>Regression metrics</h2>
       <table class="cs">
-        <tr><td class="term">RMSE</td><td><code>√( mean( (y − ŷ)² ) )</code> — root mean squared error. Same units as target. <strong>Range <code>[0, ∞)</code>, 0 = perfect.</strong> <span class="hint">Penalizes large errors most (outlier-sensitive).</span></td></tr>
-        <tr><td class="term">MAE</td><td><code>mean( |y − ŷ| )</code> — mean absolute error. Same units. <strong>Range <code>[0, ∞)</code>, 0 = perfect.</strong> <span class="hint">Robust to outliers.</span></td></tr>
-        <tr><td class="term">MAPE</td><td><code>mean( |(y − ŷ) / y| )</code> — mean absolute % error. Scale-free. <strong>Range <code>[0, ∞)</code> as a % (can exceed 100%), 0 = perfect.</strong> <span class="hint">Blows up when y is near 0.</span></td></tr>
-        <tr><td class="term">R²</td><td><code>1 − SS_res / SS_tot</code> — share of variance explained. <strong>Range <code>(−∞, 1]</code></strong>: 1 = perfect, 0 = no better than predicting the mean, <strong>negative = worse than the mean</strong>. <span class="hint">Pair with an error metric — never report alone.</span></td></tr>
+        <tr><td class="term">RMSE</td><td>\( \sqrt{\dfrac{1}{n}\sum (y-\hat y)^2} \) — root mean squared error. Same units as target. <strong>Range <code>[0, ∞)</code>, 0 = perfect.</strong> <span class="hint">Penalizes large errors most (outlier-sensitive).</span></td></tr>
+        <tr><td class="term">MAE</td><td>\( \dfrac{1}{n}\sum |y-\hat y| \) — mean absolute error. Same units. <strong>Range <code>[0, ∞)</code>, 0 = perfect.</strong> <span class="hint">Robust to outliers.</span></td></tr>
+        <tr><td class="term">MAPE</td><td>\( \dfrac{1}{n}\sum \left|\dfrac{y-\hat y}{y}\right| \) — mean absolute % error. Scale-free. <strong>Range <code>[0, ∞)</code> as a % (can exceed 100%), 0 = perfect.</strong> <span class="hint">Blows up when y is near 0.</span></td></tr>
+        <tr><td class="term">R²</td><td>\( 1 - \dfrac{SS_{\text{res}}}{SS_{\text{tot}}} \) — share of variance explained. <strong>Range <code>(−∞, 1]</code></strong>: 1 = perfect, 0 = no better than predicting the mean, <strong>negative = worse than the mean</strong>. <span class="hint">Pair with an error metric — never report alone.</span></td></tr>
       </table>
     </div>
 
     <div class="cs-section">
       <h2>Probability</h2>
       <table class="cs">
-        <tr><td class="term">Bayes' theorem</td><td><code>P(A | B) = P(B | A) · P(A) / P(B)</code> — updates the probability of hypothesis A given evidence B. <span class="hint">Denominator: <code>P(B) = P(B|A)P(A) + P(B|¬A)P(¬A)</code>.</span></td></tr>
+        <tr><td class="term">Bayes' theorem</td><td>\( P(A \mid B) = \dfrac{P(B \mid A)\,P(A)}{P(B)} \) — updates the probability of hypothesis A given evidence B. <span class="hint">Denominator: \( P(B) = P(B\mid A)P(A) + P(B\mid \neg A)P(\neg A) \).</span></td></tr>
       </table>
     </div>
 
     <div class="cs-section">
       <h2>Hypothesis testing</h2>
       <table class="cs">
-        <tr><td class="term">α (alpha)</td><td>Significance level — the pre-set <strong>false-positive</strong> rate: <code>P(reject H₀ | H₀ true)</code> = Type I error. <span class="hint">Typically 0.05.</span></td></tr>
-        <tr><td class="term">β (beta)</td><td><strong>False-negative</strong> rate: <code>P(fail to reject H₀ | H₀ false)</code> = Type II error. <strong>Power = 1 − β.</strong> <span class="hint">Typically β = 0.20 → 80% power.</span></td></tr>
-        <tr><td class="term">z-test</td><td>Compares a mean when the population SD (σ) is <strong>known</strong> or n is large; normal distribution. <code>Z = (X̄ − μ) / (σ / √n)</code><br><span class="hint">X̄ = sample mean, μ = population mean, σ = population SD, n = sample size. Also the standard test for proportions.</span></td></tr>
-        <tr><td class="term">t-test</td><td>Compares a mean when the population SD is <strong>unknown</strong> (estimated by sample SD s) / small n; t-distribution (fatter tails). <code>t = (X̄ − μ) / (s / √n)</code>, df = n − 1<br><span class="hint">Same shape as z, but with sample SD s in place of σ.</span></td></tr>
+        <tr><td class="term">α (alpha)</td><td>Significance level — the pre-set <strong>false-positive</strong> rate: \( P(\text{reject } H_0 \mid H_0\ \text{true}) \) = Type I error. <span class="hint">Typically 0.05.</span></td></tr>
+        <tr><td class="term">β (beta)</td><td><strong>False-negative</strong> rate: \( P(\text{fail to reject } H_0 \mid H_0\ \text{false}) \) = Type II error. <strong>Power \( = 1 - \beta \).</strong> <span class="hint">Typically β = 0.20 → 80% power.</span></td></tr>
+        <tr><td class="term">z-test</td><td>Compares a mean when the population SD (σ) is <strong>known</strong> or n is large; normal distribution. \( Z = \dfrac{\bar X - \mu}{\sigma/\sqrt{n}} \)<br><span class="hint">X̄ = sample mean, μ = population mean, σ = population SD, n = sample size. Also the standard test for proportions.</span></td></tr>
+        <tr><td class="term">t-test</td><td>Compares a mean when the population SD is <strong>unknown</strong> (estimated by sample SD s) / small n; t-distribution (fatter tails). \( t = \dfrac{\bar X - \mu}{s/\sqrt{n}} \), df = \( n-1 \)<br><span class="hint">Same shape as z, but with sample SD s in place of σ.</span></td></tr>
       </table>
     </div>
     <div class="footer-hint">Quick reference · switch to 🎴 Flashcards to self-quiz</div>
