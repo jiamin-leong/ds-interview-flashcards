@@ -143,10 +143,10 @@
     <div class="cs-section">
       <h2>Regression metrics</h2>
       <table class="cs">
-        <tr><td class="term">RMSE</td><td><code>√( mean( (y − ŷ)² ) )</code> — root mean squared error. Same units as target; <span class="hint">penalizes large errors most (outlier-sensitive).</span></td></tr>
-        <tr><td class="term">MAE</td><td><code>mean( |y − ŷ| )</code> — mean absolute error. Same units; <span class="hint">robust to outliers.</span></td></tr>
-        <tr><td class="term">MAPE</td><td><code>mean( |(y − ŷ) / y| )</code> — mean absolute % error. Scale-free; <span class="hint">blows up when y is near 0.</span></td></tr>
-        <tr><td class="term">R²</td><td><code>1 − SS_res / SS_tot</code> — share of variance explained. 1 = perfect, 0 = no better than predicting the mean, can go negative. <span class="hint">Pair with an error metric — never report alone.</span></td></tr>
+        <tr><td class="term">RMSE</td><td><code>√( mean( (y − ŷ)² ) )</code> — root mean squared error. Same units as target. <strong>Range <code>[0, ∞)</code>, 0 = perfect.</strong> <span class="hint">Penalizes large errors most (outlier-sensitive).</span></td></tr>
+        <tr><td class="term">MAE</td><td><code>mean( |y − ŷ| )</code> — mean absolute error. Same units. <strong>Range <code>[0, ∞)</code>, 0 = perfect.</strong> <span class="hint">Robust to outliers.</span></td></tr>
+        <tr><td class="term">MAPE</td><td><code>mean( |(y − ŷ) / y| )</code> — mean absolute % error. Scale-free. <strong>Range <code>[0, ∞)</code> as a % (can exceed 100%), 0 = perfect.</strong> <span class="hint">Blows up when y is near 0.</span></td></tr>
+        <tr><td class="term">R²</td><td><code>1 − SS_res / SS_tot</code> — share of variance explained. <strong>Range <code>(−∞, 1]</code></strong>: 1 = perfect, 0 = no better than predicting the mean, <strong>negative = worse than the mean</strong>. <span class="hint">Pair with an error metric — never report alone.</span></td></tr>
       </table>
     </div>
 
