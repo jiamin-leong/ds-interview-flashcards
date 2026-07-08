@@ -173,6 +173,16 @@
         <tr><td class="term">t-test</td><td>Compares a mean when the population SD is <strong>unknown</strong> (estimated by sample SD s) / small n; t-distribution (fatter tails). \( t = \dfrac{\bar X - \mu}{s/\sqrt{n}} \), df = \( n-1 \)<br><span class="hint">Same shape as z, but with sample SD s in place of σ.</span></td></tr>
       </table>
     </div>
+
+    <div class="cs-section">
+      <h2>Experiment pitfalls &amp; biases</h2>
+      <table class="cs">
+        <tr><td class="term">Simpson's paradox</td><td>An aggregate trend <strong>reverses</strong> when you split by a subgroup whose <strong>mix differs</strong> across groups (a confounder). <span class="hint">Trust the segmented view — and in a randomized test it signals <strong>broken randomization</strong>.</span></td></tr>
+        <tr><td class="term">Self-selection bias</td><td>Respondents/participants differ systematically from non-participants; voluntary samples over-represent <strong>strong opinions</strong> (a.k.a. non-response / voluntary response bias). <span class="hint">Fix: representative random sampling, or use <strong>behavioral data</strong> that covers everyone.</span></td></tr>
+        <tr><td class="term">Interference (SUTVA violation)</td><td>One unit's treatment affects <strong>another unit's outcome</strong> (social, marketplace, messaging) → contaminates control and <strong>dilutes / underestimates</strong> the measured effect. <span class="hint">Fix: <strong>cluster / geo / graph randomization</strong> so effects stay within an arm.</span></td></tr>
+        <tr><td class="term">Sample Ratio Mismatch (SRM)</td><td>Observed split ≠ planned split (e.g. 52/48 vs 50/50) before any effect. Signals broken randomization or biased logging. <span class="hint"><strong>Invalidates the test</strong> — check with a chi-square test, then debug before trusting <em>any</em> result.</span></td></tr>
+      </table>
+    </div>
     <div class="footer-hint">Quick reference · switch to 🎴 Flashcards to self-quiz</div>
   </div>
 
