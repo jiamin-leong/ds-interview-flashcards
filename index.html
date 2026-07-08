@@ -122,6 +122,7 @@
   table.cs .term { font-weight: 700; color: #fff; white-space: nowrap; width: 118px; }
   table.cs code { background: var(--panel-2); padding: 1px 6px; border-radius: 5px; font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 12.5px; color: #b8e0ff; }
   table.cs .hint { color: var(--muted); }
+  .cs-group { font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #cfe2ff; border-bottom: 2px solid var(--accent); padding-bottom: 6px; margin: 36px 0 8px; }
 </style>
 </head>
 <body>
@@ -137,6 +138,19 @@
   </div>
 
   <div id="cheatsheetView">
+    <div class="cs-group">📊 Measurement</div>
+    <div class="cs-section">
+      <h2>Metric types</h2>
+      <table class="cs">
+        <tr><td class="term">North-star</td><td>The single top metric capturing core <strong>user value</strong> + business health. <span class="hint">One per product; everything ladders up to it.</span></td></tr>
+        <tr><td class="term">Driver / input</td><td>More actionable levers that <strong>move the north star</strong>. <span class="hint">e.g. fewer checkout steps → conversion.</span></td></tr>
+        <tr><td class="term">Guardrail</td><td>Metrics that <strong>must not get worse</strong> while you optimize the target. <span class="hint">Latency, uninstalls, false-positive rate, retention.</span></td></tr>
+        <tr><td class="term">Feature</td><td>A specific feature's <strong>adoption + success</strong>, measured locally. <span class="hint">Carousel CTR, feature retention.</span></td></tr>
+        <tr><td class="term">Counter / vanity</td><td>Beware <strong>gameable / misleading</strong> metrics (raw volume, clicks). <span class="hint">Pair with a quality counter-metric; prefer durable value (retained installs).</span></td></tr>
+      </table>
+    </div>
+
+    <div class="cs-group">🤖 Modeling</div>
     <div class="cs-section">
       <h2>Classification metrics</h2>
       <table class="cs">
@@ -158,12 +172,15 @@
     </div>
 
     <div class="cs-section">
-      <h2>Probability</h2>
+      <h2>Methods</h2>
       <table class="cs">
-        <tr><td class="term">Bayes' theorem</td><td>\( P(A \mid B) = \dfrac{P(B \mid A)\,P(A)}{P(B)} \) — updates the probability of hypothesis A given evidence B. <span class="hint">Denominator: \( P(B) = P(B\mid A)P(A) + P(B\mid \neg A)P(\neg A) \).</span></td></tr>
+        <tr><td class="term">Clustering</td><td>Unsupervised <strong>segmentation</strong> by similarity. <strong>k-means</strong> (choose k via elbow/silhouette), <strong>hierarchical</strong> (dendrogram, no preset k), <strong>DBSCAN</strong> (density, finds outliers). <span class="hint">Standardize features → choose k → <strong>profile clusters into actionable personas</strong>.</span></td></tr>
+        <tr><td class="term">Monte Carlo</td><td>Estimate hard quantities by <strong>repeated random simulation</strong> (law of large numbers → empirical average converges to truth). <span class="hint">Uncertainty with no closed form, power for complex designs, tail-risk / fraud loss distributions. Bootstrap is a Monte Carlo method.</span></td></tr>
       </table>
+      <div style="color:var(--muted);font-size:12.5px;margin-top:8px;">Full model ladder (linear/logistic, trees, RF, gradient boosting, neural nets, recommenders) → see the 🎴 Flashcards.</div>
     </div>
 
+    <div class="cs-group">🧪 Experimentation</div>
     <div class="cs-section">
       <h2>Hypothesis testing</h2>
       <table class="cs">
@@ -175,7 +192,16 @@
     </div>
 
     <div class="cs-section">
-      <h2>Experiment pitfalls &amp; biases</h2>
+      <h2>Design &amp; variance reduction</h2>
+      <table class="cs">
+        <tr><td class="term">Factorial design</td><td>Test <strong>multiple factors at once</strong> (e.g. 2×2) to get <strong>main effects + interactions</strong>. <span class="hint">More efficient than one-at-a-time; the only way to catch interaction effects. Fractional = a subset of combos.</span></td></tr>
+        <tr><td class="term">Hierarchical model</td><td>Multilevel / mixed-effects for <strong>nested data</strong> (users in cities in countries); <strong>partial pooling</strong> shrinks small-group estimates toward the global mean. <span class="hint">Cluster-randomized / nested data → accounts for within-group correlation; stabilizes small segments.</span></td></tr>
+        <tr><td class="term">CUPED</td><td>Variance reduction using <strong>pre-experiment data</strong> as a covariate → tighter CIs / more power at the same n. <span class="hint">Regress out pre-period behavior before comparing groups.</span></td></tr>
+      </table>
+    </div>
+
+    <div class="cs-section">
+      <h2>Pitfalls &amp; biases</h2>
       <table class="cs">
         <tr><td class="term">Simpson's paradox</td><td>An aggregate trend <strong>reverses</strong> when you split by a subgroup whose <strong>mix differs</strong> across groups (a confounder). <span class="hint">Trust the segmented view — and in a randomized test it signals <strong>broken randomization</strong>.</span></td></tr>
         <tr><td class="term">Self-selection bias</td><td>Respondents/participants differ systematically from non-participants; voluntary samples over-represent <strong>strong opinions</strong> (a.k.a. non-response / voluntary response bias). <span class="hint">Fix: representative random sampling, or use <strong>behavioral data</strong> that covers everyone.</span></td></tr>
@@ -183,6 +209,7 @@
         <tr><td class="term">Sample Ratio Mismatch (SRM)</td><td>Observed split ≠ planned split (e.g. 52/48 vs 50/50) before any effect. Signals broken randomization or biased logging. <span class="hint"><strong>Invalidates the test</strong> — check with a chi-square test, then debug before trusting <em>any</em> result.</span></td></tr>
       </table>
     </div>
+
     <div class="cs-section">
       <h2>Causal inference (no A/B test)</h2>
       <table class="cs">
@@ -197,13 +224,21 @@
       <div style="color:var(--muted);font-size:12.5px;margin-top:8px;">Selector: threshold → RDD · clean before/after + control → DiD · single market + time series → synthetic control / CausalImpact · valid instrument → IV · observed confounders → PSM / double ML.</div>
     </div>
 
+    <div class="cs-group">🔍 Applied Analysis</div>
     <div class="cs-section">
-      <h2>Advanced methods</h2>
+      <h2>Statistical foundations</h2>
       <table class="cs">
-        <tr><td class="term">Monte Carlo</td><td>Estimate hard quantities by <strong>repeated random simulation</strong> (law of large numbers → empirical average converges to truth). <span class="hint">Uncertainty with no closed form, power for complex designs, tail-risk / fraud loss distributions. Bootstrap is a Monte Carlo method.</span></td></tr>
-        <tr><td class="term">Clustering</td><td>Unsupervised <strong>segmentation</strong> by similarity. <strong>k-means</strong> (choose k via elbow/silhouette), <strong>hierarchical</strong> (dendrogram, no preset k), <strong>DBSCAN</strong> (density, finds outliers). <span class="hint">Standardize features → choose k → <strong>profile clusters into actionable personas</strong>.</span></td></tr>
-        <tr><td class="term">Factorial design</td><td>Test <strong>multiple factors at once</strong> (e.g. 2×2) to get <strong>main effects + interactions</strong>. <span class="hint">More efficient than one-at-a-time; the only way to catch interaction effects. Fractional = a subset of combos.</span></td></tr>
-        <tr><td class="term">Hierarchical model</td><td>Multilevel / mixed-effects for <strong>nested data</strong> (users in cities in countries); <strong>partial pooling</strong> shrinks small-group estimates toward the global mean. <span class="hint">Cluster-randomized / nested data → accounts for within-group correlation; stabilizes small segments.</span></td></tr>
+        <tr><td class="term">Bayes' theorem</td><td>\( P(A \mid B) = \dfrac{P(B \mid A)\,P(A)}{P(B)} \) — updates the probability of hypothesis A given evidence B. <span class="hint">Denominator: \( P(B) = P(B\mid A)P(A) + P(B\mid \neg A)P(\neg A) \). Interview trick: reason with <strong>natural frequencies</strong> (counts), not the formula.</span></td></tr>
+      </table>
+    </div>
+
+    <div class="cs-section">
+      <h2>Approach — C · H · I · R</h2>
+      <table class="cs">
+        <tr><td class="term">Clarify</td><td>Restate the question, define the metric, scope it, state assumptions.</td></tr>
+        <tr><td class="term">Hypothesize</td><td>A structured (MECE) space of causes — real vs. artifact, internal vs. external, by segment.</td></tr>
+        <tr><td class="term">Investigate</td><td>Tie each hypothesis to a check; prioritize by <strong>cost-to-rule-out</strong> (cheapest first).</td></tr>
+        <tr><td class="term">Recommend</td><td>Leading story, the decision / next step, and what you'd monitor.</td></tr>
       </table>
     </div>
     <div class="footer-hint">Quick reference · switch to 🎴 Flashcards to self-quiz</div>
