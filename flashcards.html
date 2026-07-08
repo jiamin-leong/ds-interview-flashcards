@@ -183,6 +183,29 @@
         <tr><td class="term">Sample Ratio Mismatch (SRM)</td><td>Observed split ≠ planned split (e.g. 52/48 vs 50/50) before any effect. Signals broken randomization or biased logging. <span class="hint"><strong>Invalidates the test</strong> — check with a chi-square test, then debug before trusting <em>any</em> result.</span></td></tr>
       </table>
     </div>
+    <div class="cs-section">
+      <h2>Causal inference (no A/B test)</h2>
+      <table class="cs">
+        <tr><td class="term">Diff-in-Diff (DiD)</td><td>Compare the <strong>before→after change</strong> in a treated group vs. a control group. Assumes <strong>parallel trends</strong>. <span class="hint">Feature launched in one region at a known date.</span></td></tr>
+        <tr><td class="term">Reg. discontinuity (RDD)</td><td>Treatment assigned by a <strong>threshold</strong>; compare units <strong>just above vs. just below</strong> the cutoff. <span class="hint">Eligibility cutoffs — strong local causal estimate.</span></td></tr>
+        <tr><td class="term">Instrumental var. (IV)</td><td>An <strong>instrument</strong> Z affects treatment X but touches outcome Y <strong>only through X</strong> → beats <strong>unobserved</strong> confounding. <span class="hint">Randomized encouragement as instrument for adoption. Valid instruments are rare.</span></td></tr>
+        <tr><td class="term">Propensity matching (PSM)</td><td>Model P(treated | covariates), match treated to similar untreated units. <span class="hint">Balances <strong>observed</strong> confounders only.</span></td></tr>
+        <tr><td class="term">Synthetic control</td><td>Weighted blend of controls that mimics the treated unit's <strong>pre-period trajectory</strong>, then compare after. <span class="hint">Single treated market, many candidate controls.</span></td></tr>
+        <tr><td class="term">Double ML</td><td>ML to control for <strong>high-dimensional confounders</strong> while keeping a valid treatment-effect estimate (orthogonalization + cross-fitting). <span class="hint">Many messy confounders.</span></td></tr>
+        <tr><td class="term">CausalImpact</td><td><strong>Google's</strong> Bayesian structural time-series — models the counterfactual from control series to estimate an intervention's effect. <span class="hint">Launch impact from time series, no randomization.</span></td></tr>
+      </table>
+      <div style="color:var(--muted);font-size:12.5px;margin-top:8px;">Selector: threshold → RDD · clean before/after + control → DiD · single market + time series → synthetic control / CausalImpact · valid instrument → IV · observed confounders → PSM / double ML.</div>
+    </div>
+
+    <div class="cs-section">
+      <h2>Advanced methods</h2>
+      <table class="cs">
+        <tr><td class="term">Monte Carlo</td><td>Estimate hard quantities by <strong>repeated random simulation</strong> (law of large numbers → empirical average converges to truth). <span class="hint">Uncertainty with no closed form, power for complex designs, tail-risk / fraud loss distributions. Bootstrap is a Monte Carlo method.</span></td></tr>
+        <tr><td class="term">Clustering</td><td>Unsupervised <strong>segmentation</strong> by similarity. <strong>k-means</strong> (choose k via elbow/silhouette), <strong>hierarchical</strong> (dendrogram, no preset k), <strong>DBSCAN</strong> (density, finds outliers). <span class="hint">Standardize features → choose k → <strong>profile clusters into actionable personas</strong>.</span></td></tr>
+        <tr><td class="term">Factorial design</td><td>Test <strong>multiple factors at once</strong> (e.g. 2×2) to get <strong>main effects + interactions</strong>. <span class="hint">More efficient than one-at-a-time; the only way to catch interaction effects. Fractional = a subset of combos.</span></td></tr>
+        <tr><td class="term">Hierarchical model</td><td>Multilevel / mixed-effects for <strong>nested data</strong> (users in cities in countries); <strong>partial pooling</strong> shrinks small-group estimates toward the global mean. <span class="hint">Cluster-randomized / nested data → accounts for within-group correlation; stabilizes small segments.</span></td></tr>
+      </table>
+    </div>
     <div class="footer-hint">Quick reference · switch to 🎴 Flashcards to self-quiz</div>
   </div>
 
