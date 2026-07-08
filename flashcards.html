@@ -240,6 +240,10 @@ const CARDS = [
     a: "<p>Checking results repeatedly and stopping the first time p &lt; 0.05 <strong>inflates the Type I error rate</strong> — each look is another chance to cross the line by luck (true FP rate can hit 20–30%+). Under the null, peek forever → <em>guaranteed</em> eventual false \"significance.\"</p><p>Fix: predefine a fixed sample size / horizon, evaluate once. If you must monitor live → <strong>sequential testing / alpha-spending / always-valid p-values</strong>.</p>",
     trap: "The reason is repeated-looks inflating α — NOT just \"the effect might not persist.\"" },
 
+  { cluster: "A · Inference", q: "Optional stopping — why can't you extend a test just because you got p = 0.06?",
+    a: "<p>Deciding to run longer <em>because</em> you saw a near-significant result is <strong>optional stopping / p-hacking</strong> — a form of peeking. Each extra look is another chance to cross 0.05 by luck, so it <strong>inflates the false-positive rate</strong> above your stated α.</p><p>You can't keep running until it 'turns significant.' If you want the option to extend, <strong>pre-commit</strong> to it with <strong>sequential testing / alpha-spending</strong>, which budgets α across looks.</p>",
+    trap: "\"Let's run it longer and see if it crosses\" is the trap. Legit reasons to extend (underpowered, incomplete business cycle) must be decided <b>independent of the current p-value</b>." },
+
   { cluster: "A2 · Test math", q: "t-test vs. z-test — when do you use each?",
     a: "<p>Both test whether means differ; the difference is how you handle the variance.</p><p><strong>z-test:</strong> use when the population SD (σ) is <em>known</em>, OR n is large (≳30) so the sample SD is a reliable estimate and the sampling distribution is ~normal. Also the standard choice for <strong>proportions</strong> (large n).</p><p><strong>t-test:</strong> use when σ is <em>unknown</em> and estimated from the sample — especially small n. The t-distribution has <strong>fatter tails</strong> to account for the extra uncertainty of estimating SD; it converges to z as n grows.</p>",
     trap: "In large A/B tests t ≈ z (same answer). Rule of thumb: <b>means with unknown variance → t-test; conversion/proportions → z-test.</b>" },
@@ -343,6 +347,34 @@ const CARDS = [
   { cluster: "D2 · ML models", q: "The model-choice heuristic (\"what model would you use?\")",
     a: "<p><strong>Tabular</strong> product problem → start with <strong>logistic/linear regression</strong> baseline → move to <strong>gradient-boosted trees</strong> (usually win on tabular).</p><p><strong>Unstructured</strong> data (images, text, huge volume) → <strong>neural networks</strong>.</p><p>Always weigh <strong>interpretability</strong> — in enforcement/T&S, an explainable model may beat a marginally more accurate black box.</p>",
     trap: "This one paragraph answers ~80% of \"what model would you use\" questions — with real justification, not just a name." },
+
+  { cluster: "D3 · Recommenders", q: "Recommender systems — the core idea and the #1 framing question?",
+    a: "<p>A recommender predicts <strong>how relevant each item is to each user</strong>, then <strong>ranks items per user</strong>. It's a <strong>ranking</strong> problem, not classification/regression.</p><p>First clarify: <strong>personalized per-user</strong> or a <strong>global ranking</strong>? \"Recommended for you\" = personalized relevance.</p>",
+    trap: "Don't default to <b>global popularity</b> (same top-10 for everyone) — that isn't personalization." },
+
+  { cluster: "D3 · Recommenders", q: "Content-based filtering?",
+    a: "<p>Recommend items <strong>similar to what the user liked before</strong>, using <strong>item features</strong>. Build a profile from their past items, score new items by similarity.</p><p>E.g. user installs fitness apps → recommend other fitness apps.</p>",
+    trap: "✅ Handles <b>new items</b> and needs no other users' data. ❌ Narrow / filter-bubble; needs good item features." },
+
+  { cluster: "D3 · Recommenders", q: "Collaborative filtering (and matrix factorization)?",
+    a: "<p>Recommend from <strong>behavior patterns across users</strong> — \"users like you also installed X\" — ignoring item content.</p><p>• <strong>User-based</strong>: find similar users, recommend what they installed.<br>• <strong>Item-based</strong>: \"people who installed A also installed B.\"<br>• <strong>Matrix factorization</strong>: factor the sparse user × item matrix into <strong>user + item embeddings</strong>; affinity = dot product.</p>",
+    trap: "✅ Captures taste without hand-built features. ❌ <b>Cold start</b> (useless for new users/items); needs lots of interaction data." },
+
+  { cluster: "D3 · Recommenders", q: "The cold-start problem + hybrid recommenders?",
+    a: "<p><strong>New user</strong> (no history) → fall back to <strong>popularity / content-based / onboarding signals</strong> (declared interests, device, geo).<br><strong>New item</strong> (no installs) → <strong>content-based</strong> on its metadata until interactions accumulate.</p><p>Real systems are <strong>hybrid</strong> — CF for users with history + content-based to cover cold start.</p>",
+    trap: "Always address cold start — it's <b>the</b> classic recommender weakness they probe." },
+
+  { cluster: "D3 · Recommenders", q: "The two-stage recommender architecture?",
+    a: "<p>At scale you can't score millions of items per user in real time, so:</p><p>1. <strong>Candidate generation / retrieval</strong> — cheaply narrow millions → hundreds (CF / <strong>two-tower</strong> embedding models).<br>2. <strong>Ranking</strong> — an expensive, feature-rich model (learning-to-rank / GBM / deep) precisely orders those hundreds.</p>",
+    trap: "Name-dropping <b>retrieval → ranking</b> signals real production understanding." },
+
+  { cluster: "D3 · Recommenders", q: "What target should a recommender optimize?",
+    a: "<p>• <strong>Click/tap</strong> — easy signal, but clickbait-prone.<br>• <strong>Install</strong> — closer to value, but install ≠ satisfaction (they uninstall).<br>• <strong>Long-term engagement / retention</strong> — best value proxy, but delayed and sparse.</p>",
+    trap: "Strong answer: optimize a <b>durable metric like retained installs</b>, not just clicks, to avoid recommending clickbait." },
+
+  { cluster: "D3 · Recommenders", q: "How do you evaluate a recommender?",
+    a: "<p><strong>Offline</strong> (historical data): ranking metrics — <strong>Precision@k, Recall@k, NDCG, MAP</strong>. <em>Not accuracy or RMSE — ranking is its own problem type.</em></p><p><strong>Online</strong> (the real test): <strong>A/B</strong> on installs / engagement / retention, with quality guardrails.</p><p><strong>Beyond accuracy:</strong> diversity, novelty, serendipity — pure relevance creates filter bubbles.</p>",
+    trap: "Ranking metrics offline + online A/B — and watch <b>diversity/quality</b>, not just relevance." },
 ];
 
 // ---- state ----
