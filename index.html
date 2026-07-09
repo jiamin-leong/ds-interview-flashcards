@@ -134,6 +134,7 @@
 
   <div class="viewtoggle">
     <button class="tab" id="tabCheat">📋 Cheatsheet</button>
+    <button class="tab" id="tabProducts">📱 Products</button>
     <button class="tab" id="tabCards">🎴 Flashcards</button>
   </div>
 
@@ -257,6 +258,112 @@
       </table>
     </div>
     <div class="footer-hint">Quick reference · switch to 🎴 Flashcards to self-quiz</div>
+  </div>
+
+  <div id="productsView">
+    <div class="cs-group">🧭 How to reason about any product</div>
+    <div class="cs-section">
+      <table class="cs">
+        <tr><td class="term">Job</td><td>Name the <strong>user value AND business value</strong>.</td></tr>
+        <tr><td class="term">Archetype</td><td><strong>Utility</strong> (Search/Maps/Gmail) → success = task done <em>efficiently</em>, less time can be better · <strong>Content</strong> (YouTube) → engagement is the goal, guard quality · <strong>Marketplace</strong> (Play/Ads) → two-sided · <strong>Payments/trust</strong> (Pay) → fraud ↔ false-positive tension.</td></tr>
+        <tr><td class="term">Universal guardrails</td><td>Latency/performance · trust &amp; safety · long-term retention (don't sacrifice for a short-term metric).</td></tr>
+      </table>
+    </div>
+
+    <div class="cs-group">📱 Google products</div>
+
+    <div class="cs-section">
+      <h2>🔍 Search — utility</h2>
+      <table class="cs">
+        <tr><td class="term">North star</td><td>Successful search sessions (task completed).</td></tr>
+        <tr><td class="term">Key</td><td>Query volume, <strong>long clicks</strong> (dwell = satisfaction), success rate, return rate.</td></tr>
+        <tr><td class="term">Guardrails</td><td>Relevance/quality, <strong>latency</strong>, <strong>pogo-sticking</strong> &amp; query reformulation (= failure), ad load, misinformation.</td></tr>
+        <tr><td class="term">⚠️</td><td><em>Less</em> time-to-answer is <strong>better</strong> — don't optimize time spent.</td></tr>
+      </table>
+    </div>
+
+    <div class="cs-section">
+      <h2>▶️ YouTube — content</h2>
+      <table class="cs">
+        <tr><td class="term">North star</td><td><strong>Watch time</strong> (increasingly satisfaction-adjusted).</td></tr>
+        <tr><td class="term">Key</td><td>Watch time/user, sessions, retention, creator health (active creators, uploads).</td></tr>
+        <tr><td class="term">Guardrails</td><td><strong>User satisfaction / "regretted watches,"</strong> borderline/harmful content, clickbait, well-being, ad load.</td></tr>
+        <tr><td class="term">⚠️</td><td>Watch time is gameable by clickbait → satisfaction guardrails essential.</td></tr>
+      </table>
+    </div>
+
+    <div class="cs-section">
+      <h2>🗺️ Maps — utility</h2>
+      <table class="cs">
+        <tr><td class="term">North star</td><td>Successful navigations / trips completed.</td></tr>
+        <tr><td class="term">Key</td><td>Directions requests, DAU, retention, ETA accuracy.</td></tr>
+        <tr><td class="term">Guardrails</td><td><strong>ETA accuracy</strong>, route quality/safety, data freshness, latency, battery.</td></tr>
+        <tr><td class="term">⚠️</td><td>Faster arrival / <em>less</em> app time = success. The classic "engagement is the wrong metric" case.</td></tr>
+      </table>
+    </div>
+
+    <div class="cs-section">
+      <h2>✉️ Gmail — utility</h2>
+      <table class="cs">
+        <tr><td class="term">North star</td><td>DAU / retention (active use).</td></tr>
+        <tr><td class="term">Key</td><td>Active users, sends/receives, feature adoption (search, filters).</td></tr>
+        <tr><td class="term">Guardrails</td><td><strong>Spam catch rate AND false-positive rate</strong> (legit mail in spam = the tension), uptime, latency, privacy.</td></tr>
+      </table>
+    </div>
+
+    <div class="cs-section">
+      <h2>🛍️ Play Store — marketplace + trust</h2>
+      <table class="cs">
+        <tr><td class="term">North star</td><td>Installs — better, <strong>retained / engaged installs</strong>.</td></tr>
+        <tr><td class="term">Key</td><td>Store visits, visit→install conversion, DAU, IAP revenue, active developers.</td></tr>
+        <tr><td class="term">Guardrails</td><td><strong>Malware/scam/impersonation rate</strong>, uninstall rate (install quality), <strong>false-positive enforcement</strong> (wrongly removing legit devs), fake-review rate.</td></tr>
+        <tr><td class="term">⚠️</td><td>Two-sided + T&amp;S-heavy — your interview turf.</td></tr>
+      </table>
+    </div>
+
+    <div class="cs-section">
+      <h2>💳 Google Pay — payments / trust</h2>
+      <table class="cs">
+        <tr><td class="term">North star</td><td><strong>Retained active payers</strong> / transaction value (TPV).</td></tr>
+        <tr><td class="term">Key</td><td># transactions, TPV, P2P sends, payment success rate, linked methods.</td></tr>
+        <tr><td class="term">Guardrails</td><td><strong>Fraud rate/losses ↔ false-positive rate</strong> (blocking legit txns = friction), payment failure rate, chargebacks, latency, trust/NPS, compliance.</td></tr>
+        <tr><td class="term">⚠️</td><td><strong>Trust is the product</strong> — the fraud/false-positive balance is <em>the</em> guardrail conversation.</td></tr>
+      </table>
+    </div>
+
+    <div class="cs-section">
+      <h2>🌐 Chrome — utility / platform</h2>
+      <table class="cs">
+        <tr><td class="term">North star</td><td>DAU / retention (strategically drives Search).</td></tr>
+        <tr><td class="term">Guardrails</td><td>Page-load speed, crash rate, memory, security (phishing/malware blocked), privacy.</td></tr>
+      </table>
+    </div>
+
+    <div class="cs-section">
+      <h2>🖼️ Photos — utility</h2>
+      <table class="cs">
+        <tr><td class="term">North star</td><td>MAU / retention; backup adoption.</td></tr>
+        <tr><td class="term">Guardrails</td><td>Storage cost, upload reliability, ML quality (bad face-grouping = harmful), privacy / sensitive-memory surfacing.</td></tr>
+      </table>
+    </div>
+
+    <div class="cs-section">
+      <h2>📢 Ads — monetization</h2>
+      <table class="cs">
+        <tr><td class="term">North star</td><td>Revenue — balanced against user experience.</td></tr>
+        <tr><td class="term">Guardrails</td><td><strong>Ad load / relevance</strong> (too many hurts long-term retention), ad safety (scams/policy), advertiser ROI/trust.</td></tr>
+        <tr><td class="term">⚠️</td><td>The classic <strong>monetization ↔ user-experience</strong> tension.</td></tr>
+      </table>
+    </div>
+
+    <div class="cs-section">
+      <h2>✨ Gemini / AI Overviews — current</h2>
+      <table class="cs">
+        <tr><td class="term">North star</td><td>Helpfulness / task completion, active users, retention.</td></tr>
+        <tr><td class="term">Guardrails</td><td><strong>Factuality / hallucination rate</strong>, safety/harmful output, latency, <strong>cost per query</strong>, cannibalization of monetized surfaces (AI Overviews vs. ad clicks).</td></tr>
+      </table>
+    </div>
+    <div class="footer-hint">Name the archetype first → it tells you if engagement is good, if it's two-sided, and which guardrail tension dominates.</div>
   </div>
 
   <div id="flashcardView">
@@ -474,8 +581,10 @@ let currentView = "cheatsheet";
 function showView(v) {
   currentView = v;
   document.getElementById("cheatsheetView").style.display = v === "cheatsheet" ? "block" : "none";
+  document.getElementById("productsView").style.display = v === "products" ? "block" : "none";
   document.getElementById("flashcardView").style.display = v === "flashcards" ? "block" : "none";
   document.getElementById("tabCheat").classList.toggle("active", v === "cheatsheet");
+  document.getElementById("tabProducts").classList.toggle("active", v === "products");
   document.getElementById("tabCards").classList.toggle("active", v === "flashcards");
 }
 
@@ -572,6 +681,7 @@ document.addEventListener("keydown", (e) => {
 });
 
 document.getElementById("tabCheat").onclick = () => showView("cheatsheet");
+document.getElementById("tabProducts").onclick = () => showView("products");
 document.getElementById("tabCards").onclick = () => showView("flashcards");
 
 render();
