@@ -478,6 +478,46 @@ const CARDS = [
     a: "<p>When a condition is <strong>rare</strong>, a positive test is dominated by <strong>false positives</strong> — the small error rate applied to the huge negative population produces more false positives than there are true positives. So \"99% accurate\" ≠ \"99% likely sick.\"</p>",
     trap: "Through-line: this is exactly why <b>precision is low on rare-event detection</b> (scam/fraud classifiers)." },
 
+  { cluster: "B2 · Distributions", q: "Bernoulli — what does it model, and its mean/variance?",
+    a: "<p>A <strong>single yes/no trial</strong> with success probability p.</p><p>Mean = <strong>p</strong>, variance = <strong>p(1−p)</strong>.</p><p>Example: one transaction is fraud or not.</p>",
+    trap: null },
+
+  { cluster: "B2 · Distributions", q: "Binomial — what, params, mean/variance?",
+    a: "<p>The <strong>number of successes in n independent Bernoulli trials</strong>. Params n, p.</p><p>Mean = <strong>np</strong>, variance = <strong>np(1−p)</strong>.</p><p>Example: # conversions out of N visitors — <strong>every conversion-rate A/B test</strong>.</p>",
+    trap: "A Binomial is the <b>sum of n independent Bernoulli trials</b>. Its variance p(1−p) is why baseline rate affects A/B sample size." },
+
+  { cluster: "B2 · Distributions", q: "Poisson — what, param, and the KEY property?",
+    a: "<p>The <strong>number of rare events in a fixed interval</strong>, at a constant average rate. Param λ.</p><p>KEY: <strong>mean = variance = λ</strong>.</p><p>Example: # fraud events per day.</p>",
+    trap: "The signature property is <b>mean = variance = λ</b>. If real data has variance &gt; mean (overdispersion — common in bursty fraud) → use <b>Negative Binomial</b>." },
+
+  { cluster: "B2 · Distributions", q: "When does Binomial ≈ Poisson?",
+    a: "<p>When <strong>n is large and p is small</strong> (rare events), Binomial(n, p) ≈ Poisson(λ = np).</p><p>This is exactly the fraud setting — many transactions, tiny fraud probability each.</p>",
+    trap: null },
+
+  { cluster: "B2 · Distributions", q: "Exponential — what does it model, and its link to Poisson?",
+    a: "<p>The <strong>time between Poisson events</strong>. Param λ (rate), mean = 1/λ.</p><p>Example: time between fraud attempts.</p>",
+    trap: "Poisson <b>counts</b> ↔ Exponential <b>inter-arrival times</b> — two sides of the same process." },
+
+  { cluster: "B2 · Distributions", q: "Normal — what, and why is it everywhere?",
+    a: "<p>Continuous, symmetric, bell-shaped; params μ, σ².</p><p>It's everywhere because of the <strong>CLT</strong> — sums/means of many independent variables tend to Normal <em>regardless</em> of the underlying distribution.</p>",
+    trap: null },
+
+  { cluster: "B2 · Distributions", q: "Which distribution? (a) fraud events/hour (b) conversions out of N (c) time between logins (d) one txn fraud-or-not",
+    a: "<p>(a) <strong>Poisson</strong> — rare counts per interval.<br>(b) <strong>Binomial</strong> — successes in n trials.<br>(c) <strong>Exponential</strong> — time between events.<br>(d) <strong>Bernoulli</strong> — a single yes/no trial.</p>",
+    trap: "Counts per interval → Poisson · successes in n trials → Binomial · waiting time → Exponential · single trial → Bernoulli." },
+
+  { cluster: "B2 · Distributions", q: "Poisson calc: fraud events average 3/day. P(exactly 5 tomorrow)?",
+    a: "<p>PMF: <code>P(X=k) = e^(−λ) · λ^k / k!</code></p><p>λ = 3, k = 5:<br><code>e^(−3) · 3^5 / 5! = 0.0498 · 243/120 ≈ 0.101</code></p><p>→ about <strong>10%</strong>.</p>",
+    trap: "Mean = variance = λ = 3, so ~3/day is expected; 5 is above average → only ~10%." },
+
+  { cluster: "B2 · Distributions", q: "Binomial calc: 10 transactions, each 20% fraud chance. Expected frauds & P(exactly 2)?",
+    a: "<p>Expected = <code>np = 10 · 0.2 = 2</code>.</p><p>PMF: <code>P(X=k) = C(n,k) · p^k · (1−p)^(n−k)</code></p><p>P(X=2) = <code>C(10,2) · 0.2² · 0.8⁸ = 45 · 0.04 · 0.168 ≈ 0.30</code></p><p>→ about <strong>30%</strong>.</p>",
+    trap: "<code>C(10,2) = 45</code>. The most likely count is the mean (2), and P(exactly 2) ≈ 30%." },
+
+  { cluster: "B2 · Distributions", q: "Exponential calc: fraud attempts arrive at rate λ=2/hour. Mean gap & P(next within 30 min)?",
+    a: "<p>Mean gap = <code>1/λ = 0.5 hr = 30 min</code>.</p><p>CDF: <code>P(T ≤ t) = 1 − e^(−λt)</code></p><p>t = 0.5 hr:<br><code>1 − e^(−2·0.5) = 1 − e^(−1) ≈ 0.63</code></p><p>→ about <strong>63%</strong>.</p>",
+    trap: "Exponential CDF <code>1 − e^(−λt)</code> gives 'probability an event happens by time t.'" },
+
   { cluster: "C · Experiments", q: "What drives A/B sample size? (4 inputs + directions)",
     a: "<p>(1) <strong>Variance</strong> ↑ → n ↑. (2) <strong>MDE</strong> (min detectable effect) ↓ → n ↑. (3) <strong>α</strong> ↓ (stricter) → n ↑ — <em>typically 0.05</em>. (4) <strong>Power (1−β)</strong> ↑ → n ↑ — <em>typically 80%, sometimes 90%</em>.</p><p>Key intuition: <code>n ∝ variance / MDE²</code> — <strong>MDE is squared</strong>, so halving the effect you want to detect <strong>quadruples</strong> the sample.</p><p>Duration: run ≥ one full business cycle (1–2 weeks) even if n is hit sooner (seasonality, novelty).</p>",
     trap: "Default conventions to state out loud: <b>α = 0.05</b> (5% false-positive rate) and <b>power = 80%</b> (β = 0.20, so 20% chance of missing a real effect). Name these unprompted when you design a test." },
