@@ -181,6 +181,18 @@
       <div style="color:var(--muted);font-size:12.5px;margin-top:8px;">Full model ladder (linear/logistic, trees, RF, gradient boosting, neural nets, recommenders) → see the 🎴 Flashcards.</div>
     </div>
 
+    <div class="cs-section">
+      <h2>Validation &amp; leakage</h2>
+      <table class="cs">
+        <tr><td class="term">Strategy vs. metric</td><td><strong>Validation strategy</strong> (holdout / CV / walk-forward) = HOW you split data to estimate generalization. <strong>Metric</strong> (precision, PR-AUC, RMSE…) = WHAT you compute on the held-out slice. Always used together.</td></tr>
+        <tr><td class="term">Holdout</td><td>One train/test split. Simple, cheap; fine for <strong>large</strong> data. Higher-variance estimate.</td></tr>
+        <tr><td class="term">k-fold CV</td><td>Rotate through k train/val splits, average. Best for <strong>limited</strong> data (stable estimate) &amp; tuning. Cost: k× training.</td></tr>
+        <tr><td class="term">Stratified k-fold</td><td>Keeps class balance in each fold — <strong>essential for imbalanced data</strong> (fraud).</td></tr>
+        <tr><td class="term">Walk-forward</td><td>Train on past → validate on next period → roll forward. <strong>Temporal data only</strong>; never random k-fold on time-ordered data (lookahead leakage).</td></tr>
+        <tr><td class="term">⚠️ Leakage traps</td><td><strong>Target/feature leakage</strong> (a feature encodes the outcome) · <strong>temporal</strong> (future→past) · <strong>preprocessing</strong> (fit scaler/encoder on full data — fit on train only) · <strong>group</strong> (same user in train &amp; test → group CV) · <strong>tuning on the test set</strong> (→ nested CV).</td></tr>
+      </table>
+    </div>
+
     <div class="cs-group">🧪 Experimentation</div>
     <div class="cs-section">
       <h2>Hypothesis testing</h2>
