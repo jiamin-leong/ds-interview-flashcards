@@ -123,10 +123,12 @@
   table.cs code { background: var(--panel-2); padding: 1px 6px; border-radius: 5px; font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 12.5px; color: #b8e0ff; }
   table.cs .hint { color: var(--muted); }
   .cs-group { font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #cfe2ff; border-bottom: 2px solid var(--accent); padding-bottom: 6px; margin: 36px 0 8px; }
-  .ptable-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 4px 0 10px; border: 1px solid var(--border); border-radius: 12px; }
-  table.ptable { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 680px; background: var(--panel); }
-  table.ptable th { text-align: left; color: var(--accent); font-size: 10.5px; text-transform: uppercase; letter-spacing: .03em; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; white-space: nowrap; }
+  .ptable-wrap { overflow: auto; -webkit-overflow-scrolling: touch; margin: 4px 0 10px; border: 1px solid var(--border); border-radius: 12px; max-height: 80vh; }
+  table.ptable { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 12px; min-width: 680px; background: var(--panel); }
+  table.ptable th { text-align: left; color: var(--accent); font-size: 10.5px; text-transform: uppercase; letter-spacing: .03em; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; white-space: nowrap; position: sticky; top: 0; background: var(--panel-2); z-index: 2; }
   table.ptable td { padding: 9px 10px; border-top: 1px solid var(--border); vertical-align: top; }
+  table.ptable td.prod, table.ptable th:first-child { position: sticky; left: 0; z-index: 1; background: var(--panel-2); box-shadow: 1px 0 0 var(--border); }
+  table.ptable th:first-child { z-index: 3; }
   table.ptable td.prod { font-weight: 700; color: #fff; white-space: nowrap; }
   table.ptable td.ns { color: #cfe2ff; }
   table.ptable ol { margin: 0; padding-left: 15px; }
