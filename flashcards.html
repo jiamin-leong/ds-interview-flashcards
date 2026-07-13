@@ -554,6 +554,42 @@ const CARDS = [
     a: "<p>Mean gap = <code>1/λ = 0.5 hr = 30 min</code>.</p><p>CDF: <code>P(T ≤ t) = 1 − e^(−λt)</code></p><p>t = 0.5 hr:<br><code>1 − e^(−2·0.5) = 1 − e^(−1) ≈ 0.63</code></p><p>→ about <strong>63%</strong>.</p>",
     trap: "Exponential CDF <code>1 − e^(−λt)</code> gives 'probability an event happens by time t.'" },
 
+  { cluster: "B2 · Distributions", q: "Expected value of a discrete random variable — formula + example?",
+    a: "<p><code>E[X] = Σ x · P(X=x)</code> — the probability-weighted average.</p><p>Example: a bet pays +$10 w.p. 0.3 and −$5 w.p. 0.7:<br><code>E = 10(0.3) + (−5)(0.7) = 3 − 3.5 = −$0.50</code>.</p><p>Continuous version: <code>E[X] = ∫ x · f(x) dx</code>.</p>",
+    trap: "E[X] is the long-run average — weight each outcome by its probability." },
+
+  { cluster: "B2 · Distributions", q: "Expected fraud loss per transaction — how do you compute it?",
+    a: "<p><code>E[loss] = P(fraud) × loss per fraud</code>.</p><p>Example: 0.2% fraud rate, $500 avg loss → <code>0.002 × 500 = $1.00</code> expected loss/transaction.</p><p>For a rule: <code>E[cost] = P(FP)·(FP cost) + P(FN)·(FN cost)</code> — this is what you optimize a threshold against.</p>",
+    trap: "Expected value turns a risk into a per-unit cost you can optimize the threshold against." },
+
+  { cluster: "B2 · Distributions", q: "Geometric distribution — what, PMF, mean?",
+    a: "<p>Number of independent trials <strong>until the first success</strong>.</p><p>PMF: <code>P(X=k) = (1−p)^(k−1) · p</code>. Mean = <code>1/p</code>, variance = <code>(1−p)/p²</code>.</p><p>Example: transactions until the first fraud, if each is fraud w.p. p.</p>",
+    trap: null },
+
+  { cluster: "B2 · Distributions", q: "Memorize: PMF, mean, variance for the key distributions?",
+    a: "<p>• <strong>Bernoulli</strong>: p · mean p · var p(1−p)<br>• <strong>Binomial</strong>: C(n,k)p^k(1−p)^(n−k) · mean np · var np(1−p)<br>• <strong>Poisson</strong>: e^(−λ)λ^k/k! · mean λ · var λ<br>• <strong>Geometric</strong>: (1−p)^(k−1)p · mean 1/p · var (1−p)/p²<br>• <strong>Exponential</strong>: pdf λe^(−λx), CDF 1−e^(−λx) · mean 1/λ · var 1/λ²<br>• <strong>Uniform(a,b)</strong>: mean (a+b)/2 · var (b−a)²/12</p>",
+    trap: "Poisson is the odd one: <b>mean = variance = λ</b>." },
+
+  { cluster: "B3 · Combinatorics", q: "Permutations vs combinations — formulas and when to use each?",
+    a: "<p><strong>Permutation (order matters):</strong> <code>nPr = n! / (n−r)!</code>.<br><strong>Combination (order doesn't):</strong> <code>nCr = n! / (r!·(n−r)!)</code>.</p><p>Ranked top-3 finishers → permutation. A committee of 3 → combination.</p><p>Link: <code>nCr = nPr / r!</code>.</p>",
+    trap: "Order matters → permutation; order doesn't → combination." },
+
+  { cluster: "B3 · Combinatorics", q: "The counting principle & factorial?",
+    a: "<p><strong>Multiplication rule:</strong> if step 1 has a ways and step 2 has b ways, together = <code>a × b</code>.</p><p><strong>Factorial:</strong> <code>n! = n·(n−1)·…·1</code> = ways to arrange n distinct items. (<code>0! = 1</code>.)</p>",
+    trap: null },
+
+  { cluster: "B3 · Combinatorics", q: "Compute: how many ways to choose 2 items from 10? (order doesn't matter)",
+    a: "<p><code>C(10,2) = 10! / (2!·8!) = (10·9)/2 = 45</code>.</p>",
+    trap: "For small nCr: multiply the top r terms, divide by r! — e.g. (10·9)/2 = 45." },
+
+  { cluster: "B3 · Combinatorics", q: "Compute: how many ways to arrange 3 of 10 in order?",
+    a: "<p><code>P(10,3) = 10! / 7! = 10·9·8 = 720</code>.</p>",
+    trap: "Permutation = just multiply the top r terms (no dividing by r!)." },
+
+  { cluster: "B3 · Combinatorics", q: "5 apps, 2 are fraud. You pick 2 at random — P(both are fraud)?",
+    a: "<p><code>P = C(2,2) / C(5,2) = 1 / 10 = 0.10</code>.</p><p>Favorable ÷ total outcomes, both counted with combinations (order doesn't matter).</p>",
+    trap: "Probability = favorable / total, both counted with combinations when order is irrelevant." },
+
   { cluster: "C · Experiments", q: "What drives A/B sample size? (4 inputs + directions)",
     a: "<p>(1) <strong>Variance</strong> ↑ → n ↑. (2) <strong>MDE</strong> (min detectable effect) ↓ → n ↑. (3) <strong>α</strong> ↓ (stricter) → n ↑ — <em>typically 0.05</em>. (4) <strong>Power (1−β)</strong> ↑ → n ↑ — <em>typically 80%, sometimes 90%</em>.</p><p>Key intuition: <code>n ∝ variance / MDE²</code> — <strong>MDE is squared</strong>, so halving the effect you want to detect <strong>quadruples</strong> the sample.</p><p>Duration: run ≥ one full business cycle (1–2 weeks) even if n is hit sooner (seasonality, novelty).</p>",
     trap: "Default conventions to state out loud: <b>α = 0.05</b> (5% false-positive rate) and <b>power = 80%</b> (β = 0.20, so 20% chance of missing a real effect). Name these unprompted when you design a test." },
@@ -669,6 +705,86 @@ const CARDS = [
   { cluster: "D4 · Modeling rigor", q: "Is a problem prediction, optimization, or causal inference?",
     a: "<p><strong>Prediction</strong> — <em>what will happen?</em> Forecast an outcome (which transactions are fraud).<br><strong>Causal</strong> — <em>what's the effect if we intervene?</em> (does the rule reduce fraud — an A/B test <em>is</em> causal inference).<br><strong>Optimization</strong> — <em>what's the best action?</em> Maximize an objective under constraints (optimal fraud threshold, budget allocation).</p>",
     trap: "Optimization = choosing the best <b>decision/action</b>, NOT making a model more complex. They chain: predict → estimate causal effect → optimize the policy." },
+
+  { cluster: "P1 · Applied practice", q: "Gmail: a PM wants to understand the types of users. How would you plan & execute the analysis?",
+    a: "<p><strong>Structure — Segmentation:</strong> clarify goal → features → cluster → profile → recommend.</p><p><strong>Frame:</strong> clarify the goal (marketing? product? retention?) — it's a <strong>segmentation/clustering</strong> problem.</p><p><strong>Features:</strong> behavioral (volume, frequency, features used — search/labels/filters), account (personal vs work, tenure, platform), engagement (DAU/WAU).</p><p><strong>Method:</strong> standardize → cluster (k-means/hierarchical) → choose k (elbow/silhouette) → <strong>profile into named personas</strong>.</p><p><strong>Land it:</strong> translate clusters into actionable personas + how each informs the PM's decision.</p>",
+    trap: "The value is <b>interpretable, actionable personas</b> — not the algorithm." },
+
+  { cluster: "P1 · Applied practice", q: "YouTube: watch time in one country dropped 10% MoM. How would you investigate?",
+    a: "<p><strong>Structure — C·H·I·R:</strong> Clarify → Hypothesize → Investigate → Recommend.</p><p><strong>Clarify</strong> metric/scope, then C-H-I-R.</p><p><strong>Buckets:</strong> real vs <strong>artifact</strong> (logging/definition change) · internal (algo/product change) vs external (seasonality, competitor, event) · then <strong>segment</strong> (device/geo/new-vs-returning/content type).</p><p><strong>Num/denom:</strong> fewer viewers, or less time each?</p><p><strong>Prioritize</strong> cheapest checks first, segment to localize, then <strong>recommend</strong>.</p>",
+    trap: "Lead with real-vs-artifact and <b>segment to localize</b> where the drop concentrates." },
+
+  { cluster: "P1 · Applied practice", q: "Maps: size the opportunity for a new feature flagging EV charging stations.",
+    a: "<p><strong>Structure — Sizing:</strong> clarify → top-down + bottom-up estimate → state assumptions → recommend.</p><p><strong>Clarify</strong> success (adoption? strategic bet?).</p><p><strong>Size two ways:</strong> top-down (# EV drivers in market × trips needing charging × addressable share) and bottom-up (Maps users who are EV drivers × usage frequency).</p><p><strong>Demand signal:</strong> existing charging-related searches, EV-adoption trend.</p><p><strong>State assumptions</strong> explicitly, give a range, and note the biggest sensitivity.</p>",
+    trap: "Opportunity sizing = a structured estimate with <b>stated assumptions</b>, not a precise number." },
+
+  { cluster: "P1 · Applied practice", q: "Search: the share of zero-click searches rose sharply. Good or bad — and how would you investigate?",
+    a: "<p><strong>Structure — C·H·I·R:</strong> clarify the definition → weigh both readings → investigate → recommend.</p><p><strong>Clarify:</strong> zero-click = answered on the results page (featured snippet) OR the user gave up?</p><p><strong>Two readings:</strong> <em>good</em> (instant answer = task success, less friction) vs <em>bad</em> (not finding it, or losing ad/site clicks).</p><p><strong>Investigate:</strong> segment by query type (informational answered directly = good; complex/navigational = maybe bad), check <strong>reformulation & pogo-sticking</strong>, satisfaction, and the ad-revenue impact.</p><p>Recommend based on what's driving it.</p>",
+    trap: "Don't assume — the <b>same metric can be success or failure</b> depending on query intent." },
+
+  { cluster: "P1 · Applied practice", q: "Play Store: uninstall rate jumped for one app category. How would you find the root cause?",
+    a: "<p><strong>Structure — C·H·I·R:</strong> Clarify → Hypothesize → Investigate (localize) → Recommend.</p><p><strong>Clarify</strong> category/timeframe, then C-H-I-R.</p><p><strong>Buckets:</strong> real vs artifact · internal (an app update, a popular low-quality new app, policy change) vs external.</p><p><strong>Segment:</strong> is it concentrated in a <strong>few apps</strong> or category-wide? by geo/device/new-vs-existing installs.</p><p>Investigate; recommend (quality/enforcement action if a few bad actors).</p>",
+    trap: "Localize first — a few bad apps vs. a category-wide shift lead to very different actions." },
+
+  { cluster: "P1 · Applied practice", q: "Google Pay: how would you segment users to inform a growth strategy?",
+    a: "<p><strong>Structure — Segmentation:</strong> clarify goal → dimensions → tier/cluster → profile → lever per segment.</p><p><strong>Frame</strong> the growth goal, then segment.</p><p><strong>Dimensions:</strong> usage frequency, transaction types (P2P / bills / merchant), value, tenure, linked methods, active vs dormant.</p><p><strong>Method:</strong> behavioral clustering or rule-based tiers (power / casual / dormant); profile each.</p><p><strong>Land it:</strong> a growth lever per segment — activate dormant, deepen casual, retain power users.</p>",
+    trap: "Segmentation is only useful if each segment maps to a <b>different action</b>." },
+
+  { cluster: "P1 · Applied practice", q: "Google Photos: engagement with 'Memories' is declining. Diagnose.",
+    a: "<p><strong>Structure — C·H·I·R:</strong> Clarify → Hypothesize → Investigate → Recommend.</p><p><strong>Clarify</strong> the metric, then C-H-I-R.</p><p><strong>Buckets:</strong> real vs artifact · internal (algo surfacing worse memories, UI/notification change) vs external (seasonality) · segment (cohort/platform).</p><p><strong>Quality angle:</strong> are surfaced memories relevant/positive? Did notifications change? Split by tenure and feature version.</p><p>Recommend.</p>",
+    trap: "For an ML-surfaced feature, check whether <b>content quality/relevance</b> dropped, not just volume." },
+
+  { cluster: "P1 · Applied practice", q: "Chrome: a change speeds up page loads but increases memory usage. How would you analyze whether to ship?",
+    a: "<p><strong>Structure — Decision:</strong> frame (what must be true) → quantify both sides → segment → guardrail → test/recommend.</p><p><strong>Frame as a decision:</strong> what would have to be true to ship? Quantify both sides.</p><p><strong>Benefit:</strong> page-load improvement — magnitude, and who benefits.</p><p><strong>Cost:</strong> memory increase → <strong>crash risk on low-RAM devices</strong> (emerging markets especially).</p><p><strong>Segment by device tier</strong>; guardrail = crash rate / low-end experience. Likely <strong>A/B test</strong> and possibly gate by device capability.</p>",
+    trap: "The averaged win can hide harm to <b>low-end devices</b> — always segment by device tier." },
+
+  { cluster: "P1 · Applied practice", q: "Android: users drop off between searching for an app and installing it. How would you analyze the funnel?",
+    a: "<p><strong>Structure — Funnel:</strong> map steps → find the biggest drop → hypothesize per step → segment → fix.</p><p><strong>Map the funnel:</strong> search → results → app-page view → install → open. Find the <strong>biggest drop step</strong> first.</p><p><strong>Per step hypotheses:</strong> search relevance, listing quality (screenshots/reviews/rating), install friction (size, permissions, price), connectivity.</p><p><strong>Segment</strong> by geo/device/query; fix the leakiest step.</p>",
+    trap: "Find the <b>step with the biggest drop</b> before hypothesizing causes." },
+
+  { cluster: "P1 · Applied practice", q: "Ads: advertiser complaints about low ROI spiked last week. How would you investigate?",
+    a: "<p><strong>Structure — C·H·I·R:</strong> Clarify → Hypothesize → Investigate → Recommend.</p><p><strong>Clarify:</strong> complaints, or an actual ROI drop? Then C-H-I-R.</p><p><strong>Buckets:</strong> real vs artifact (attribution/tracking break — e.g. a privacy change) · internal (auction/ranking/bidding change) vs external (seasonality, competition).</p><p><strong>Segment:</strong> which advertisers (concentrated?), verticals, campaign types.</p><p>Investigate; recommend.</p>",
+    trap: "A <b>conversion-tracking / attribution break</b> can look like an ROI drop without any real change." },
+
+  { cluster: "P2 · Experiment practice", q: "Maps: design an A/B test for a new 'eco-friendly route' suggestion.",
+    a: "<p><strong>Structure — A/B design:</strong> goal/hypothesis → metric + guardrails → randomize (unit, power, duration) → analyze &amp; decide.</p><p><strong>Goal:</strong> reduce fuel/emissions while users still arrive efficiently.</p><p><strong>Design:</strong> user-level randomization. <strong>Primary metric:</strong> eco-route selection / fuel saved. <strong>Guardrails:</strong> time-to-destination (no big ETA penalty), navigation success, satisfaction.</p><p>α=.05, 80% power, set MDE; run ≥1–2 weeks; watch novelty. Recommend on lift + guardrails.</p>",
+    trap: "Adoption ≠ impact — measure <b>actual emissions/fuel saved</b>, guardrail the ETA penalty." },
+
+  { cluster: "P2 · Experiment practice", q: "YouTube: design an experiment for a new home-feed recommendation algorithm. Watch for network effects.",
+    a: "<p><strong>Structure — A/B design:</strong> goal/hypothesis → metric + guardrails → randomize (unit, power, duration) → analyze &amp; decide.</p><p><strong>Metric:</strong> satisfaction-adjusted watch time. <strong>Guardrails:</strong> regretted watches, diversity, creator health.</p><p><strong>Network effect:</strong> the content ecosystem is shared — treatment changes what gets promoted, spilling to control. Consider <strong>cluster randomization</strong> or careful design.</p><p>Watch novelty; judge on <strong>steady-state</strong>. Ship on durable lift + guardrails.</p>",
+    trap: "Shared-ecosystem recommenders can violate SUTVA → user-level randomization may be contaminated." },
+
+  { cluster: "P2 · Experiment practice", q: "Search: test a new results layout. Metric, and how do you handle novelty/primacy?",
+    a: "<p><strong>Structure — A/B design:</strong> goal/hypothesis → metric + guardrails → randomize (unit, power, duration) → analyze &amp; decide.</p><p><strong>Metric:</strong> search success (long clicks, task completion). <strong>Guardrails:</strong> latency, pogo-sticking, ad revenue.</p><p><strong>Novelty/primacy:</strong> users are habituated to the old layout → expect an early dip or spike. Evaluate <strong>steady-state</strong> after it decays, split <strong>new vs existing</strong> users, run longer.</p><p>Recommend on the converged effect.</p>",
+    trap: "Existing-user habituation (primacy) distorts early reads — trust the steady-state." },
+
+  { cluster: "P2 · Experiment practice", q: "Gmail: test a new Smart Compose suggestion. Design + guardrails.",
+    a: "<p><strong>Structure — A/B design:</strong> goal/hypothesis → metric + guardrails → randomize (unit, power, duration) → analyze &amp; decide.</p><p><strong>Goal:</strong> faster email writing. <strong>Metric:</strong> suggestion acceptance rate, time-to-send.</p><p><strong>Guardrails:</strong> irrelevant/wrong suggestions, annoyance/opt-out rate, latency, privacy.</p><p>User-level randomization; watch novelty; recommend on acceptance + no guardrail regression.</p>",
+    trap: "For an assistive feature, guardrail <b>annoyance/opt-out</b> — acceptance alone can hide friction." },
+
+  { cluster: "P2 · Experiment practice", q: "Play Store: a fraud rule was rolled out to ALL users at once, no control. Estimate the causal impact.",
+    a: "<p><strong>Structure — Causal (no clean A/B):</strong> no randomization → build a counterfactual → check guardrails.</p><p><strong>No randomization → counterfactual is TIME:</strong> interrupted time series / <strong>CausalImpact</strong> using the pre-period trend + an unaffected control series (a geo not rolled out, or an unaffected segment).</p><p><strong>Guardrails:</strong> <strong>displacement</strong> (fraud moves elsewhere) and <strong>false positives</strong> (legit apps/devs blocked) — measure <strong>net system impact</strong>, not just fraud in the target flow.</p>",
+    trap: "All-treated-at-once → counterfactual is TIME (ITS/CausalImpact), not matched users." },
+
+  { cluster: "P2 · Experiment practice", q: "Google Pay: design an experiment for a referral program (send $5, get $5). Watch for viral/network effects.",
+    a: "<p><strong>Structure — A/B design:</strong> goal/hypothesis → metric + guardrails → randomize (unit, power, duration) → analyze &amp; decide.</p><p><strong>Goal:</strong> acquisition/activation. <strong>Metric:</strong> new activated users + their downstream retention/value.</p><p><strong>Network/viral:</strong> referrer & referee are linked → user-level randomization is contaminated. Use <strong>cluster / referrer-level</strong> randomization or a geo holdout.</p><p><strong>Guardrails:</strong> incentive gaming/fraud, CAC, and <strong>retention of incentive-driven</strong> users (organic vs incentivized).</p>",
+    trap: "Referral = inherently networked → randomize at the referrer/cluster level, and check if usage survives after the incentive." },
+
+  { cluster: "P2 · Experiment practice", q: "Chrome: a privacy feature ships by browser version (can't cleanly randomize users). How do you measure impact?",
+    a: "<p><strong>Structure — Causal (no clean A/B):</strong> no randomization → build a counterfactual → check guardrails.</p><p><strong>Can't user-randomize.</strong> Options: (1) if possible, a <strong>randomized % rollout</strong>; (2) else quasi-experimental — <strong>DiD</strong> across versions/staggered rollout, or compare updaters vs non-updaters with <strong>PSM</strong> (careful: updaters self-select → selection bias); (3) <strong>interrupted time series</strong> around the release.</p><p>State the key assumption (parallel trends / no confounding) and guardrails.</p>",
+    trap: "Updaters self-select → naive updater-vs-non comparison is confounded; prefer staggered DiD or a % rollout." },
+
+  { cluster: "P2 · Experiment practice", q: "Ads: test increasing ad load in Search. Guardrails, and short-term revenue vs long-term retention?",
+    a: "<p><strong>Structure — A/B design (long-term):</strong> goal → metric + guardrails → randomize → <strong>long-term holdback</strong> → decide.</p><p><strong>Short-term:</strong> revenue likely ↑ (more ads). <strong>Long-term risk:</strong> worse UX → less search usage, lower retention.</p><p><strong>Metric:</strong> revenue; <strong>guardrails:</strong> search frequency, engagement/retention, satisfaction.</p><p><strong>Key:</strong> the harm is <strong>delayed</strong> → use a <strong>long-term holdback</strong> group to measure the retention effect, don't ship on the short-term revenue bump alone.</p>",
+    trap: "Classic short-term-metric vs long-term-value trap → measure with a <b>long-term holdback</b>." },
+
+  { cluster: "P2 · Experiment practice", q: "YouTube: an A/B test shows a big week-1 lift that fades. What's happening — and would you ship?",
+    a: "<p><strong>Structure — Diagnose then decide:</strong> name the causes → evaluate steady-state → decide on the converged effect.</p><p><strong>Two explanations:</strong> behavioral <strong>novelty/primacy</strong> (wears off), or statistical <strong>early-noise / regression to the mean</strong> (small early n).</p><p><strong>Diagnose:</strong> split new vs returning users; evaluate <strong>steady-state</strong> after novelty decays + a full business cycle.</p><p><strong>Decision:</strong> judge on the <strong>converged</strong> effect — likely no-ship if it flattens to neutral (unless it's a QoL improvement with no regression).</p>",
+    trap: "Name both the behavioral (novelty) and statistical (regression) causes; decide on steady-state." },
+
+  { cluster: "P2 · Experiment practice", q: "Play Store: you tested 15 metrics and 2 came back significant. How do you interpret that?",
+    a: "<p><strong>Structure — Multiple-testing check:</strong> expected false positives → primary metric? → correct (Bonferroni/FDR) → judge effect size.</p><p><strong>Multiple comparisons:</strong> at α=.05 you expect ~1 false positive per 20 tests → with 15 tests, 1–2 significant results can easily be <strong>chance</strong>.</p><p><strong>Ask:</strong> was there a <strong>pre-registered primary metric</strong>? Are the 2 significant ones the primary, or random secondaries?</p><p><strong>Fix:</strong> apply a correction (<strong>Bonferroni / FDR</strong>), check effect size + consistency. Don't ship on cherry-picked secondaries.</p>",
+    trap: "1–2 'significant' out of 15 is roughly what pure noise produces — correct for multiple testing." },
 ];
 
 // ---- state ----
