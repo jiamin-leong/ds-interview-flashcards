@@ -135,6 +135,7 @@
   <div class="viewtoggle">
     <button class="tab" id="tabCheat">📋 Cheatsheet</button>
     <button class="tab" id="tabProducts">📱 Products</button>
+    <button class="tab" id="tabPractice">🧩 Practice</button>
     <button class="tab" id="tabCards">🎴 Flashcards</button>
   </div>
 
@@ -376,6 +377,41 @@
       </table>
     </div>
     <div class="footer-hint">Name the archetype first → it tells you if engagement is good, if it's two-sided, and which guardrail tension dominates.</div>
+  </div>
+
+  <div id="practiceView">
+    <div class="cs-group">🔍 Analytical / Applied Analysis</div>
+    <div class="cs-section">
+      <table class="cs">
+        <tr><td class="term">Gmail</td><td>A PM on Gmail wants to understand the different <strong>types of users</strong>. How would you plan and execute this analysis?</td></tr>
+        <tr><td class="term">YouTube</td><td>YouTube <strong>watch time in one country dropped 10%</strong> month-over-month. How would you investigate?</td></tr>
+        <tr><td class="term">Maps</td><td>How would you <strong>size the opportunity</strong> for a new Maps feature that flags EV charging stations?</td></tr>
+        <tr><td class="term">Search</td><td>The share of <strong>zero-click searches</strong> rose sharply. Is that good or bad — and how would you investigate?</td></tr>
+        <tr><td class="term">Play Store</td><td><strong>Uninstall rate</strong> jumped for one app category. How would you find the root cause?</td></tr>
+        <tr><td class="term">Google Pay</td><td>How would you <strong>segment Google Pay users</strong> to inform a growth strategy?</td></tr>
+        <tr><td class="term">Photos</td><td>Engagement with Google Photos <strong>"Memories"</strong> is declining. How would you diagnose it?</td></tr>
+        <tr><td class="term">Chrome</td><td>A change <strong>speeds up page loads but increases memory usage</strong>. How would you analyze whether to ship?</td></tr>
+        <tr><td class="term">Android</td><td>Users drop off between <strong>searching for an app and installing it</strong>. How would you analyze the funnel?</td></tr>
+        <tr><td class="term">Ads</td><td><strong>Advertiser complaints about low ROI</strong> spiked last week. How would you investigate?</td></tr>
+      </table>
+    </div>
+
+    <div class="cs-group">🧪 Experimentation</div>
+    <div class="cs-section">
+      <table class="cs">
+        <tr><td class="term">Maps</td><td>Design an A/B test for a new <strong>"eco-friendly route"</strong> suggestion. Metric + guardrails.</td></tr>
+        <tr><td class="term">YouTube</td><td>Design an experiment for a new <strong>home-feed recommendation algorithm</strong>. Watch for <strong>network effects</strong>.</td></tr>
+        <tr><td class="term">Search</td><td>Test a new <strong>Search results layout</strong>. Metric, and how do you handle <strong>novelty/primacy</strong>?</td></tr>
+        <tr><td class="term">Gmail</td><td>Test a new <strong>Smart Compose</strong> suggestion. Design + guardrails.</td></tr>
+        <tr><td class="term">Play Store</td><td>A <strong>fraud rule was rolled out to all users at once</strong> — no control. Estimate the causal impact.</td></tr>
+        <tr><td class="term">Google Pay</td><td>Design an experiment for a <strong>referral program</strong> (send $5, get $5). Watch for <strong>viral/network effects</strong>.</td></tr>
+        <tr><td class="term">Chrome</td><td>A privacy feature ships <strong>by browser version</strong> (can't cleanly randomize users). How do you measure impact?</td></tr>
+        <tr><td class="term">Ads</td><td>Test <strong>increasing ad load</strong> in Search. Guardrails, and short-term revenue vs. long-term retention?</td></tr>
+        <tr><td class="term">YouTube</td><td>An A/B test shows a <strong>big week-1 lift that fades</strong>. What's happening — and would you ship?</td></tr>
+        <tr><td class="term">Play Store</td><td>You tested <strong>15 metrics and 2 came back significant</strong>. How do you interpret that?</td></tr>
+      </table>
+    </div>
+    <div class="footer-hint">Practice out loud — structure first, then land a recommendation. Ask me to run any of these as a graded mock.</div>
   </div>
 
   <div id="flashcardView">
@@ -662,9 +698,11 @@ function showView(v) {
   currentView = v;
   document.getElementById("cheatsheetView").style.display = v === "cheatsheet" ? "block" : "none";
   document.getElementById("productsView").style.display = v === "products" ? "block" : "none";
+  document.getElementById("practiceView").style.display = v === "practice" ? "block" : "none";
   document.getElementById("flashcardView").style.display = v === "flashcards" ? "block" : "none";
   document.getElementById("tabCheat").classList.toggle("active", v === "cheatsheet");
   document.getElementById("tabProducts").classList.toggle("active", v === "products");
+  document.getElementById("tabPractice").classList.toggle("active", v === "practice");
   document.getElementById("tabCards").classList.toggle("active", v === "flashcards");
 }
 
@@ -762,6 +800,7 @@ document.addEventListener("keydown", (e) => {
 
 document.getElementById("tabCheat").onclick = () => showView("cheatsheet");
 document.getElementById("tabProducts").onclick = () => showView("products");
+document.getElementById("tabPractice").onclick = () => showView("practice");
 document.getElementById("tabCards").onclick = () => showView("flashcards");
 
 render();
