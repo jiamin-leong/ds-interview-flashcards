@@ -135,7 +135,6 @@
   <div class="viewtoggle">
     <button class="tab" id="tabCheat">📋 Cheatsheet</button>
     <button class="tab" id="tabProducts">📱 Products</button>
-    <button class="tab" id="tabPractice">🧩 Practice</button>
     <button class="tab" id="tabCards">🎴 Flashcards</button>
   </div>
 
@@ -379,41 +378,6 @@
     <div class="footer-hint">Name the archetype first → it tells you if engagement is good, if it's two-sided, and which guardrail tension dominates.</div>
   </div>
 
-  <div id="practiceView">
-    <div class="cs-group">🔍 Analytical / Applied Analysis</div>
-    <div class="cs-section">
-      <table class="cs">
-        <tr><td class="term">Gmail</td><td>A PM on Gmail wants to understand the different <strong>types of users</strong>. How would you plan and execute this analysis?</td></tr>
-        <tr><td class="term">YouTube</td><td>YouTube <strong>watch time in one country dropped 10%</strong> month-over-month. How would you investigate?</td></tr>
-        <tr><td class="term">Maps</td><td>How would you <strong>size the opportunity</strong> for a new Maps feature that flags EV charging stations?</td></tr>
-        <tr><td class="term">Search</td><td>The share of <strong>zero-click searches</strong> rose sharply. Is that good or bad — and how would you investigate?</td></tr>
-        <tr><td class="term">Play Store</td><td><strong>Uninstall rate</strong> jumped for one app category. How would you find the root cause?</td></tr>
-        <tr><td class="term">Google Pay</td><td>How would you <strong>segment Google Pay users</strong> to inform a growth strategy?</td></tr>
-        <tr><td class="term">Photos</td><td>Engagement with Google Photos <strong>"Memories"</strong> is declining. How would you diagnose it?</td></tr>
-        <tr><td class="term">Chrome</td><td>A change <strong>speeds up page loads but increases memory usage</strong>. How would you analyze whether to ship?</td></tr>
-        <tr><td class="term">Android</td><td>Users drop off between <strong>searching for an app and installing it</strong>. How would you analyze the funnel?</td></tr>
-        <tr><td class="term">Ads</td><td><strong>Advertiser complaints about low ROI</strong> spiked last week. How would you investigate?</td></tr>
-      </table>
-    </div>
-
-    <div class="cs-group">🧪 Experimentation</div>
-    <div class="cs-section">
-      <table class="cs">
-        <tr><td class="term">Maps</td><td>Design an A/B test for a new <strong>"eco-friendly route"</strong> suggestion. Metric + guardrails.</td></tr>
-        <tr><td class="term">YouTube</td><td>Design an experiment for a new <strong>home-feed recommendation algorithm</strong>. Watch for <strong>network effects</strong>.</td></tr>
-        <tr><td class="term">Search</td><td>Test a new <strong>Search results layout</strong>. Metric, and how do you handle <strong>novelty/primacy</strong>?</td></tr>
-        <tr><td class="term">Gmail</td><td>Test a new <strong>Smart Compose</strong> suggestion. Design + guardrails.</td></tr>
-        <tr><td class="term">Play Store</td><td>A <strong>fraud rule was rolled out to all users at once</strong> — no control. Estimate the causal impact.</td></tr>
-        <tr><td class="term">Google Pay</td><td>Design an experiment for a <strong>referral program</strong> (send $5, get $5). Watch for <strong>viral/network effects</strong>.</td></tr>
-        <tr><td class="term">Chrome</td><td>A privacy feature ships <strong>by browser version</strong> (can't cleanly randomize users). How do you measure impact?</td></tr>
-        <tr><td class="term">Ads</td><td>Test <strong>increasing ad load</strong> in Search. Guardrails, and short-term revenue vs. long-term retention?</td></tr>
-        <tr><td class="term">YouTube</td><td>An A/B test shows a <strong>big week-1 lift that fades</strong>. What's happening — and would you ship?</td></tr>
-        <tr><td class="term">Play Store</td><td>You tested <strong>15 metrics and 2 came back significant</strong>. How do you interpret that?</td></tr>
-      </table>
-    </div>
-    <div class="footer-hint">Practice out loud — structure first, then land a recommendation. Ask me to run any of these as a graded mock.</div>
-  </div>
-
   <div id="flashcardView">
   <div class="controls" id="clusterFilters"></div>
   <div class="controls">
@@ -438,351 +402,351 @@
 
 <script>
 const CARDS = [
-  { cluster: "A · Inference", q: "What is a p-value?",
+  { cluster: "📊 Statistics", q: "What is a p-value?",
     a: "<p>The probability of observing a result <strong>at least as extreme</strong> as what you saw, <strong>assuming the null hypothesis is true</strong>. It's <code>P(data | null true)</code>.</p>",
     trap: "It is NOT a confidence level, NOT \"95% sure we can reject,\" and NOT <code>P(null true | data)</code>. Never flip the conditional." },
 
-  { cluster: "A · Inference", q: "p-value vs. significance level (α)?",
+  { cluster: "📊 Statistics", q: "p-value vs. significance level (α)?",
     a: "<p><strong>α</strong> is the threshold you set <em>in advance</em> — the false-positive rate you'll tolerate if the null were true (e.g. 0.05). The <strong>p-value</strong> is computed <em>from the data</em>. You reject the null when p &lt; α.</p>",
     trap: "p = 0.03 does NOT mean \"3% chance this is a false positive.\" That conflates the p-value with α." },
 
-  { cluster: "A · Inference", q: "Type I vs. Type II error?",
+  { cluster: "📊 Statistics", q: "Type I vs. Type II error?",
     a: "<p><strong>Type I (α)</strong> = false positive — rejecting a true null (seeing an effect that isn't real).<br><strong>Type II (β)</strong> = false negative — failing to reject a false null (missing a real effect).</p><p>Mnemonic: Type I = crying wolf; Type II = missing the wolf.</p>",
     trap: null },
 
-  { cluster: "A · Inference", q: "What is statistical power?",
+  { cluster: "📊 Statistics", q: "What is statistical power?",
     a: "<p>Power = <code>1 − β</code> = the probability of <strong>detecting a real effect</strong> when one truly exists. Driven up by: larger n, larger true effect, lower variance, higher α.</p>",
     trap: "Power is a <b>design input</b> you choose (usually 80%), not something you read off after the test." },
 
-  { cluster: "A · Inference", q: "What does a 95% confidence interval actually mean?",
+  { cluster: "📊 Statistics", q: "What does a 95% confidence interval actually mean?",
     a: "<p>The range of <strong>plausible values for the true parameter</strong> consistent with the data. Precisely: if you repeated the experiment many times and built a CI each time, ~95% of those intervals would contain the true value.</p>",
     trap: "NOT \"95% of data points fall in this range.\" NOT (strictly) \"95% probability the true value is in <i>this</i> interval\" — that's a Bayesian credible interval." },
 
-  { cluster: "A · Inference", q: "CI ↔ hypothesis testing shortcut?",
+  { cluster: "📊 Statistics", q: "CI ↔ hypothesis testing shortcut?",
     a: "<p>A 95% CI that <strong>excludes 0</strong> ⇔ statistically significant at α = 0.05. If the CI <strong>includes 0</strong>, you can't rule out \"no effect\" (or even harm) → not significant.</p><p>Applied: CI of <code>[−0.5%, +4.5%]</code> crosses 0 → not significant → lean no-ship / gather more data (it's underpowered).</p>",
     trap: null },
 
-  { cluster: "A · Inference", q: "What does the Central Limit Theorem say?",
+  { cluster: "📊 Statistics", q: "What does the Central Limit Theorem say?",
     a: "<p>The distribution of the <strong>sample mean</strong> approaches a <strong>normal distribution</strong> as n grows, <strong>regardless of the shape of the underlying data</strong> (given finite variance).</p>",
     trap: "CLT does NOT assume the underlying data is normal — it <b>manufactures</b> normality in the mean from non-normal data. That's its whole power." },
 
-  { cluster: "A · Inference", q: "Why can I A/B test a skewed metric (e.g. revenue/user) using CLT?",
+  { cluster: "📊 Statistics", q: "Why can I A/B test a skewed metric (e.g. revenue/user) using CLT?",
     a: "<p>Because you're doing inference on the <strong>mean</strong>, not individual values. Even if revenue/user is heavily skewed, the sampling distribution of the <em>mean</em> is ~normal for large n, so z/t-tests, SEs, and CIs are valid.</p><p>Nuance that scores: heavy skew needs a <strong>larger n</strong>, and outliers inflate variance → often <strong>winsorize/cap</strong> or <strong>bootstrap</strong>.</p>",
     trap: null },
 
-  { cluster: "A · Inference", q: "Statistical vs. practical significance?",
+  { cluster: "📊 Statistics", q: "Statistical vs. practical significance?",
     a: "<p><strong>Statistical</strong> significance = the effect is unlikely to be noise. <strong>Practical</strong> significance = the effect is big enough to matter for the business. With huge n, a trivial effect can be statistically significant but useless.</p>",
     trap: "Always separate the two — mention it unprompted." },
 
-  { cluster: "A · Inference", q: "The \"peeking\" problem — what is it and why does it matter?",
+  { cluster: "📊 Statistics", q: "The \"peeking\" problem — what is it and why does it matter?",
     a: "<p>Checking results repeatedly and stopping the first time p &lt; 0.05 <strong>inflates the Type I error rate</strong> — each look is another chance to cross the line by luck (true FP rate can hit 20–30%+). Under the null, peek forever → <em>guaranteed</em> eventual false \"significance.\"</p><p>Fix: predefine a fixed sample size / horizon, evaluate once. If you must monitor live → <strong>sequential testing / alpha-spending / always-valid p-values</strong>.</p>",
     trap: "The reason is repeated-looks inflating α — NOT just \"the effect might not persist.\"" },
 
-  { cluster: "A · Inference", q: "Optional stopping — why can't you extend a test just because you got p = 0.06?",
+  { cluster: "📊 Statistics", q: "Optional stopping — why can't you extend a test just because you got p = 0.06?",
     a: "<p>Deciding to run longer <em>because</em> you saw a near-significant result is <strong>optional stopping / p-hacking</strong> — a form of peeking. Each extra look is another chance to cross 0.05 by luck, so it <strong>inflates the false-positive rate</strong> above your stated α.</p><p>You can't keep running until it 'turns significant.' If you want the option to extend, <strong>pre-commit</strong> to it with <strong>sequential testing / alpha-spending</strong>, which budgets α across looks.</p>",
     trap: "\"Let's run it longer and see if it crosses\" is the trap. Legit reasons to extend (underpowered, incomplete business cycle) must be decided <b>independent of the current p-value</b>." },
 
-  { cluster: "A2 · Test math", q: "t-test vs. z-test — when do you use each?",
+  { cluster: "📊 Statistics", q: "t-test vs. z-test — when do you use each?",
     a: "<p>Both test whether means differ; the difference is how you handle the variance.</p><p><strong>z-test:</strong> use when the population SD (σ) is <em>known</em>, OR n is large (≳30) so the sample SD is a reliable estimate and the sampling distribution is ~normal. Also the standard choice for <strong>proportions</strong> (large n).</p><p><strong>t-test:</strong> use when σ is <em>unknown</em> and estimated from the sample — especially small n. The t-distribution has <strong>fatter tails</strong> to account for the extra uncertainty of estimating SD; it converges to z as n grows.</p>",
     trap: "In large A/B tests t ≈ z (same answer). Rule of thumb: <b>means with unknown variance → t-test; conversion/proportions → z-test.</b>" },
 
-  { cluster: "A2 · Test math", q: "One-sided vs. two-sided test — when and what's the catch?",
+  { cluster: "📊 Statistics", q: "One-sided vs. two-sided test — when and what's the catch?",
     a: "<p><strong>Two-sided (two-tailed):</strong> testing for <em>any</em> difference (H₁: effect ≠ 0), either direction matters. The <strong>default</strong> for A/B tests. α is split across both tails (2.5% each at 0.05).</p><p><strong>One-sided (one-tailed):</strong> you only care about a difference in <em>one pre-specified direction</em> (H₁: treatment &gt; control); the other direction counts as \"no win.\" All α goes in one tail → <strong>more power</strong> to detect that direction.</p>",
     trap: "Pick the sidedness <b>before</b> seeing data. One-sided gives easier significance and can look like p-hacking → default to two-sided unless there's a strong a priori reason." },
 
-  { cluster: "A2 · Test math", q: "The general test-statistic formula + the standard errors?",
+  { cluster: "📊 Statistics", q: "The general test-statistic formula + the standard errors?",
     a: "<p>Every z/t statistic has the same shape:</p><p><code>statistic = (estimate − null value) / standard error</code></p><p>Standard errors (SE):</p><p>• Mean: <code>SE = s / √n</code><br>• Difference of two means (independent): <code>SE = √(s²_A/n_A + s²_B/n_B)</code><br>• Proportion: <code>SE = √(p(1−p)/n)</code><br>• Difference of two proportions (pooled): <code>SE = √(p̂(1−p̂)(1/n_A + 1/n_B))</code>, with pooled <code>p̂ = (x_A + x_B)/(n_A + n_B)</code></p><p>Then compare the statistic to a critical value, or convert it to a p-value.</p>",
     trap: "The numerator is always <b>effect vs. the null</b>; the denominator is the <b>SE</b> (noise). Big signal ÷ small noise → big statistic → significant." },
 
-  { cluster: "A2 · Test math", q: "Two-proportion z-test — the A/B conversion workhorse formula?",
+  { cluster: "📊 Statistics", q: "Two-proportion z-test — the A/B conversion workhorse formula?",
     a: "<p>For comparing conversion rates between control (A) and treatment (B):</p><p><code>z = (p̂_B − p̂_A) / √( p̂(1−p̂)(1/n_A + 1/n_B) )</code></p><p>where <code>p̂ = (x_A + x_B)/(n_A + n_B)</code> is the <strong>pooled</strong> conversion rate — used because under H₀ both groups share the same true rate.</p><p>Reject H₀ (two-sided, α = 0.05) if <code>|z| &gt; 1.96</code>.</p>",
     trap: null },
 
-  { cluster: "A2 · Test math", q: "Worked example: two-proportion z-test (do the math out loud)",
+  { cluster: "📊 Statistics", q: "Worked example: two-proportion z-test (do the math out loud)",
     a: "<p>Control: 200 / 2,000 convert (10.0%). Treatment: 240 / 2,000 (12.0%).</p><p>1. Pooled <code>p̂ = (200+240)/(2000+2000) = 0.11</code><br>2. <code>SE = √(0.11 × 0.89 × (1/2000 + 1/2000)) = √0.0000979 ≈ 0.0099</code><br>3. <code>z = (0.12 − 0.10) / 0.0099 ≈ 2.02</code><br>4. <code>|z| = 2.02 &gt; 1.96</code> → <strong>significant</strong> at 5% (two-sided). p ≈ 0.043.</p>",
     trap: "Practice saying this end-to-end: pooled rate → SE → z → compare to 1.96. Being able to actually compute it is a differentiator." },
 
-  { cluster: "A2 · Test math", q: "Critical values & converting a statistic to a decision?",
+  { cluster: "📊 Statistics", q: "Critical values & converting a statistic to a decision?",
     a: "<p>Compare your statistic to the critical value for your α:</p><p>• Two-sided 95% (α = 0.05): <code>±1.96</code><br>• One-sided 95%: <code>1.645</code><br>• Two-sided 99%: <code>±2.576</code><br>• Two-sided 90%: <code>±1.645</code></p><p>The <strong>p-value</strong> = the tail area beyond your observed statistic (both tails if two-sided). Reject H₀ when <code>p &lt; α</code>, i.e. when <code>|statistic|</code> exceeds the critical value.</p>",
     trap: "Memorize <b>1.96</b> (two-sided 95%) and <b>1.645</b> (one-sided 95%) cold — they come up constantly." },
 
-  { cluster: "B · Bayes", q: "State Bayes' theorem — then the natural-frequencies shortcut?",
+  { cluster: "🎲 Probability", q: "State Bayes' theorem — then the natural-frequencies shortcut?",
     a: "<p><strong>Bayes' theorem:</strong> <code>P(A | B) = P(B | A) · P(A) / P(B)</code> — it updates the probability of hypothesis A after seeing evidence B. Expanded denominator: <code>P(B) = P(B|A)·P(A) + P(B|¬A)·P(¬A)</code>.</p><p>For a diagnostic test: <code>P(sick | +) = [ P(+|sick)·P(sick) ] / [ P(+|sick)·P(sick) + P(+|healthy)·P(healthy) ]</code>.</p><p>In an interview, don't juggle the formula — <strong>imagine a concrete population and count.</strong></p><p>1. Pick a big round population (e.g. 1,000,000).<br>2. Apply the <strong>base rate</strong> → how many have the condition.<br>3. Apply the <strong>true-positive rate</strong> → sick who test positive.<br>4. Apply the <strong>false-positive rate</strong> → healthy who test positive.<br>5. <code>P(sick | +) = true positives ÷ all positives</code>.</p><p>Example: 1-in-10k disease, 99% accurate test → <code>99 / (99 + 9,999) ≈ 1%</code>.</p>",
     trap: null },
 
-  { cluster: "B · Bayes", q: "Base-rate neglect?",
+  { cluster: "🎲 Probability", q: "Base-rate neglect?",
     a: "<p>When a condition is <strong>rare</strong>, a positive test is dominated by <strong>false positives</strong> — the small error rate applied to the huge negative population produces more false positives than there are true positives. So \"99% accurate\" ≠ \"99% likely sick.\"</p>",
     trap: "Through-line: this is exactly why <b>precision is low on rare-event detection</b> (scam/fraud classifiers)." },
 
-  { cluster: "B2 · Distributions", q: "Bernoulli — what does it model, and its mean/variance?",
+  { cluster: "🎲 Probability", q: "Bernoulli — what does it model, and its mean/variance?",
     a: "<p>A <strong>single yes/no trial</strong> with success probability p.</p><p>Mean = <strong>p</strong>, variance = <strong>p(1−p)</strong>.</p><p>Example: one transaction is fraud or not.</p>",
     trap: null },
 
-  { cluster: "B2 · Distributions", q: "Binomial — what, params, mean/variance?",
+  { cluster: "🎲 Probability", q: "Binomial — what, params, mean/variance?",
     a: "<p>The <strong>number of successes in n independent Bernoulli trials</strong>. Params n, p.</p><p>Mean = <strong>np</strong>, variance = <strong>np(1−p)</strong>.</p><p>Example: # conversions out of N visitors — <strong>every conversion-rate A/B test</strong>.</p>",
     trap: "A Binomial is the <b>sum of n independent Bernoulli trials</b>. Its variance p(1−p) is why baseline rate affects A/B sample size." },
 
-  { cluster: "B2 · Distributions", q: "Poisson — what, param, and the KEY property?",
+  { cluster: "🎲 Probability", q: "Poisson — what, param, and the KEY property?",
     a: "<p>The <strong>number of rare events in a fixed interval</strong>, at a constant average rate. Param λ.</p><p>KEY: <strong>mean = variance = λ</strong>.</p><p>Example: # fraud events per day.</p>",
     trap: "The signature property is <b>mean = variance = λ</b>. If real data has variance &gt; mean (overdispersion — common in bursty fraud) → use <b>Negative Binomial</b>." },
 
-  { cluster: "B2 · Distributions", q: "When does Binomial ≈ Poisson?",
+  { cluster: "🎲 Probability", q: "When does Binomial ≈ Poisson?",
     a: "<p>When <strong>n is large and p is small</strong> (rare events), Binomial(n, p) ≈ Poisson(λ = np).</p><p>This is exactly the fraud setting — many transactions, tiny fraud probability each.</p>",
     trap: null },
 
-  { cluster: "B2 · Distributions", q: "Exponential — what does it model, and its link to Poisson?",
+  { cluster: "🎲 Probability", q: "Exponential — what does it model, and its link to Poisson?",
     a: "<p>The <strong>time between Poisson events</strong>. Param λ (rate), mean = 1/λ.</p><p>Example: time between fraud attempts.</p>",
     trap: "Poisson <b>counts</b> ↔ Exponential <b>inter-arrival times</b> — two sides of the same process." },
 
-  { cluster: "B2 · Distributions", q: "Normal — what, and why is it everywhere?",
+  { cluster: "🎲 Probability", q: "Normal — what, and why is it everywhere?",
     a: "<p>Continuous, symmetric, bell-shaped; params μ, σ².</p><p>It's everywhere because of the <strong>CLT</strong> — sums/means of many independent variables tend to Normal <em>regardless</em> of the underlying distribution.</p>",
     trap: null },
 
-  { cluster: "B2 · Distributions", q: "Which distribution? (a) fraud events/hour (b) conversions out of N (c) time between logins (d) one txn fraud-or-not",
+  { cluster: "🎲 Probability", q: "Which distribution? (a) fraud events/hour (b) conversions out of N (c) time between logins (d) one txn fraud-or-not",
     a: "<p>(a) <strong>Poisson</strong> — rare counts per interval.<br>(b) <strong>Binomial</strong> — successes in n trials.<br>(c) <strong>Exponential</strong> — time between events.<br>(d) <strong>Bernoulli</strong> — a single yes/no trial.</p>",
     trap: "Counts per interval → Poisson · successes in n trials → Binomial · waiting time → Exponential · single trial → Bernoulli." },
 
-  { cluster: "B2 · Distributions", q: "Poisson calc: fraud events average 3/day. P(exactly 5 tomorrow)?",
+  { cluster: "🎲 Probability", q: "Poisson calc: fraud events average 3/day. P(exactly 5 tomorrow)?",
     a: "<p>PMF: <code>P(X=k) = e^(−λ) · λ^k / k!</code></p><p>λ = 3, k = 5:<br><code>e^(−3) · 3^5 / 5! = 0.0498 · 243/120 ≈ 0.101</code></p><p>→ about <strong>10%</strong>.</p>",
     trap: "Mean = variance = λ = 3, so ~3/day is expected; 5 is above average → only ~10%." },
 
-  { cluster: "B2 · Distributions", q: "Binomial calc: 10 transactions, each 20% fraud chance. Expected frauds & P(exactly 2)?",
+  { cluster: "🎲 Probability", q: "Binomial calc: 10 transactions, each 20% fraud chance. Expected frauds & P(exactly 2)?",
     a: "<p>Expected = <code>np = 10 · 0.2 = 2</code>.</p><p>PMF: <code>P(X=k) = C(n,k) · p^k · (1−p)^(n−k)</code></p><p>P(X=2) = <code>C(10,2) · 0.2² · 0.8⁸ = 45 · 0.04 · 0.168 ≈ 0.30</code></p><p>→ about <strong>30%</strong>.</p>",
     trap: "<code>C(10,2) = 45</code>. The most likely count is the mean (2), and P(exactly 2) ≈ 30%." },
 
-  { cluster: "B2 · Distributions", q: "Exponential calc: fraud attempts arrive at rate λ=2/hour. Mean gap & P(next within 30 min)?",
+  { cluster: "🎲 Probability", q: "Exponential calc: fraud attempts arrive at rate λ=2/hour. Mean gap & P(next within 30 min)?",
     a: "<p>Mean gap = <code>1/λ = 0.5 hr = 30 min</code>.</p><p>CDF: <code>P(T ≤ t) = 1 − e^(−λt)</code></p><p>t = 0.5 hr:<br><code>1 − e^(−2·0.5) = 1 − e^(−1) ≈ 0.63</code></p><p>→ about <strong>63%</strong>.</p>",
     trap: "Exponential CDF <code>1 − e^(−λt)</code> gives 'probability an event happens by time t.'" },
 
-  { cluster: "B2 · Distributions", q: "Expected value of a discrete random variable — formula + example?",
+  { cluster: "🎲 Probability", q: "Expected value of a discrete random variable — formula + example?",
     a: "<p><code>E[X] = Σ x · P(X=x)</code> — the probability-weighted average.</p><p>Example: a bet pays +$10 w.p. 0.3 and −$5 w.p. 0.7:<br><code>E = 10(0.3) + (−5)(0.7) = 3 − 3.5 = −$0.50</code>.</p><p>Continuous version: <code>E[X] = ∫ x · f(x) dx</code>.</p>",
     trap: "E[X] is the long-run average — weight each outcome by its probability." },
 
-  { cluster: "B2 · Distributions", q: "Expected fraud loss per transaction — how do you compute it?",
+  { cluster: "🎲 Probability", q: "Expected fraud loss per transaction — how do you compute it?",
     a: "<p><code>E[loss] = P(fraud) × loss per fraud</code>.</p><p>Example: 0.2% fraud rate, $500 avg loss → <code>0.002 × 500 = $1.00</code> expected loss/transaction.</p><p>For a rule: <code>E[cost] = P(FP)·(FP cost) + P(FN)·(FN cost)</code> — this is what you optimize a threshold against.</p>",
     trap: "Expected value turns a risk into a per-unit cost you can optimize the threshold against." },
 
-  { cluster: "B2 · Distributions", q: "Geometric distribution — what, PMF, mean?",
+  { cluster: "🎲 Probability", q: "Geometric distribution — what, PMF, mean?",
     a: "<p>Number of independent trials <strong>until the first success</strong>.</p><p>PMF: <code>P(X=k) = (1−p)^(k−1) · p</code>. Mean = <code>1/p</code>, variance = <code>(1−p)/p²</code>.</p><p>Example: transactions until the first fraud, if each is fraud w.p. p.</p>",
     trap: null },
 
-  { cluster: "B2 · Distributions", q: "Memorize: PMF, mean, variance for the key distributions?",
+  { cluster: "🎲 Probability", q: "Memorize: PMF, mean, variance for the key distributions?",
     a: "<p>• <strong>Bernoulli</strong>: p · mean p · var p(1−p)<br>• <strong>Binomial</strong>: C(n,k)p^k(1−p)^(n−k) · mean np · var np(1−p)<br>• <strong>Poisson</strong>: e^(−λ)λ^k/k! · mean λ · var λ<br>• <strong>Geometric</strong>: (1−p)^(k−1)p · mean 1/p · var (1−p)/p²<br>• <strong>Exponential</strong>: pdf λe^(−λx), CDF 1−e^(−λx) · mean 1/λ · var 1/λ²<br>• <strong>Uniform(a,b)</strong>: mean (a+b)/2 · var (b−a)²/12</p>",
     trap: "Poisson is the odd one: <b>mean = variance = λ</b>." },
 
-  { cluster: "B3 · Combinatorics", q: "Permutations vs combinations — formulas and when to use each?",
+  { cluster: "🎲 Probability", q: "Permutations vs combinations — formulas and when to use each?",
     a: "<p><strong>Permutation (order matters):</strong> <code>nPr = n! / (n−r)!</code>.<br><strong>Combination (order doesn't):</strong> <code>nCr = n! / (r!·(n−r)!)</code>.</p><p>Ranked top-3 finishers → permutation. A committee of 3 → combination.</p><p>Link: <code>nCr = nPr / r!</code>.</p>",
     trap: "Order matters → permutation; order doesn't → combination." },
 
-  { cluster: "B3 · Combinatorics", q: "The counting principle & factorial?",
+  { cluster: "🎲 Probability", q: "The counting principle & factorial?",
     a: "<p><strong>Multiplication rule:</strong> if step 1 has a ways and step 2 has b ways, together = <code>a × b</code>.</p><p><strong>Factorial:</strong> <code>n! = n·(n−1)·…·1</code> = ways to arrange n distinct items. (<code>0! = 1</code>.)</p>",
     trap: null },
 
-  { cluster: "B3 · Combinatorics", q: "Compute: how many ways to choose 2 items from 10? (order doesn't matter)",
+  { cluster: "🎲 Probability", q: "Compute: how many ways to choose 2 items from 10? (order doesn't matter)",
     a: "<p><code>C(10,2) = 10! / (2!·8!) = (10·9)/2 = 45</code>.</p>",
     trap: "For small nCr: multiply the top r terms, divide by r! — e.g. (10·9)/2 = 45." },
 
-  { cluster: "B3 · Combinatorics", q: "Compute: how many ways to arrange 3 of 10 in order?",
+  { cluster: "🎲 Probability", q: "Compute: how many ways to arrange 3 of 10 in order?",
     a: "<p><code>P(10,3) = 10! / 7! = 10·9·8 = 720</code>.</p>",
     trap: "Permutation = just multiply the top r terms (no dividing by r!)." },
 
-  { cluster: "B3 · Combinatorics", q: "5 apps, 2 are fraud. You pick 2 at random — P(both are fraud)?",
+  { cluster: "🎲 Probability", q: "5 apps, 2 are fraud. You pick 2 at random — P(both are fraud)?",
     a: "<p><code>P = C(2,2) / C(5,2) = 1 / 10 = 0.10</code>.</p><p>Favorable ÷ total outcomes, both counted with combinations (order doesn't matter).</p>",
     trap: "Probability = favorable / total, both counted with combinations when order is irrelevant." },
 
-  { cluster: "C · Experiments", q: "What drives A/B sample size? (4 inputs + directions)",
+  { cluster: "🧪 Experimentation", q: "What drives A/B sample size? (4 inputs + directions)",
     a: "<p>(1) <strong>Variance</strong> ↑ → n ↑. (2) <strong>MDE</strong> (min detectable effect) ↓ → n ↑. (3) <strong>α</strong> ↓ (stricter) → n ↑ — <em>typically 0.05</em>. (4) <strong>Power (1−β)</strong> ↑ → n ↑ — <em>typically 80%, sometimes 90%</em>.</p><p>Key intuition: <code>n ∝ variance / MDE²</code> — <strong>MDE is squared</strong>, so halving the effect you want to detect <strong>quadruples</strong> the sample.</p><p>Duration: run ≥ one full business cycle (1–2 weeks) even if n is hit sooner (seasonality, novelty).</p>",
     trap: "Default conventions to state out loud: <b>α = 0.05</b> (5% false-positive rate) and <b>power = 80%</b> (β = 0.20, so 20% chance of missing a real effect). Name these unprompted when you design a test." },
 
-  { cluster: "C · Experiments", q: "Testing 10 metrics at α=0.05 — the problem and fix?",
+  { cluster: "🧪 Experimentation", q: "Testing 10 metrics at α=0.05 — the problem and fix?",
     a: "<p>Testing many metrics inflates the chance of a false positive. With 10 independent tests: <code>1 − 0.95^10 ≈ 40%</code> chance of ≥1 false positive.</p><p>Fix: designate <strong>one primary metric</strong> up front; for the rest apply a correction — <strong>Bonferroni</strong> (α ÷ #tests, conservative) or <strong>Benjamini-Hochberg / FDR</strong> (controls false discovery rate, less conservative).</p>",
     trap: null },
 
-  { cluster: "C · Experiments", q: "Novelty vs. primacy effect?",
+  { cluster: "🧪 Experimentation", q: "Novelty vs. primacy effect?",
     a: "<p><strong>Novelty</strong> = users engage more just because something is <em>new</em> (early lift fades). <strong>Primacy</strong> = existing users react to <em>any</em> change (up or down) before settling. Both distort early A/B readings.</p><p>Diagnose by splitting <strong>new vs. returning users</strong>; evaluate the <strong>steady-state</strong> effect after a full cycle.</p>",
     trap: null },
 
-  { cluster: "C · Experiments", q: "Network effects / interference — problem and fix?",
+  { cluster: "🧪 Experimentation", q: "Network effects / interference — problem and fix?",
     a: "<p>When one user's treatment affects control users (social, marketplace, messaging), <strong>user-level randomization is contaminated</strong> and biases the estimate.</p><p>Fix: <strong>cluster / geo randomization</strong> — randomize groups (cities, social clusters) instead of individuals.</p>",
     trap: null },
 
-  { cluster: "D · ML", q: "Bias-variance tradeoff?",
+  { cluster: "🤖 Modeling", q: "Bias-variance tradeoff?",
     a: "<p><strong>Bias</strong> = error from a model too <em>simple</em> to capture the real pattern → <strong>underfitting</strong>. <strong>Variance</strong> = error from a model too <em>sensitive</em> to the training data → <strong>overfitting</strong>. Total error ≈ bias² + variance + irreducible noise; you minimize the <em>sum</em>.</p>",
     trap: "Name the terms explicitly: overfitting = <b>high variance</b>, underfitting = <b>high bias</b>." },
 
-  { cluster: "D · ML", q: "How do you fix an overfit (high-variance) model?",
+  { cluster: "🤖 Modeling", q: "How do you fix an overfit (high-variance) model?",
     a: "<p>(1) <strong>More training data</strong> (most reliable). (2) <strong>Regularization</strong> (L1/L2). (3) <strong>Reduce complexity</strong> / feature selection / lower depth. (4) <strong>Cross-validation</strong> to tune honestly. (5) <strong>Early stopping</strong>, <strong>dropout</strong> (NNs), <strong>bagging/ensembles</strong>.</p><p><strong>L1 vs L2:</strong> L1 (Lasso) → sparsity / feature selection; L2 (Ridge) → shrinks weights smoothly.</p>",
     trap: null },
 
-  { cluster: "D · ML", q: "Precision vs. recall?",
+  { cluster: "🤖 Modeling", q: "Precision vs. recall?",
     a: "<p><strong>Precision</strong> = of what we <em>flagged</em> positive, what fraction <em>actually is</em> → <code>TP / (TP + FP)</code> (\"how often we cry wolf\").<br><strong>Recall</strong> = of all <em>actual</em> positives, what fraction we <em>caught</em> → <code>TP / (TP + FN)</code> (\"how much we miss\").</p><p>Which to favor = depends on the <strong>cost of each error</strong> and the action taken.</p>",
     trap: null },
 
-  { cluster: "D · ML", q: "Why does accuracy fail on imbalanced data?",
+  { cluster: "🤖 Modeling", q: "Why does accuracy fail on imbalanced data?",
     a: "<p>With rare positives (e.g. 0.1% scams), a model that predicts \"negative\" for <em>everything</em> scores ~99.9% accuracy while catching <strong>zero</strong> positives — the majority-class baseline is trivially high.</p><p>Use instead: <strong>precision/recall, F-beta, and PR-AUC</strong> (precision-recall AUC is the right summary for rare-positive problems — better than ROC-AUC).</p>",
     trap: null },
 
-  { cluster: "D · ML", q: "Logistic vs. linear regression for classification?",
+  { cluster: "🤖 Modeling", q: "Logistic vs. linear regression for classification?",
     a: "<p>Use <strong>logistic regression</strong> for binary classification — it outputs a <strong>probability in [0,1]</strong> (via the sigmoid), which you threshold to 0/1. <strong>Linear regression</strong> outputs unbounded values and is for continuous targets.</p>",
     trap: "\"Linear regression to output a probability\" is wrong — that's logistic regression." },
 
-  { cluster: "D · ML", q: "The 6-step modeling framing template (\"build a model to do X\")?",
+  { cluster: "🤖 Modeling", q: "The 6-step modeling framing template (\"build a model to do X\")?",
     a: "<p><strong>Frame → Data/Labels → Features → Model → Evaluate → Deploy/Monitor.</strong></p><p>1. <strong>Frame:</strong> classification vs regression, the unit, <strong>define the label precisely</strong>, and the <strong>cost of each error</strong> (drives the metric).<br>2. <strong>Data/Labels:</strong> sources, expert + weak labels (reports/enforcement), handle <strong>class imbalance</strong>.<br>3. <strong>Features:</strong> general + <strong>domain-specific</strong> signals (e.g. similarity-to-known-brand for impersonation).<br>4. <strong>Model:</strong> simple baseline (logistic) → stronger (gradient-boosted trees); note interpretability.<br>5. <strong>Evaluate:</strong> right metric for imbalance (<strong>PR-AUC, precision/recall</strong>), proper <strong>train/val/test split</strong>, watch <strong>leakage</strong>.<br>6. <strong>Deploy/Monitor:</strong> how it's used (auto-action vs human-review queue), threshold by cost asymmetry, monitor <strong>drift + adversarial adaptation</strong>.</p>",
     trap: "Lead with framing (don't jump to data/tools), and always close with deployment/monitoring." },
 
-  { cluster: "D2 · ML models", q: "Supervised vs. unsupervised learning?",
+  { cluster: "🤖 Modeling", q: "Supervised vs. unsupervised learning?",
     a: "<p><strong>Supervised</strong> = you have <strong>labeled</strong> examples (input → known output); the model learns the mapping. E.g. fake/real reviews, install counts.</p><p><strong>Unsupervised</strong> = <strong>no labels</strong>; the model finds structure itself — clustering (k-means), dimensionality reduction (PCA), anomaly detection.</p>",
     trap: "Random forests and gradient-boosted trees are <b>supervised</b>, not unsupervised — a common slip." },
 
-  { cluster: "D2 · ML models", q: "Classification vs. regression — how do you decide, and which metrics?",
+  { cluster: "🤖 Modeling", q: "Classification vs. regression — how do you decide, and which metrics?",
     a: "<p>Look at the <strong>target's type</strong>:</p><p>• <strong>Category</strong> → <strong>classification</strong> → precision, recall, F1, PR-AUC, ROC-AUC.<br>• <strong>Number</strong> → <strong>regression</strong> → RMSE, MAE, MAPE, R².</p>",
     trap: "Never cross the metrics — accuracy/precision/recall are classification only; RMSE/MAE/R² are regression only." },
 
-  { cluster: "D2 · ML models", q: "The regression metric set?",
+  { cluster: "🤖 Modeling", q: "The regression metric set?",
     a: "<p>• <strong>RMSE</strong> — penalizes large errors most (outlier-sensitive).<br>• <strong>MAE</strong> — average absolute error, robust to outliers.<br>• <strong>MAPE</strong> — percentage error, good when scale varies hugely.<br>• <strong>R²</strong> — share of variance explained.</p>",
     trap: "R² alone is insufficient — it shows variance explained but not error size. Pair an error metric (<b>RMSE/MAE</b>) with R²." },
 
-  { cluster: "D2 · ML models", q: "Problem shapes beyond classification/regression?",
+  { cluster: "🤖 Modeling", q: "Problem shapes beyond classification/regression?",
     a: "<p>• <strong>Ranking</strong> — order items by relevance (search, recommendations); metrics NDCG, MAP.<br>• <strong>Binary vs. multi-class</strong> classification — one-of-two vs. one-of-many.<br>• <strong>Anomaly detection</strong> — often unsupervised, for rare events when you lack labels.</p>",
     trap: "\"How would you rank search results\" is a <b>ranking</b> problem, not plain classification." },
 
-  { cluster: "D2 · ML models", q: "Basic / baseline models — name them, their learning type, and when to use?",
+  { cluster: "🤖 Modeling", q: "Basic / baseline models — name them, their learning type, and when to use?",
     a: "<p><strong>Supervised</strong> (need labels):</p><p>• <strong>Linear regression</strong> — regression; weighted sum of features.<br>• <strong>Logistic regression</strong> — classification; linear + sigmoid → probability.<br>• <strong>Decision tree</strong> — both; if/else rule splits; interpretable but overfits alone.<br>• <strong>kNN</strong> — both; predict from the k closest points; weak in high dimensions.<br>• <strong>Naive Bayes</strong> — classification; Bayes + feature-independence; fast, strong for text/spam.</p><p><strong>Unsupervised</strong> (no labels):</p><p>• <strong>k-means</strong> — clustering / segmentation.</p>",
     trap: "Call out the split explicitly: everything here is <b>supervised except k-means</b>. Start basic for interpretability and to set a baseline you must beat." },
 
-  { cluster: "D2 · ML models", q: "Advanced / high-performance models — name them, their learning type, and tradeoffs?",
+  { cluster: "🤖 Modeling", q: "Advanced / high-performance models — name them, their learning type, and tradeoffs?",
     a: "<p>All <strong>supervised</strong> (except where noted):</p><p>• <strong>Random forest</strong> — both; bagging (parallel trees, averaged); robust, cuts overfitting.<br>• <strong>Gradient-boosted trees</strong> (XGBoost, LightGBM) — both; boosting (sequential error-correction); usually <strong>best for tabular data</strong>.<br>• <strong>SVM</strong> — classification (also regression via SVR); max-margin boundary + kernels for non-linearity.<br>• <strong>Neural nets / deep learning</strong> — both; excel at <strong>unstructured data</strong> (images, text); need lots of data + compute, black-box. <span style=\"opacity:.8\">(Can also be unsupervised — e.g. autoencoders.)</span></p>",
     trap: "Advanced = more performance, but at the cost of <b>interpretability + tuning</b>. These are supervised by default; neural nets are the flexible exception." },
 
-  { cluster: "D2 · ML models", q: "Bagging vs. boosting?",
+  { cluster: "🤖 Modeling", q: "Bagging vs. boosting?",
     a: "<p><strong>Bagging</strong> (random forest) = train many models <em>in parallel</em> on random data subsets, then <strong>average</strong> them → cuts <strong>variance</strong> (overfitting).</p><p><strong>Boosting</strong> (gradient-boosted trees) = train models <em>sequentially</em>, each correcting the previous one's errors → cuts <strong>bias</strong>, higher accuracy but more overfitting-prone.</p>",
     trap: "Naming this distinction shows you understand <b>why ensembles beat a single tree</b> — a strong signal." },
 
-  { cluster: "D2 · ML models", q: "The model-choice heuristic (\"what model would you use?\")",
+  { cluster: "🤖 Modeling", q: "The model-choice heuristic (\"what model would you use?\")",
     a: "<p><strong>Tabular</strong> product problem → start with <strong>logistic/linear regression</strong> baseline → move to <strong>gradient-boosted trees</strong> (usually win on tabular).</p><p><strong>Unstructured</strong> data (images, text, huge volume) → <strong>neural networks</strong>.</p><p>Always weigh <strong>interpretability</strong> — in enforcement/T&S, an explainable model may beat a marginally more accurate black box.</p>",
     trap: "This one paragraph answers ~80% of \"what model would you use\" questions — with real justification, not just a name." },
 
-  { cluster: "D3 · Recommenders", q: "Recommender systems — the core idea and the #1 framing question?",
+  { cluster: "🤖 Modeling", q: "Recommender systems — the core idea and the #1 framing question?",
     a: "<p>A recommender predicts <strong>how relevant each item is to each user</strong>, then <strong>ranks items per user</strong>. It's a <strong>ranking</strong> problem, not classification/regression.</p><p>First clarify: <strong>personalized per-user</strong> or a <strong>global ranking</strong>? \"Recommended for you\" = personalized relevance.</p>",
     trap: "Don't default to <b>global popularity</b> (same top-10 for everyone) — that isn't personalization." },
 
-  { cluster: "D3 · Recommenders", q: "Content-based filtering?",
+  { cluster: "🤖 Modeling", q: "Content-based filtering?",
     a: "<p>Recommend items <strong>similar to what the user liked before</strong>, using <strong>item features</strong>. Build a profile from their past items, score new items by similarity.</p><p>E.g. user installs fitness apps → recommend other fitness apps.</p>",
     trap: "✅ Handles <b>new items</b> and needs no other users' data. ❌ Narrow / filter-bubble; needs good item features." },
 
-  { cluster: "D3 · Recommenders", q: "Collaborative filtering (and matrix factorization)?",
+  { cluster: "🤖 Modeling", q: "Collaborative filtering (and matrix factorization)?",
     a: "<p>Recommend from <strong>behavior patterns across users</strong> — \"users like you also installed X\" — ignoring item content.</p><p>• <strong>User-based</strong>: find similar users, recommend what they installed.<br>• <strong>Item-based</strong>: \"people who installed A also installed B.\"<br>• <strong>Matrix factorization</strong>: factor the sparse user × item matrix into <strong>user + item embeddings</strong>; affinity = dot product.</p>",
     trap: "✅ Captures taste without hand-built features. ❌ <b>Cold start</b> (useless for new users/items); needs lots of interaction data." },
 
-  { cluster: "D3 · Recommenders", q: "The cold-start problem + hybrid recommenders?",
+  { cluster: "🤖 Modeling", q: "The cold-start problem + hybrid recommenders?",
     a: "<p><strong>New user</strong> (no history) → fall back to <strong>popularity / content-based / onboarding signals</strong> (declared interests, device, geo).<br><strong>New item</strong> (no installs) → <strong>content-based</strong> on its metadata until interactions accumulate.</p><p>Real systems are <strong>hybrid</strong> — CF for users with history + content-based to cover cold start.</p>",
     trap: "Always address cold start — it's <b>the</b> classic recommender weakness they probe." },
 
-  { cluster: "D3 · Recommenders", q: "The two-stage recommender architecture?",
+  { cluster: "🤖 Modeling", q: "The two-stage recommender architecture?",
     a: "<p>At scale you can't score millions of items per user in real time, so:</p><p>1. <strong>Candidate generation / retrieval</strong> — cheaply narrow millions → hundreds (CF / <strong>two-tower</strong> embedding models).<br>2. <strong>Ranking</strong> — an expensive, feature-rich model (learning-to-rank / GBM / deep) precisely orders those hundreds.</p>",
     trap: "Name-dropping <b>retrieval → ranking</b> signals real production understanding." },
 
-  { cluster: "D3 · Recommenders", q: "What target should a recommender optimize?",
+  { cluster: "🤖 Modeling", q: "What target should a recommender optimize?",
     a: "<p>• <strong>Click/tap</strong> — easy signal, but clickbait-prone.<br>• <strong>Install</strong> — closer to value, but install ≠ satisfaction (they uninstall).<br>• <strong>Long-term engagement / retention</strong> — best value proxy, but delayed and sparse.</p>",
     trap: "Strong answer: optimize a <b>durable metric like retained installs</b>, not just clicks, to avoid recommending clickbait." },
 
-  { cluster: "D3 · Recommenders", q: "How do you evaluate a recommender?",
+  { cluster: "🤖 Modeling", q: "How do you evaluate a recommender?",
     a: "<p><strong>Offline</strong> (historical data): ranking metrics — <strong>Precision@k, Recall@k, NDCG, MAP</strong>. <em>Not accuracy or RMSE — ranking is its own problem type.</em></p><p><strong>Online</strong> (the real test): <strong>A/B</strong> on installs / engagement / retention, with quality guardrails.</p><p><strong>Beyond accuracy:</strong> diversity, novelty, serendipity — pure relevance creates filter bubbles.</p>",
     trap: "Ranking metrics offline + online A/B — and watch <b>diversity/quality</b>, not just relevance." },
 
-  { cluster: "D4 · Modeling rigor", q: "Cross-validation vs. holdout vs. walk-forward — how do you choose?",
+  { cluster: "🤖 Modeling", q: "Cross-validation vs. holdout vs. walk-forward — how do you choose?",
     a: "<p><strong>First ask: is the data temporal?</strong></p><p><strong>Non-temporal / IID:</strong> <strong>k-fold CV</strong> for limited data (stable estimate + tuning); <strong>holdout</strong> for large data (cheap).</p><p><strong>Temporal (fraud!):</strong> <strong>walk-forward</strong> — train on past → validate on next period → roll forward; or a time-based holdout.</p>",
     trap: "Never random k-fold on time-ordered data — it trains on the <b>future to predict the past</b> (lookahead leakage) → a great score that collapses in production." },
 
-  { cluster: "D4 · Modeling rigor", q: "The five data-leakage traps?",
+  { cluster: "🤖 Modeling", q: "The five data-leakage traps?",
     a: "<p>• <strong>Target/feature leakage</strong> — a feature encodes the outcome (populated post-event).<br>• <strong>Temporal</strong> — future info leaks into the past (random split on time data).<br>• <strong>Preprocessing</strong> — fitting a scaler/encoder on the full data (fit on <strong>train only</strong>).<br>• <strong>Group</strong> — same user in train &amp; test (use group CV).<br>• <strong>Tuning on the test set</strong> (use a validation set / nested CV).</p>",
     trap: "Leakage shows up as <b>suspiciously high</b> performance that <b>vanishes under a proper split</b>." },
 
-  { cluster: "D4 · Modeling rigor", q: "Lift looks too good — signal, leakage, or label issue? How to diagnose?",
+  { cluster: "🤖 Modeling", q: "Lift looks too good — signal, leakage, or label issue? How to diagnose?",
     a: "<p>1. <strong>Inspect feature importance + timing</strong> — is a top feature actually available <em>before</em> the outcome?<br>2. <strong>Re-validate leakage-proof</strong> — temporal + grouped split; if lift vanishes → leakage.<br>3. <strong>Ablate</strong> the suspect feature — collapse = it carried leaked info.<br>4. <strong>Audit labels</strong> — does the label reuse a feature? noisy/mislabeled?<br>5. <strong>Confirm</strong> on out-of-time / prospective / online data.</p>",
     trap: "Don't reach for a formula (bias-variance doesn't apply here) — <b>investigate feature timing and re-validate cleanly</b>." },
 
-  { cluster: "D4 · Modeling rigor", q: "Is a problem prediction, optimization, or causal inference?",
+  { cluster: "🤖 Modeling", q: "Is a problem prediction, optimization, or causal inference?",
     a: "<p><strong>Prediction</strong> — <em>what will happen?</em> Forecast an outcome (which transactions are fraud).<br><strong>Causal</strong> — <em>what's the effect if we intervene?</em> (does the rule reduce fraud — an A/B test <em>is</em> causal inference).<br><strong>Optimization</strong> — <em>what's the best action?</em> Maximize an objective under constraints (optimal fraud threshold, budget allocation).</p>",
     trap: "Optimization = choosing the best <b>decision/action</b>, NOT making a model more complex. They chain: predict → estimate causal effect → optimize the policy." },
 
-  { cluster: "P1 · Applied practice", q: "Gmail: a PM wants to understand the types of users. How would you plan & execute the analysis?",
+  { cluster: "🔍 Applied analysis", q: "Gmail: a PM wants to understand the types of users. How would you plan & execute the analysis?",
     a: "<p><strong>Structure — Segmentation:</strong> clarify goal → features → cluster → profile → recommend.</p><p><strong>Frame:</strong> clarify the goal (marketing? product? retention?) — it's a <strong>segmentation/clustering</strong> problem.</p><p><strong>Features:</strong> behavioral (volume, frequency, features used — search/labels/filters), account (personal vs work, tenure, platform), engagement (DAU/WAU).</p><p><strong>Method:</strong> standardize → cluster (k-means/hierarchical) → choose k (elbow/silhouette) → <strong>profile into named personas</strong>.</p><p><strong>Land it:</strong> translate clusters into actionable personas + how each informs the PM's decision.</p>",
     trap: "The value is <b>interpretable, actionable personas</b> — not the algorithm." },
 
-  { cluster: "P1 · Applied practice", q: "YouTube: watch time in one country dropped 10% MoM. How would you investigate?",
+  { cluster: "🔍 Applied analysis", q: "YouTube: watch time in one country dropped 10% MoM. How would you investigate?",
     a: "<p><strong>Structure — C·H·I·R:</strong> Clarify → Hypothesize → Investigate → Recommend.</p><p><strong>Clarify</strong> metric/scope, then C-H-I-R.</p><p><strong>Buckets:</strong> real vs <strong>artifact</strong> (logging/definition change) · internal (algo/product change) vs external (seasonality, competitor, event) · then <strong>segment</strong> (device/geo/new-vs-returning/content type).</p><p><strong>Num/denom:</strong> fewer viewers, or less time each?</p><p><strong>Prioritize</strong> cheapest checks first, segment to localize, then <strong>recommend</strong>.</p>",
     trap: "Lead with real-vs-artifact and <b>segment to localize</b> where the drop concentrates." },
 
-  { cluster: "P1 · Applied practice", q: "Maps: size the opportunity for a new feature flagging EV charging stations.",
+  { cluster: "🔍 Applied analysis", q: "Maps: size the opportunity for a new feature flagging EV charging stations.",
     a: "<p><strong>Structure — Sizing:</strong> clarify → top-down + bottom-up estimate → state assumptions → recommend.</p><p><strong>Clarify</strong> success (adoption? strategic bet?).</p><p><strong>Size two ways:</strong> top-down (# EV drivers in market × trips needing charging × addressable share) and bottom-up (Maps users who are EV drivers × usage frequency).</p><p><strong>Demand signal:</strong> existing charging-related searches, EV-adoption trend.</p><p><strong>State assumptions</strong> explicitly, give a range, and note the biggest sensitivity.</p>",
     trap: "Opportunity sizing = a structured estimate with <b>stated assumptions</b>, not a precise number." },
 
-  { cluster: "P1 · Applied practice", q: "Search: the share of zero-click searches rose sharply. Good or bad — and how would you investigate?",
+  { cluster: "🔍 Applied analysis", q: "Search: the share of zero-click searches rose sharply. Good or bad — and how would you investigate?",
     a: "<p><strong>Structure — C·H·I·R:</strong> clarify the definition → weigh both readings → investigate → recommend.</p><p><strong>Clarify:</strong> zero-click = answered on the results page (featured snippet) OR the user gave up?</p><p><strong>Two readings:</strong> <em>good</em> (instant answer = task success, less friction) vs <em>bad</em> (not finding it, or losing ad/site clicks).</p><p><strong>Investigate:</strong> segment by query type (informational answered directly = good; complex/navigational = maybe bad), check <strong>reformulation & pogo-sticking</strong>, satisfaction, and the ad-revenue impact.</p><p>Recommend based on what's driving it.</p>",
     trap: "Don't assume — the <b>same metric can be success or failure</b> depending on query intent." },
 
-  { cluster: "P1 · Applied practice", q: "Play Store: uninstall rate jumped for one app category. How would you find the root cause?",
+  { cluster: "🔍 Applied analysis", q: "Play Store: uninstall rate jumped for one app category. How would you find the root cause?",
     a: "<p><strong>Structure — C·H·I·R:</strong> Clarify → Hypothesize → Investigate (localize) → Recommend.</p><p><strong>Clarify</strong> category/timeframe, then C-H-I-R.</p><p><strong>Buckets:</strong> real vs artifact · internal (an app update, a popular low-quality new app, policy change) vs external.</p><p><strong>Segment:</strong> is it concentrated in a <strong>few apps</strong> or category-wide? by geo/device/new-vs-existing installs.</p><p>Investigate; recommend (quality/enforcement action if a few bad actors).</p>",
     trap: "Localize first — a few bad apps vs. a category-wide shift lead to very different actions." },
 
-  { cluster: "P1 · Applied practice", q: "Google Pay: how would you segment users to inform a growth strategy?",
+  { cluster: "🔍 Applied analysis", q: "Google Pay: how would you segment users to inform a growth strategy?",
     a: "<p><strong>Structure — Segmentation:</strong> clarify goal → dimensions → tier/cluster → profile → lever per segment.</p><p><strong>Frame</strong> the growth goal, then segment.</p><p><strong>Dimensions:</strong> usage frequency, transaction types (P2P / bills / merchant), value, tenure, linked methods, active vs dormant.</p><p><strong>Method:</strong> behavioral clustering or rule-based tiers (power / casual / dormant); profile each.</p><p><strong>Land it:</strong> a growth lever per segment — activate dormant, deepen casual, retain power users.</p>",
     trap: "Segmentation is only useful if each segment maps to a <b>different action</b>." },
 
-  { cluster: "P1 · Applied practice", q: "Google Photos: engagement with 'Memories' is declining. Diagnose.",
+  { cluster: "🔍 Applied analysis", q: "Google Photos: engagement with 'Memories' is declining. Diagnose.",
     a: "<p><strong>Structure — C·H·I·R:</strong> Clarify → Hypothesize → Investigate → Recommend.</p><p><strong>Clarify</strong> the metric, then C-H-I-R.</p><p><strong>Buckets:</strong> real vs artifact · internal (algo surfacing worse memories, UI/notification change) vs external (seasonality) · segment (cohort/platform).</p><p><strong>Quality angle:</strong> are surfaced memories relevant/positive? Did notifications change? Split by tenure and feature version.</p><p>Recommend.</p>",
     trap: "For an ML-surfaced feature, check whether <b>content quality/relevance</b> dropped, not just volume." },
 
-  { cluster: "P1 · Applied practice", q: "Chrome: a change speeds up page loads but increases memory usage. How would you analyze whether to ship?",
+  { cluster: "🔍 Applied analysis", q: "Chrome: a change speeds up page loads but increases memory usage. How would you analyze whether to ship?",
     a: "<p><strong>Structure — Decision:</strong> frame (what must be true) → quantify both sides → segment → guardrail → test/recommend.</p><p><strong>Frame as a decision:</strong> what would have to be true to ship? Quantify both sides.</p><p><strong>Benefit:</strong> page-load improvement — magnitude, and who benefits.</p><p><strong>Cost:</strong> memory increase → <strong>crash risk on low-RAM devices</strong> (emerging markets especially).</p><p><strong>Segment by device tier</strong>; guardrail = crash rate / low-end experience. Likely <strong>A/B test</strong> and possibly gate by device capability.</p>",
     trap: "The averaged win can hide harm to <b>low-end devices</b> — always segment by device tier." },
 
-  { cluster: "P1 · Applied practice", q: "Android: users drop off between searching for an app and installing it. How would you analyze the funnel?",
+  { cluster: "🔍 Applied analysis", q: "Android: users drop off between searching for an app and installing it. How would you analyze the funnel?",
     a: "<p><strong>Structure — Funnel:</strong> map steps → find the biggest drop → hypothesize per step → segment → fix.</p><p><strong>Map the funnel:</strong> search → results → app-page view → install → open. Find the <strong>biggest drop step</strong> first.</p><p><strong>Per step hypotheses:</strong> search relevance, listing quality (screenshots/reviews/rating), install friction (size, permissions, price), connectivity.</p><p><strong>Segment</strong> by geo/device/query; fix the leakiest step.</p>",
     trap: "Find the <b>step with the biggest drop</b> before hypothesizing causes." },
 
-  { cluster: "P1 · Applied practice", q: "Ads: advertiser complaints about low ROI spiked last week. How would you investigate?",
+  { cluster: "🔍 Applied analysis", q: "Ads: advertiser complaints about low ROI spiked last week. How would you investigate?",
     a: "<p><strong>Structure — C·H·I·R:</strong> Clarify → Hypothesize → Investigate → Recommend.</p><p><strong>Clarify:</strong> complaints, or an actual ROI drop? Then C-H-I-R.</p><p><strong>Buckets:</strong> real vs artifact (attribution/tracking break — e.g. a privacy change) · internal (auction/ranking/bidding change) vs external (seasonality, competition).</p><p><strong>Segment:</strong> which advertisers (concentrated?), verticals, campaign types.</p><p>Investigate; recommend.</p>",
     trap: "A <b>conversion-tracking / attribution break</b> can look like an ROI drop without any real change." },
 
-  { cluster: "P2 · Experiment practice", q: "Maps: design an A/B test for a new 'eco-friendly route' suggestion.",
+  { cluster: "🧪 Experimentation", q: "Maps: design an A/B test for a new 'eco-friendly route' suggestion.",
     a: "<p><strong>Structure — A/B design:</strong> goal/hypothesis → metric + guardrails → randomize (unit, power, duration) → analyze &amp; decide.</p><p><strong>Goal:</strong> reduce fuel/emissions while users still arrive efficiently.</p><p><strong>Design:</strong> user-level randomization. <strong>Primary metric:</strong> eco-route selection / fuel saved. <strong>Guardrails:</strong> time-to-destination (no big ETA penalty), navigation success, satisfaction.</p><p>α=.05, 80% power, set MDE; run ≥1–2 weeks; watch novelty. Recommend on lift + guardrails.</p>",
     trap: "Adoption ≠ impact — measure <b>actual emissions/fuel saved</b>, guardrail the ETA penalty." },
 
-  { cluster: "P2 · Experiment practice", q: "YouTube: design an experiment for a new home-feed recommendation algorithm. Watch for network effects.",
+  { cluster: "🧪 Experimentation", q: "YouTube: design an experiment for a new home-feed recommendation algorithm. Watch for network effects.",
     a: "<p><strong>Structure — A/B design:</strong> goal/hypothesis → metric + guardrails → randomize (unit, power, duration) → analyze &amp; decide.</p><p><strong>Metric:</strong> satisfaction-adjusted watch time. <strong>Guardrails:</strong> regretted watches, diversity, creator health.</p><p><strong>Network effect:</strong> the content ecosystem is shared — treatment changes what gets promoted, spilling to control. Consider <strong>cluster randomization</strong> or careful design.</p><p>Watch novelty; judge on <strong>steady-state</strong>. Ship on durable lift + guardrails.</p>",
     trap: "Shared-ecosystem recommenders can violate SUTVA → user-level randomization may be contaminated." },
 
-  { cluster: "P2 · Experiment practice", q: "Search: test a new results layout. Metric, and how do you handle novelty/primacy?",
+  { cluster: "🧪 Experimentation", q: "Search: test a new results layout. Metric, and how do you handle novelty/primacy?",
     a: "<p><strong>Structure — A/B design:</strong> goal/hypothesis → metric + guardrails → randomize (unit, power, duration) → analyze &amp; decide.</p><p><strong>Metric:</strong> search success (long clicks, task completion). <strong>Guardrails:</strong> latency, pogo-sticking, ad revenue.</p><p><strong>Novelty/primacy:</strong> users are habituated to the old layout → expect an early dip or spike. Evaluate <strong>steady-state</strong> after it decays, split <strong>new vs existing</strong> users, run longer.</p><p>Recommend on the converged effect.</p>",
     trap: "Existing-user habituation (primacy) distorts early reads — trust the steady-state." },
 
-  { cluster: "P2 · Experiment practice", q: "Gmail: test a new Smart Compose suggestion. Design + guardrails.",
+  { cluster: "🧪 Experimentation", q: "Gmail: test a new Smart Compose suggestion. Design + guardrails.",
     a: "<p><strong>Structure — A/B design:</strong> goal/hypothesis → metric + guardrails → randomize (unit, power, duration) → analyze &amp; decide.</p><p><strong>Goal:</strong> faster email writing. <strong>Metric:</strong> suggestion acceptance rate, time-to-send.</p><p><strong>Guardrails:</strong> irrelevant/wrong suggestions, annoyance/opt-out rate, latency, privacy.</p><p>User-level randomization; watch novelty; recommend on acceptance + no guardrail regression.</p>",
     trap: "For an assistive feature, guardrail <b>annoyance/opt-out</b> — acceptance alone can hide friction." },
 
-  { cluster: "P2 · Experiment practice", q: "Play Store: a fraud rule was rolled out to ALL users at once, no control. Estimate the causal impact.",
+  { cluster: "🧪 Experimentation", q: "Play Store: a fraud rule was rolled out to ALL users at once, no control. Estimate the causal impact.",
     a: "<p><strong>Structure — Causal (no clean A/B):</strong> no randomization → build a counterfactual → check guardrails.</p><p><strong>No randomization → counterfactual is TIME:</strong> interrupted time series / <strong>CausalImpact</strong> using the pre-period trend + an unaffected control series (a geo not rolled out, or an unaffected segment).</p><p><strong>Guardrails:</strong> <strong>displacement</strong> (fraud moves elsewhere) and <strong>false positives</strong> (legit apps/devs blocked) — measure <strong>net system impact</strong>, not just fraud in the target flow.</p>",
     trap: "All-treated-at-once → counterfactual is TIME (ITS/CausalImpact), not matched users." },
 
-  { cluster: "P2 · Experiment practice", q: "Google Pay: design an experiment for a referral program (send $5, get $5). Watch for viral/network effects.",
+  { cluster: "🧪 Experimentation", q: "Google Pay: design an experiment for a referral program (send $5, get $5). Watch for viral/network effects.",
     a: "<p><strong>Structure — A/B design:</strong> goal/hypothesis → metric + guardrails → randomize (unit, power, duration) → analyze &amp; decide.</p><p><strong>Goal:</strong> acquisition/activation. <strong>Metric:</strong> new activated users + their downstream retention/value.</p><p><strong>Network/viral:</strong> referrer & referee are linked → user-level randomization is contaminated. Use <strong>cluster / referrer-level</strong> randomization or a geo holdout.</p><p><strong>Guardrails:</strong> incentive gaming/fraud, CAC, and <strong>retention of incentive-driven</strong> users (organic vs incentivized).</p>",
     trap: "Referral = inherently networked → randomize at the referrer/cluster level, and check if usage survives after the incentive." },
 
-  { cluster: "P2 · Experiment practice", q: "Chrome: a privacy feature ships by browser version (can't cleanly randomize users). How do you measure impact?",
+  { cluster: "🧪 Experimentation", q: "Chrome: a privacy feature ships by browser version (can't cleanly randomize users). How do you measure impact?",
     a: "<p><strong>Structure — Causal (no clean A/B):</strong> no randomization → build a counterfactual → check guardrails.</p><p><strong>Can't user-randomize.</strong> Options: (1) if possible, a <strong>randomized % rollout</strong>; (2) else quasi-experimental — <strong>DiD</strong> across versions/staggered rollout, or compare updaters vs non-updaters with <strong>PSM</strong> (careful: updaters self-select → selection bias); (3) <strong>interrupted time series</strong> around the release.</p><p>State the key assumption (parallel trends / no confounding) and guardrails.</p>",
     trap: "Updaters self-select → naive updater-vs-non comparison is confounded; prefer staggered DiD or a % rollout." },
 
-  { cluster: "P2 · Experiment practice", q: "Ads: test increasing ad load in Search. Guardrails, and short-term revenue vs long-term retention?",
+  { cluster: "🧪 Experimentation", q: "Ads: test increasing ad load in Search. Guardrails, and short-term revenue vs long-term retention?",
     a: "<p><strong>Structure — A/B design (long-term):</strong> goal → metric + guardrails → randomize → <strong>long-term holdback</strong> → decide.</p><p><strong>Short-term:</strong> revenue likely ↑ (more ads). <strong>Long-term risk:</strong> worse UX → less search usage, lower retention.</p><p><strong>Metric:</strong> revenue; <strong>guardrails:</strong> search frequency, engagement/retention, satisfaction.</p><p><strong>Key:</strong> the harm is <strong>delayed</strong> → use a <strong>long-term holdback</strong> group to measure the retention effect, don't ship on the short-term revenue bump alone.</p>",
     trap: "Classic short-term-metric vs long-term-value trap → measure with a <b>long-term holdback</b>." },
 
-  { cluster: "P2 · Experiment practice", q: "YouTube: an A/B test shows a big week-1 lift that fades. What's happening — and would you ship?",
+  { cluster: "🧪 Experimentation", q: "YouTube: an A/B test shows a big week-1 lift that fades. What's happening — and would you ship?",
     a: "<p><strong>Structure — Diagnose then decide:</strong> name the causes → evaluate steady-state → decide on the converged effect.</p><p><strong>Two explanations:</strong> behavioral <strong>novelty/primacy</strong> (wears off), or statistical <strong>early-noise / regression to the mean</strong> (small early n).</p><p><strong>Diagnose:</strong> split new vs returning users; evaluate <strong>steady-state</strong> after novelty decays + a full business cycle.</p><p><strong>Decision:</strong> judge on the <strong>converged</strong> effect — likely no-ship if it flattens to neutral (unless it's a QoL improvement with no regression).</p>",
     trap: "Name both the behavioral (novelty) and statistical (regression) causes; decide on steady-state." },
 
-  { cluster: "P2 · Experiment practice", q: "Play Store: you tested 15 metrics and 2 came back significant. How do you interpret that?",
+  { cluster: "🧪 Experimentation", q: "Play Store: you tested 15 metrics and 2 came back significant. How do you interpret that?",
     a: "<p><strong>Structure — Multiple-testing check:</strong> expected false positives → primary metric? → correct (Bonferroni/FDR) → judge effect size.</p><p><strong>Multiple comparisons:</strong> at α=.05 you expect ~1 false positive per 20 tests → with 15 tests, 1–2 significant results can easily be <strong>chance</strong>.</p><p><strong>Ask:</strong> was there a <strong>pre-registered primary metric</strong>? Are the 2 significant ones the primary, or random secondaries?</p><p><strong>Fix:</strong> apply a correction (<strong>Bonferroni / FDR</strong>), check effect size + consistency. Don't ship on cherry-picked secondaries.</p>",
     trap: "1–2 'significant' out of 15 is roughly what pure noise produces — correct for multiple testing." },
 ];
@@ -802,11 +766,9 @@ function showView(v) {
   currentView = v;
   document.getElementById("cheatsheetView").style.display = v === "cheatsheet" ? "block" : "none";
   document.getElementById("productsView").style.display = v === "products" ? "block" : "none";
-  document.getElementById("practiceView").style.display = v === "practice" ? "block" : "none";
   document.getElementById("flashcardView").style.display = v === "flashcards" ? "block" : "none";
   document.getElementById("tabCheat").classList.toggle("active", v === "cheatsheet");
   document.getElementById("tabProducts").classList.toggle("active", v === "products");
-  document.getElementById("tabPractice").classList.toggle("active", v === "practice");
   document.getElementById("tabCards").classList.toggle("active", v === "flashcards");
 }
 
@@ -904,7 +866,6 @@ document.addEventListener("keydown", (e) => {
 
 document.getElementById("tabCheat").onclick = () => showView("cheatsheet");
 document.getElementById("tabProducts").onclick = () => showView("products");
-document.getElementById("tabPractice").onclick = () => showView("practice");
 document.getElementById("tabCards").onclick = () => showView("flashcards");
 
 render();
