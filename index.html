@@ -456,15 +456,15 @@ const CARDS = [
     trap: "Pick the sidedness <b>before</b> seeing data. One-sided gives easier significance and can look like p-hacking → default to two-sided unless there's a strong a priori reason." },
 
   { cluster: "📊 Statistics", q: "The general test-statistic formula + the standard errors?",
-    a: "<p>Every z/t statistic has the same shape:</p><p><code>statistic = (estimate − null value) / standard error</code></p><p>Standard errors (SE):</p><p>• Mean: <code>SE = s / √n</code><br>• Difference of two means (independent): <code>SE = √(s²_A/n_A + s²_B/n_B)</code><br>• Proportion: <code>SE = √(p(1−p)/n)</code><br>• Difference of two proportions (pooled): <code>SE = √(p̂(1−p̂)(1/n_A + 1/n_B))</code>, with pooled <code>p̂ = (x_A + x_B)/(n_A + n_B)</code></p><p>Then compare the statistic to a critical value, or convert it to a p-value.</p>",
+    a: "<p>Every z/t statistic has the same shape:</p><p>\\( \\text{statistic} = \\dfrac{\\text{estimate} - \\text{null value}}{\\text{standard error}} \\)</p><p>Standard errors (SE):</p><p>• Mean: \\( SE = \\dfrac{s}{\\sqrt{n}} \\)<br>• Difference of two means (independent): \\( SE = \\sqrt{\\dfrac{s^2_A}{n_A} + \\dfrac{s^2_B}{n_B}} \\)<br>• Proportion: \\( SE = \\sqrt{\\dfrac{p(1-p)}{n}} \\)<br>• Difference of two proportions (pooled): \\( SE = \\sqrt{\\hat p(1-\\hat p)\\left(\\tfrac{1}{n_A}+\\tfrac{1}{n_B}\\right)} \\), with pooled \\( \\hat p = \\dfrac{x_A + x_B}{n_A + n_B} \\)</p><p>Then compare the statistic to a critical value, or convert it to a p-value.</p>",
     trap: "The numerator is always <b>effect vs. the null</b>; the denominator is the <b>SE</b> (noise). Big signal ÷ small noise → big statistic → significant." },
 
   { cluster: "📊 Statistics", q: "Two-proportion z-test — the A/B conversion workhorse formula?",
-    a: "<p>For comparing conversion rates between control (A) and treatment (B):</p><p><code>z = (p̂_B − p̂_A) / √( p̂(1−p̂)(1/n_A + 1/n_B) )</code></p><p>where <code>p̂ = (x_A + x_B)/(n_A + n_B)</code> is the <strong>pooled</strong> conversion rate — used because under H₀ both groups share the same true rate.</p><p>Reject H₀ (two-sided, α = 0.05) if <code>|z| &gt; 1.96</code>.</p>",
+    a: "<p>For comparing conversion rates between control (A) and treatment (B):</p><p>\\( z = \\dfrac{\\hat p_B - \\hat p_A}{\\sqrt{\\hat p(1-\\hat p)\\left(\\tfrac{1}{n_A}+\\tfrac{1}{n_B}\\right)}} \\)</p><p>where \\( \\hat p = \\dfrac{x_A + x_B}{n_A + n_B} \\) is the <strong>pooled</strong> conversion rate — used because under H₀ both groups share the same true rate.</p><p>Reject H₀ (two-sided, α = 0.05) if <code>|z| &gt; 1.96</code>.</p>",
     trap: null },
 
   { cluster: "📊 Statistics", q: "Worked example: two-proportion z-test (do the math out loud)",
-    a: "<p>Control: 200 / 2,000 convert (10.0%). Treatment: 240 / 2,000 (12.0%).</p><p>1. Pooled <code>p̂ = (200+240)/(2000+2000) = 0.11</code><br>2. <code>SE = √(0.11 × 0.89 × (1/2000 + 1/2000)) = √0.0000979 ≈ 0.0099</code><br>3. <code>z = (0.12 − 0.10) / 0.0099 ≈ 2.02</code><br>4. <code>|z| = 2.02 &gt; 1.96</code> → <strong>significant</strong> at 5% (two-sided). p ≈ 0.043.</p>",
+    a: "<p>Control: 200 / 2,000 convert (10.0%). Treatment: 240 / 2,000 (12.0%).</p><p>1. Pooled \\( \\hat p = \\dfrac{200+240}{2000+2000} = 0.11 \\)<br>2. \\( SE = \\sqrt{0.11\\times 0.89\\times\\left(\\tfrac{1}{2000}+\\tfrac{1}{2000}\\right)} \\approx 0.0099 \\)<br>3. \\( z = \\dfrac{0.12 - 0.10}{0.0099} \\approx 2.02 \\)<br>4. <code>|z| = 2.02 &gt; 1.96</code> → <strong>significant</strong> at 5% (two-sided). p ≈ 0.043.</p>",
     trap: "Practice saying this end-to-end: pooled rate → SE → z → compare to 1.96. Being able to actually compute it is a differentiator." },
 
   { cluster: "📊 Statistics", q: "Critical values & converting a statistic to a decision?",
@@ -472,7 +472,7 @@ const CARDS = [
     trap: "Memorize <b>1.96</b> (two-sided 95%) and <b>1.645</b> (one-sided 95%) cold — they come up constantly." },
 
   { cluster: "🎲 Probability", q: "State Bayes' theorem — then the natural-frequencies shortcut?",
-    a: "<p><strong>Bayes' theorem:</strong> <code>P(A | B) = P(B | A) · P(A) / P(B)</code> — it updates the probability of hypothesis A after seeing evidence B. Expanded denominator: <code>P(B) = P(B|A)·P(A) + P(B|¬A)·P(¬A)</code>.</p><p>For a diagnostic test: <code>P(sick | +) = [ P(+|sick)·P(sick) ] / [ P(+|sick)·P(sick) + P(+|healthy)·P(healthy) ]</code>.</p><p>In an interview, don't juggle the formula — <strong>imagine a concrete population and count.</strong></p><p>1. Pick a big round population (e.g. 1,000,000).<br>2. Apply the <strong>base rate</strong> → how many have the condition.<br>3. Apply the <strong>true-positive rate</strong> → sick who test positive.<br>4. Apply the <strong>false-positive rate</strong> → healthy who test positive.<br>5. <code>P(sick | +) = true positives ÷ all positives</code>.</p><p>Example: 1-in-10k disease, 99% accurate test → <code>99 / (99 + 9,999) ≈ 1%</code>.</p>",
+    a: "<p><strong>Bayes' theorem:</strong> \\( P(A \\mid B) = \\dfrac{P(B \\mid A)\\,P(A)}{P(B)} \\) — it updates the probability of hypothesis A after seeing evidence B. Expanded denominator: \\( P(B) = P(B|A)P(A) + P(B|\\neg A)P(\\neg A) \\).</p><p>For a diagnostic test: \\( P(\\text{sick}\\mid +) = \\dfrac{P(+|\\text{sick})P(\\text{sick})}{P(+|\\text{sick})P(\\text{sick}) + P(+|\\text{healthy})P(\\text{healthy})} \\).</p><p>In an interview, don't juggle the formula — <strong>imagine a concrete population and count.</strong></p><p>1. Pick a big round population (e.g. 1,000,000).<br>2. Apply the <strong>base rate</strong> → how many have the condition.<br>3. Apply the <strong>true-positive rate</strong> → sick who test positive.<br>4. Apply the <strong>false-positive rate</strong> → healthy who test positive.<br>5. \\( P(\\text{sick}\\mid +) = \\dfrac{\\text{true positives}}{\\text{all positives}} \\).</p><p>Example: 1-in-10k disease, 99% accurate test → <code>99 / (99 + 9,999) ≈ 1%</code>.</p>",
     trap: null },
 
   { cluster: "🎲 Probability", q: "Base-rate neglect?",
@@ -508,27 +508,27 @@ const CARDS = [
     trap: "Counts per interval → Poisson · successes in n trials → Binomial · waiting time → Exponential · single trial → Bernoulli." },
 
   { cluster: "🎲 Probability", q: "Poisson calc: fraud events average 3/day. P(exactly 5 tomorrow)?",
-    a: "<p>PMF: <code>P(X=k) = e^(−λ) · λ^k / k!</code></p><p>λ = 3, k = 5:<br><code>e^(−3) · 3^5 / 5! = 0.0498 · 243/120 ≈ 0.101</code></p><p>→ about <strong>10%</strong>.</p>",
+    a: "<p>PMF: \\( P(X=k) = \\dfrac{e^{-\\lambda}\\,\\lambda^k}{k!} \\)</p><p>λ = 3, k = 5:<br>\\( e^{-3}\\cdot\\dfrac{3^5}{5!} = 0.0498\\cdot\\dfrac{243}{120} \\approx 0.101 \\)</p><p>→ about <strong>10%</strong>.</p>",
     trap: "Mean = variance = λ = 3, so ~3/day is expected; 5 is above average → only ~10%." },
 
   { cluster: "🎲 Probability", q: "Binomial calc: 10 transactions, each 20% fraud chance. Expected frauds & P(exactly 2)?",
-    a: "<p>Expected = <code>np = 10 · 0.2 = 2</code>.</p><p>PMF: <code>P(X=k) = C(n,k) · p^k · (1−p)^(n−k)</code></p><p>P(X=2) = <code>C(10,2) · 0.2² · 0.8⁸ = 45 · 0.04 · 0.168 ≈ 0.30</code></p><p>→ about <strong>30%</strong>.</p>",
+    a: "<p>Expected = \\( np = 10\\cdot 0.2 = 2 \\).</p><p>PMF: \\( P(X=k) = \\binom{n}{k}\\,p^k\\,(1-p)^{n-k} \\)</p><p>P(X=2) = \\( \\binom{10}{2}\\cdot 0.2^2\\cdot 0.8^8 = 45\\cdot 0.04\\cdot 0.168 \\approx 0.30 \\)</p><p>→ about <strong>30%</strong>.</p>",
     trap: "<code>C(10,2) = 45</code>. The most likely count is the mean (2), and P(exactly 2) ≈ 30%." },
 
   { cluster: "🎲 Probability", q: "Exponential calc: fraud attempts arrive at rate λ=2/hour. Mean gap & P(next within 30 min)?",
-    a: "<p>Mean gap = <code>1/λ = 0.5 hr = 30 min</code>.</p><p>CDF: <code>P(T ≤ t) = 1 − e^(−λt)</code></p><p>t = 0.5 hr:<br><code>1 − e^(−2·0.5) = 1 − e^(−1) ≈ 0.63</code></p><p>→ about <strong>63%</strong>.</p>",
+    a: "<p>Mean gap = \\( 1/\\lambda = 0.5\\text{ hr} = 30\\text{ min} \\).</p><p>CDF: \\( P(T \\le t) = 1 - e^{-\\lambda t} \\)</p><p>t = 0.5 hr:<br>\\( 1 - e^{-2\\cdot 0.5} = 1 - e^{-1} \\approx 0.63 \\)</p><p>→ about <strong>63%</strong>.</p>",
     trap: "Exponential CDF <code>1 − e^(−λt)</code> gives 'probability an event happens by time t.'" },
 
   { cluster: "🎲 Probability", q: "Expected value of a discrete random variable — formula + example?",
-    a: "<p><code>E[X] = Σ x · P(X=x)</code> — the probability-weighted average.</p><p>Example: a bet pays +$10 w.p. 0.3 and −$5 w.p. 0.7:<br><code>E = 10(0.3) + (−5)(0.7) = 3 − 3.5 = −$0.50</code>.</p><p>Continuous version: <code>E[X] = ∫ x · f(x) dx</code>.</p>",
+    a: "<p>\\( E[X] = \\sum x\\cdot P(X=x) \\) — the probability-weighted average.</p><p>Example: a bet pays +\\$10 w.p. 0.3 and −\\$5 w.p. 0.7:<br>\\( E = 10(0.3) + (-5)(0.7) = 3 - 3.5 = -\\$0.50 \\).</p><p>Continuous: \\( E[X] = \\int x\\cdot f(x)\\,dx \\).</p>",
     trap: "E[X] is the long-run average — weight each outcome by its probability." },
 
   { cluster: "🎲 Probability", q: "Expected fraud loss per transaction — how do you compute it?",
-    a: "<p><code>E[loss] = P(fraud) × loss per fraud</code>.</p><p>Example: 0.2% fraud rate, $500 avg loss → <code>0.002 × 500 = $1.00</code> expected loss/transaction.</p><p>For a rule: <code>E[cost] = P(FP)·(FP cost) + P(FN)·(FN cost)</code> — this is what you optimize a threshold against.</p>",
+    a: "<p>\\( E[\\text{loss}] = P(\\text{fraud})\\times\\text{loss per fraud} \\).</p><p>Example: 0.2% fraud rate, \\$500 avg loss → \\( 0.002\\times 500 = \\$1.00 \\) expected loss/transaction.</p><p>For a rule: \\( E[\\text{cost}] = P(FP)\\cdot(\\text{FP cost}) + P(FN)\\cdot(\\text{FN cost}) \\) — what you optimize a threshold against.</p>",
     trap: "Expected value turns a risk into a per-unit cost you can optimize the threshold against." },
 
   { cluster: "🎲 Probability", q: "Geometric distribution — what, PMF, mean?",
-    a: "<p>Number of independent trials <strong>until the first success</strong>.</p><p>PMF: <code>P(X=k) = (1−p)^(k−1) · p</code>. Mean = <code>1/p</code>, variance = <code>(1−p)/p²</code>.</p><p>Example: transactions until the first fraud, if each is fraud w.p. p.</p>",
+    a: "<p>Number of independent trials <strong>until the first success</strong>.</p><p>PMF: \\( P(X=k) = (1-p)^{k-1}\\,p \\). Mean = \\( 1/p \\), variance = \\( \\dfrac{1-p}{p^2} \\).</p><p>Example: transactions until the first fraud, if each is fraud w.p. p.</p>",
     trap: null },
 
   { cluster: "🎲 Probability", q: "Memorize: PMF, mean, variance for the key distributions?",
@@ -536,31 +536,31 @@ const CARDS = [
     trap: "Poisson is the odd one: <b>mean = variance = λ</b>." },
 
   { cluster: "🎲 Probability", q: "Permutations vs combinations — formulas and when to use each?",
-    a: "<p><strong>Permutation (order matters):</strong> <code>nPr = n! / (n−r)!</code>.<br><strong>Combination (order doesn't):</strong> <code>nCr = n! / (r!·(n−r)!)</code>.</p><p>Ranked top-3 finishers → permutation. A committee of 3 → combination.</p><p>Link: <code>nCr = nPr / r!</code>.</p>",
+    a: "<p><strong>Permutation (order matters):</strong> \\( ^nP_r = \\dfrac{n!}{(n-r)!} \\).<br><strong>Combination (order doesn't):</strong> \\( ^nC_r = \\dfrac{n!}{r!\\,(n-r)!} \\).</p><p>Ranked top-3 finishers → permutation. A committee of 3 → combination.</p><p>Link: \\( ^nC_r = {^nP_r}/{r!} \\).</p>",
     trap: "Order matters → permutation; order doesn't → combination." },
 
   { cluster: "🎲 Probability", q: "The counting principle & factorial?",
-    a: "<p><strong>Multiplication rule:</strong> if step 1 has a ways and step 2 has b ways, together = <code>a × b</code>.</p><p><strong>Factorial:</strong> <code>n! = n·(n−1)·…·1</code> = ways to arrange n distinct items. (<code>0! = 1</code>.)</p>",
+    a: "<p><strong>Multiplication rule:</strong> if step 1 has a ways and step 2 has b ways, together = \\( a\\times b \\).</p><p><strong>Factorial:</strong> \\( n! = n\\cdot(n-1)\\cdots 1 \\) = ways to arrange n distinct items. (\\( 0! = 1 \\).)</p>",
     trap: null },
 
   { cluster: "🎲 Probability", q: "Compute: how many ways to choose 2 items from 10? (order doesn't matter)",
-    a: "<p><code>C(10,2) = 10! / (2!·8!) = (10·9)/2 = 45</code>.</p>",
+    a: "<p>\\( \\binom{10}{2} = \\dfrac{10!}{2!\\,8!} = \\dfrac{10\\cdot 9}{2} = 45 \\).</p>",
     trap: "For small nCr: multiply the top r terms, divide by r! — e.g. (10·9)/2 = 45." },
 
   { cluster: "🎲 Probability", q: "Compute: how many ways to arrange 3 of 10 in order?",
-    a: "<p><code>P(10,3) = 10! / 7! = 10·9·8 = 720</code>.</p>",
+    a: "<p>\\( ^{10}P_3 = \\dfrac{10!}{7!} = 10\\cdot 9\\cdot 8 = 720 \\).</p>",
     trap: "Permutation = just multiply the top r terms (no dividing by r!)." },
 
   { cluster: "🎲 Probability", q: "5 apps, 2 are fraud. You pick 2 at random — P(both are fraud)?",
-    a: "<p><code>P = C(2,2) / C(5,2) = 1 / 10 = 0.10</code>.</p><p>Favorable ÷ total outcomes, both counted with combinations (order doesn't matter).</p>",
+    a: "<p>\\( P = \\dfrac{\\binom{2}{2}}{\\binom{5}{2}} = \\dfrac{1}{10} = 0.10 \\).</p><p>Favorable ÷ total outcomes, both counted with combinations (order doesn't matter).</p>",
     trap: "Probability = favorable / total, both counted with combinations when order is irrelevant." },
 
   { cluster: "🧪 Experimentation", q: "What drives A/B sample size? (4 inputs + directions)",
-    a: "<p>(1) <strong>Variance</strong> ↑ → n ↑. (2) <strong>MDE</strong> (min detectable effect) ↓ → n ↑. (3) <strong>α</strong> ↓ (stricter) → n ↑ — <em>typically 0.05</em>. (4) <strong>Power (1−β)</strong> ↑ → n ↑ — <em>typically 80%, sometimes 90%</em>.</p><p>Key intuition: <code>n ∝ variance / MDE²</code> — <strong>MDE is squared</strong>, so halving the effect you want to detect <strong>quadruples</strong> the sample.</p><p>Duration: run ≥ one full business cycle (1–2 weeks) even if n is hit sooner (seasonality, novelty).</p>",
+    a: "<p>(1) <strong>Variance</strong> ↑ → n ↑. (2) <strong>MDE</strong> (min detectable effect) ↓ → n ↑. (3) <strong>α</strong> ↓ (stricter) → n ↑ — <em>typically 0.05</em>. (4) <strong>Power (1−β)</strong> ↑ → n ↑ — <em>typically 80%, sometimes 90%</em>.</p><p>Key intuition: \\( n \\propto \\dfrac{\\text{variance}}{MDE^2} \\) — <strong>MDE is squared</strong>, so halving the effect you want to detect <strong>quadruples</strong> the sample.</p><p>Duration: run ≥ one full business cycle (1–2 weeks) even if n is hit sooner (seasonality, novelty).</p>",
     trap: "Default conventions to state out loud: <b>α = 0.05</b> (5% false-positive rate) and <b>power = 80%</b> (β = 0.20, so 20% chance of missing a real effect). Name these unprompted when you design a test." },
 
   { cluster: "🧪 Experimentation", q: "Testing 10 metrics at α=0.05 — the problem and fix?",
-    a: "<p>Testing many metrics inflates the chance of a false positive. With 10 independent tests: <code>1 − 0.95^10 ≈ 40%</code> chance of ≥1 false positive.</p><p>Fix: designate <strong>one primary metric</strong> up front; for the rest apply a correction — <strong>Bonferroni</strong> (α ÷ #tests, conservative) or <strong>Benjamini-Hochberg / FDR</strong> (controls false discovery rate, less conservative).</p>",
+    a: "<p>Testing many metrics inflates the chance of a false positive. With 10 independent tests: \\( 1 - 0.95^{10} \\approx 40\\% \\) chance of ≥1 false positive.</p><p>Fix: designate <strong>one primary metric</strong> up front; for the rest apply a correction — <strong>Bonferroni</strong> (α ÷ #tests, conservative) or <strong>Benjamini-Hochberg / FDR</strong> (controls false discovery rate, less conservative).</p>",
     trap: null },
 
   { cluster: "🧪 Experimentation", q: "Novelty vs. primacy effect?",
@@ -580,7 +580,7 @@ const CARDS = [
     trap: null },
 
   { cluster: "🤖 Modeling", q: "Precision vs. recall?",
-    a: "<p><strong>Precision</strong> = of what we <em>flagged</em> positive, what fraction <em>actually is</em> → <code>TP / (TP + FP)</code> (\"how often we cry wolf\").<br><strong>Recall</strong> = of all <em>actual</em> positives, what fraction we <em>caught</em> → <code>TP / (TP + FN)</code> (\"how much we miss\").</p><p>Which to favor = depends on the <strong>cost of each error</strong> and the action taken.</p>",
+    a: "<p><strong>Precision</strong> = of what we <em>flagged</em> positive, what fraction <em>actually is</em> → \\( \\dfrac{TP}{TP+FP} \\) (\"how often we cry wolf\").<br><strong>Recall</strong> = of all <em>actual</em> positives, what fraction we <em>caught</em> → \\( \\dfrac{TP}{TP+FN} \\) (\"how much we miss\").</p><p>Which to favor = depends on the <strong>cost of each error</strong> and the action taken.</p>",
     trap: null },
 
   { cluster: "🤖 Modeling", q: "Why does accuracy fail on imbalanced data?",
@@ -833,6 +833,7 @@ function render() {
       </div>
     </div>`;
 
+  if (window.renderMathInElement) renderMathInElement(host, { delimiters: [{left:'\\(',right:'\\)',display:false},{left:'\\[',right:'\\]',display:true}], throwOnError: false });
   document.getElementById("counter").textContent = `Card ${pos + 1} / ${vis.length}`;
   document.getElementById("progressFill").style.width = `${((pos + 1) / vis.length) * 100}%`;
 
