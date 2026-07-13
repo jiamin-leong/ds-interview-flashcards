@@ -139,16 +139,72 @@
   </div>
 
   <div id="cheatsheetView">
-    <div class="cs-group">📊 Measurement</div>
+    <div class="cs-group">📊 Statistics</div>
     <div class="cs-section">
-      <h2>Metric types</h2>
+      <h2>Hypothesis testing</h2>
       <table class="cs">
-        <tr><td class="term">North-star</td><td>The single top metric capturing core <strong>user value</strong> + business health. <span class="hint">One per product; everything ladders up to it.</span></td></tr>
-        <tr><td class="term">Driver / input</td><td>More actionable levers that <strong>move the north star</strong>. <span class="hint">e.g. fewer checkout steps → conversion.</span></td></tr>
-        <tr><td class="term">Guardrail</td><td>Metrics that <strong>must not get worse</strong> while you optimize the target. <span class="hint">Latency, uninstalls, false-positive rate, retention.</span></td></tr>
-        <tr><td class="term">Feature</td><td>A specific feature's <strong>adoption + success</strong>, measured locally. <span class="hint">Carousel CTR, feature retention.</span></td></tr>
-        <tr><td class="term">Counter / vanity</td><td>Beware <strong>gameable / misleading</strong> metrics (raw volume, clicks). <span class="hint">Pair with a quality counter-metric; prefer durable value (retained installs).</span></td></tr>
+        <tr><td class="term">α (alpha)</td><td>Significance level — the pre-set <strong>false-positive</strong> rate: \( P(\text{reject } H_0 \mid H_0\ \text{true}) \) = Type I error. <span class="hint">Typically 0.05.</span></td></tr>
+        <tr><td class="term">β (beta)</td><td><strong>False-negative</strong> rate: \( P(\text{fail to reject } H_0 \mid H_0\ \text{false}) \) = Type II error. <strong>Power \( = 1 - \beta \).</strong> <span class="hint">Typically β = 0.20 → 80% power.</span></td></tr>
+        <tr><td class="term">z-test</td><td>Compares a mean when the population SD (σ) is <strong>known</strong> or n is large; normal distribution. \( Z = \dfrac{\bar X - \mu}{\sigma/\sqrt{n}} \)<br><span class="hint">X̄ = sample mean, μ = population mean, σ = population SD, n = sample size. Also the standard test for proportions.</span></td></tr>
+        <tr><td class="term">t-test</td><td>Compares a mean when the population SD is <strong>unknown</strong> (estimated by sample SD s) / small n; t-distribution (fatter tails). \( t = \dfrac{\bar X - \mu}{s/\sqrt{n}} \), df = \( n-1 \)<br><span class="hint">Same shape as z, but with sample SD s in place of σ.</span></td></tr>
+        <tr><td class="term">Bootstrap</td><td>Resample <strong>with replacement</strong> many times, recompute the statistic → empirical <strong>sampling distribution</strong> → CI / SE with <strong>no distributional assumption</strong>. <span class="hint">Estimates <strong>uncertainty</strong> of a median / ratio / skewed metric. (A Monte Carlo method.)</span></td></tr>
+        <tr><td class="term">Permutation test</td><td><strong>Shuffle the group labels</strong> many times to build the <strong>null distribution</strong> of the difference → p-value = fraction as extreme as observed. <span class="hint"><strong>Tests a difference</strong> non-parametrically; good for small samples / non-normal data.</span></td></tr>
       </table>
+    </div>
+
+    <div class="cs-group">🎲 Probability</div>
+    <div class="cs-section">
+      <h2>Bayes' theorem</h2>
+      <table class="cs">
+        <tr><td class="term">Bayes' theorem</td><td>\( P(A \mid B) = \dfrac{P(B \mid A)\,P(A)}{P(B)} \) — updates the probability of hypothesis A given evidence B. <span class="hint">Denominator: \( P(B) = P(B\mid A)P(A) + P(B\mid \neg A)P(\neg A) \). Interview trick: reason with <strong>natural frequencies</strong> (counts), not the formula.</span></td></tr>
+      </table>
+    </div>
+
+    <div class="cs-section">
+      <h2>Distributions</h2>
+      <table class="cs">
+        <tr><td class="term">Bernoulli</td><td>Single yes/no trial · param <strong>p</strong> · mean p, var p(1−p). <span class="hint">One transaction: fraud or not.</span></td></tr>
+        <tr><td class="term">Binomial</td><td># successes in n independent trials · params <strong>n, p</strong> · mean np, var np(1−p). <span class="hint"># conversions out of N visitors — every conversion-rate A/B test.</span></td></tr>
+        <tr><td class="term">Poisson</td><td># rare events in a fixed interval · param <strong>λ</strong> (rate) · <strong>mean = var = λ</strong>. <span class="hint">Fraud events per day. If over-dispersed (var &gt; mean) → Negative Binomial.</span></td></tr>
+        <tr><td class="term">Normal</td><td>Continuous, symmetric; sums/means via CLT · params <strong>μ, σ²</strong> · mean μ, var σ². <span class="hint">Sampling distribution of a mean.</span></td></tr>
+        <tr><td class="term">Exponential</td><td>Time <em>between</em> Poisson events · param <strong>λ</strong> · mean 1/λ, var 1/λ². <span class="hint">Time between fraud attempts.</span></td></tr>
+        <tr><td class="term">Uniform</td><td>All outcomes equally likely · params <strong>a, b</strong> · mean (a+b)/2. <span class="hint">Random assignment / baselines.</span></td></tr>
+      </table>
+      <div style="color:var(--muted);font-size:12.5px;margin-top:8px;">Links: Binomial = sum of n Bernoullis · Binomial ≈ Poisson when n large &amp; p small (λ = np) · Poisson counts ↔ Exponential inter-arrival times.</div>
+    </div>
+
+    <div class="cs-group">🧪 Experimentation</div>
+    <div class="cs-section">
+      <h2>Design &amp; variance reduction</h2>
+      <table class="cs">
+        <tr><td class="term">Factorial design</td><td>Test <strong>multiple factors at once</strong> (e.g. 2×2) to get <strong>main effects + interactions</strong>. <span class="hint">More efficient than one-at-a-time; the only way to catch interaction effects. Fractional = a subset of combos.</span></td></tr>
+        <tr><td class="term">Hierarchical model</td><td>Multilevel / mixed-effects for <strong>nested data</strong> (users in cities in countries); <strong>partial pooling</strong> shrinks small-group estimates toward the global mean. <span class="hint">Cluster-randomized / nested data → accounts for within-group correlation; stabilizes small segments.</span></td></tr>
+        <tr><td class="term">CUPED</td><td>Variance reduction using <strong>pre-experiment data</strong> as a covariate → tighter CIs / more power at the same n. <span class="hint">Regress out pre-period behavior before comparing groups.</span></td></tr>
+      </table>
+    </div>
+
+    <div class="cs-section">
+      <h2>Pitfalls &amp; biases</h2>
+      <table class="cs">
+        <tr><td class="term">Simpson's paradox</td><td>An aggregate trend <strong>reverses</strong> when you split by a subgroup whose <strong>mix differs</strong> across groups (a confounder). <span class="hint">Trust the segmented view — and in a randomized test it signals <strong>broken randomization</strong>.</span></td></tr>
+        <tr><td class="term">Self-selection bias</td><td>Respondents/participants differ systematically from non-participants; voluntary samples over-represent <strong>strong opinions</strong> (a.k.a. non-response / voluntary response bias). <span class="hint">Fix: representative random sampling, or use <strong>behavioral data</strong> that covers everyone.</span></td></tr>
+        <tr><td class="term">Interference (SUTVA violation)</td><td>One unit's treatment affects <strong>another unit's outcome</strong> (social, marketplace, messaging) → contaminates control and <strong>dilutes / underestimates</strong> the measured effect. <span class="hint">Fix: <strong>cluster / geo / graph randomization</strong> so effects stay within an arm.</span></td></tr>
+        <tr><td class="term">Sample Ratio Mismatch (SRM)</td><td>Observed split ≠ planned split (e.g. 52/48 vs 50/50) before any effect. Signals broken randomization or biased logging. <span class="hint"><strong>Invalidates the test</strong> — check with a chi-square test, then debug before trusting <em>any</em> result.</span></td></tr>
+      </table>
+    </div>
+
+    <div class="cs-section">
+      <h2>Causal inference (no A/B test)</h2>
+      <table class="cs">
+        <tr><td class="term">Diff-in-Diff (DiD)</td><td>Compare the <strong>before→after change</strong> in a treated group vs. a control group. Assumes <strong>parallel trends</strong>. <span class="hint">Feature launched in one region at a known date.</span></td></tr>
+        <tr><td class="term">Reg. discontinuity (RDD)</td><td>Treatment assigned by a <strong>threshold</strong>; compare units <strong>just above vs. just below</strong> the cutoff. <span class="hint">Eligibility cutoffs — strong local causal estimate.</span></td></tr>
+        <tr><td class="term">Instrumental var. (IV)</td><td>An <strong>instrument</strong> Z affects treatment X but touches outcome Y <strong>only through X</strong> → beats <strong>unobserved</strong> confounding. <span class="hint">Randomized encouragement as instrument for adoption. Valid instruments are rare.</span></td></tr>
+        <tr><td class="term">Propensity matching (PSM)</td><td>Model P(treated | covariates), match treated to similar untreated units. <span class="hint">Balances <strong>observed</strong> confounders only.</span></td></tr>
+        <tr><td class="term">Synthetic control</td><td>Weighted blend of controls that mimics the treated unit's <strong>pre-period trajectory</strong>, then compare after. <span class="hint">Single treated market, many candidate controls.</span></td></tr>
+        <tr><td class="term">Double ML</td><td>ML to control for <strong>high-dimensional confounders</strong> while keeping a valid treatment-effect estimate (orthogonalization + cross-fitting). <span class="hint">Many messy confounders.</span></td></tr>
+        <tr><td class="term">CausalImpact</td><td><strong>Google's</strong> Bayesian structural time-series — models the counterfactual from control series to estimate an intervention's effect. <span class="hint">Launch impact from time series, no randomization.</span></td></tr>
+      </table>
+      <div style="color:var(--muted);font-size:12.5px;margin-top:8px;">Selector: threshold → RDD · clean before/after + control → DiD · single market + time series → synthetic control / CausalImpact · valid instrument → IV · observed confounders → PSM / double ML.</div>
     </div>
 
     <div class="cs-group">🤖 Modeling</div>
@@ -193,71 +249,16 @@
       </table>
     </div>
 
-    <div class="cs-group">🧪 Experimentation</div>
+    <div class="cs-group">🔍 Applied analysis</div>
     <div class="cs-section">
-      <h2>Hypothesis testing</h2>
+      <h2>Measurement — metric types</h2>
       <table class="cs">
-        <tr><td class="term">α (alpha)</td><td>Significance level — the pre-set <strong>false-positive</strong> rate: \( P(\text{reject } H_0 \mid H_0\ \text{true}) \) = Type I error. <span class="hint">Typically 0.05.</span></td></tr>
-        <tr><td class="term">β (beta)</td><td><strong>False-negative</strong> rate: \( P(\text{fail to reject } H_0 \mid H_0\ \text{false}) \) = Type II error. <strong>Power \( = 1 - \beta \).</strong> <span class="hint">Typically β = 0.20 → 80% power.</span></td></tr>
-        <tr><td class="term">z-test</td><td>Compares a mean when the population SD (σ) is <strong>known</strong> or n is large; normal distribution. \( Z = \dfrac{\bar X - \mu}{\sigma/\sqrt{n}} \)<br><span class="hint">X̄ = sample mean, μ = population mean, σ = population SD, n = sample size. Also the standard test for proportions.</span></td></tr>
-        <tr><td class="term">t-test</td><td>Compares a mean when the population SD is <strong>unknown</strong> (estimated by sample SD s) / small n; t-distribution (fatter tails). \( t = \dfrac{\bar X - \mu}{s/\sqrt{n}} \), df = \( n-1 \)<br><span class="hint">Same shape as z, but with sample SD s in place of σ.</span></td></tr>
-        <tr><td class="term">Bootstrap</td><td>Resample <strong>with replacement</strong> many times, recompute the statistic → empirical <strong>sampling distribution</strong> → CI / SE with <strong>no distributional assumption</strong>. <span class="hint">Estimates <strong>uncertainty</strong> of a median / ratio / skewed metric. (A Monte Carlo method.)</span></td></tr>
-        <tr><td class="term">Permutation test</td><td><strong>Shuffle the group labels</strong> many times to build the <strong>null distribution</strong> of the difference → p-value = fraction as extreme as observed. <span class="hint"><strong>Tests a difference</strong> non-parametrically; good for small samples / non-normal data.</span></td></tr>
+        <tr><td class="term">North-star</td><td>The single top metric capturing core <strong>user value</strong> + business health. <span class="hint">One per product; everything ladders up to it.</span></td></tr>
+        <tr><td class="term">Driver / input</td><td>More actionable levers that <strong>move the north star</strong>. <span class="hint">e.g. fewer checkout steps → conversion.</span></td></tr>
+        <tr><td class="term">Guardrail</td><td>Metrics that <strong>must not get worse</strong> while you optimize the target. <span class="hint">Latency, uninstalls, false-positive rate, retention.</span></td></tr>
+        <tr><td class="term">Feature</td><td>A specific feature's <strong>adoption + success</strong>, measured locally. <span class="hint">Carousel CTR, feature retention.</span></td></tr>
+        <tr><td class="term">Counter / vanity</td><td>Beware <strong>gameable / misleading</strong> metrics (raw volume, clicks). <span class="hint">Pair with a quality counter-metric; prefer durable value (retained installs).</span></td></tr>
       </table>
-    </div>
-
-    <div class="cs-section">
-      <h2>Design &amp; variance reduction</h2>
-      <table class="cs">
-        <tr><td class="term">Factorial design</td><td>Test <strong>multiple factors at once</strong> (e.g. 2×2) to get <strong>main effects + interactions</strong>. <span class="hint">More efficient than one-at-a-time; the only way to catch interaction effects. Fractional = a subset of combos.</span></td></tr>
-        <tr><td class="term">Hierarchical model</td><td>Multilevel / mixed-effects for <strong>nested data</strong> (users in cities in countries); <strong>partial pooling</strong> shrinks small-group estimates toward the global mean. <span class="hint">Cluster-randomized / nested data → accounts for within-group correlation; stabilizes small segments.</span></td></tr>
-        <tr><td class="term">CUPED</td><td>Variance reduction using <strong>pre-experiment data</strong> as a covariate → tighter CIs / more power at the same n. <span class="hint">Regress out pre-period behavior before comparing groups.</span></td></tr>
-      </table>
-    </div>
-
-    <div class="cs-section">
-      <h2>Pitfalls &amp; biases</h2>
-      <table class="cs">
-        <tr><td class="term">Simpson's paradox</td><td>An aggregate trend <strong>reverses</strong> when you split by a subgroup whose <strong>mix differs</strong> across groups (a confounder). <span class="hint">Trust the segmented view — and in a randomized test it signals <strong>broken randomization</strong>.</span></td></tr>
-        <tr><td class="term">Self-selection bias</td><td>Respondents/participants differ systematically from non-participants; voluntary samples over-represent <strong>strong opinions</strong> (a.k.a. non-response / voluntary response bias). <span class="hint">Fix: representative random sampling, or use <strong>behavioral data</strong> that covers everyone.</span></td></tr>
-        <tr><td class="term">Interference (SUTVA violation)</td><td>One unit's treatment affects <strong>another unit's outcome</strong> (social, marketplace, messaging) → contaminates control and <strong>dilutes / underestimates</strong> the measured effect. <span class="hint">Fix: <strong>cluster / geo / graph randomization</strong> so effects stay within an arm.</span></td></tr>
-        <tr><td class="term">Sample Ratio Mismatch (SRM)</td><td>Observed split ≠ planned split (e.g. 52/48 vs 50/50) before any effect. Signals broken randomization or biased logging. <span class="hint"><strong>Invalidates the test</strong> — check with a chi-square test, then debug before trusting <em>any</em> result.</span></td></tr>
-      </table>
-    </div>
-
-    <div class="cs-section">
-      <h2>Causal inference (no A/B test)</h2>
-      <table class="cs">
-        <tr><td class="term">Diff-in-Diff (DiD)</td><td>Compare the <strong>before→after change</strong> in a treated group vs. a control group. Assumes <strong>parallel trends</strong>. <span class="hint">Feature launched in one region at a known date.</span></td></tr>
-        <tr><td class="term">Reg. discontinuity (RDD)</td><td>Treatment assigned by a <strong>threshold</strong>; compare units <strong>just above vs. just below</strong> the cutoff. <span class="hint">Eligibility cutoffs — strong local causal estimate.</span></td></tr>
-        <tr><td class="term">Instrumental var. (IV)</td><td>An <strong>instrument</strong> Z affects treatment X but touches outcome Y <strong>only through X</strong> → beats <strong>unobserved</strong> confounding. <span class="hint">Randomized encouragement as instrument for adoption. Valid instruments are rare.</span></td></tr>
-        <tr><td class="term">Propensity matching (PSM)</td><td>Model P(treated | covariates), match treated to similar untreated units. <span class="hint">Balances <strong>observed</strong> confounders only.</span></td></tr>
-        <tr><td class="term">Synthetic control</td><td>Weighted blend of controls that mimics the treated unit's <strong>pre-period trajectory</strong>, then compare after. <span class="hint">Single treated market, many candidate controls.</span></td></tr>
-        <tr><td class="term">Double ML</td><td>ML to control for <strong>high-dimensional confounders</strong> while keeping a valid treatment-effect estimate (orthogonalization + cross-fitting). <span class="hint">Many messy confounders.</span></td></tr>
-        <tr><td class="term">CausalImpact</td><td><strong>Google's</strong> Bayesian structural time-series — models the counterfactual from control series to estimate an intervention's effect. <span class="hint">Launch impact from time series, no randomization.</span></td></tr>
-      </table>
-      <div style="color:var(--muted);font-size:12.5px;margin-top:8px;">Selector: threshold → RDD · clean before/after + control → DiD · single market + time series → synthetic control / CausalImpact · valid instrument → IV · observed confounders → PSM / double ML.</div>
-    </div>
-
-    <div class="cs-group">🔍 Applied Analysis</div>
-    <div class="cs-section">
-      <h2>Statistical foundations</h2>
-      <table class="cs">
-        <tr><td class="term">Bayes' theorem</td><td>\( P(A \mid B) = \dfrac{P(B \mid A)\,P(A)}{P(B)} \) — updates the probability of hypothesis A given evidence B. <span class="hint">Denominator: \( P(B) = P(B\mid A)P(A) + P(B\mid \neg A)P(\neg A) \). Interview trick: reason with <strong>natural frequencies</strong> (counts), not the formula.</span></td></tr>
-      </table>
-    </div>
-
-    <div class="cs-section">
-      <h2>Distributions</h2>
-      <table class="cs">
-        <tr><td class="term">Bernoulli</td><td>Single yes/no trial · param <strong>p</strong> · mean p, var p(1−p). <span class="hint">One transaction: fraud or not.</span></td></tr>
-        <tr><td class="term">Binomial</td><td># successes in n independent trials · params <strong>n, p</strong> · mean np, var np(1−p). <span class="hint"># conversions out of N visitors — every conversion-rate A/B test.</span></td></tr>
-        <tr><td class="term">Poisson</td><td># rare events in a fixed interval · param <strong>λ</strong> (rate) · <strong>mean = var = λ</strong>. <span class="hint">Fraud events per day. If over-dispersed (var &gt; mean) → Negative Binomial.</span></td></tr>
-        <tr><td class="term">Normal</td><td>Continuous, symmetric; sums/means via CLT · params <strong>μ, σ²</strong> · mean μ, var σ². <span class="hint">Sampling distribution of a mean.</span></td></tr>
-        <tr><td class="term">Exponential</td><td>Time <em>between</em> Poisson events · param <strong>λ</strong> · mean 1/λ, var 1/λ². <span class="hint">Time between fraud attempts.</span></td></tr>
-        <tr><td class="term">Uniform</td><td>All outcomes equally likely · params <strong>a, b</strong> · mean (a+b)/2. <span class="hint">Random assignment / baselines.</span></td></tr>
-      </table>
-      <div style="color:var(--muted);font-size:12.5px;margin-top:8px;">Links: Binomial = sum of n Bernoullis · Binomial ≈ Poisson when n large &amp; p small (λ = np) · Poisson counts ↔ Exponential inter-arrival times.</div>
     </div>
 
     <div class="cs-section">
