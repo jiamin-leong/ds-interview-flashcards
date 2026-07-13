@@ -654,31 +654,19 @@ const CARDS = [
     a: "<p><strong>Offline</strong> (historical data): ranking metrics — <strong>Precision@k, Recall@k, NDCG, MAP</strong>. <em>Not accuracy or RMSE — ranking is its own problem type.</em></p><p><strong>Online</strong> (the real test): <strong>A/B</strong> on installs / engagement / retention, with quality guardrails.</p><p><strong>Beyond accuracy:</strong> diversity, novelty, serendipity — pure relevance creates filter bubbles.</p>",
     trap: "Ranking metrics offline + online A/B — and watch <b>diversity/quality</b>, not just relevance." },
 
-  { cluster: "D4 · ML systems", q: "Cross-validation vs. holdout vs. walk-forward — how do you choose?",
+  { cluster: "D4 · Modeling rigor", q: "Cross-validation vs. holdout vs. walk-forward — how do you choose?",
     a: "<p><strong>First ask: is the data temporal?</strong></p><p><strong>Non-temporal / IID:</strong> <strong>k-fold CV</strong> for limited data (stable estimate + tuning); <strong>holdout</strong> for large data (cheap).</p><p><strong>Temporal (fraud!):</strong> <strong>walk-forward</strong> — train on past → validate on next period → roll forward; or a time-based holdout.</p>",
     trap: "Never random k-fold on time-ordered data — it trains on the <b>future to predict the past</b> (lookahead leakage) → a great score that collapses in production." },
 
-  { cluster: "D4 · ML systems", q: "The five data-leakage traps?",
+  { cluster: "D4 · Modeling rigor", q: "The five data-leakage traps?",
     a: "<p>• <strong>Target/feature leakage</strong> — a feature encodes the outcome (populated post-event).<br>• <strong>Temporal</strong> — future info leaks into the past (random split on time data).<br>• <strong>Preprocessing</strong> — fitting a scaler/encoder on the full data (fit on <strong>train only</strong>).<br>• <strong>Group</strong> — same user in train &amp; test (use group CV).<br>• <strong>Tuning on the test set</strong> (use a validation set / nested CV).</p>",
     trap: "Leakage shows up as <b>suspiciously high</b> performance that <b>vanishes under a proper split</b>." },
 
-  { cluster: "D4 · ML systems", q: "Lift looks too good — signal, leakage, or label issue? How to diagnose?",
+  { cluster: "D4 · Modeling rigor", q: "Lift looks too good — signal, leakage, or label issue? How to diagnose?",
     a: "<p>1. <strong>Inspect feature importance + timing</strong> — is a top feature actually available <em>before</em> the outcome?<br>2. <strong>Re-validate leakage-proof</strong> — temporal + grouped split; if lift vanishes → leakage.<br>3. <strong>Ablate</strong> the suspect feature — collapse = it carried leaked info.<br>4. <strong>Audit labels</strong> — does the label reuse a feature? noisy/mislabeled?<br>5. <strong>Confirm</strong> on out-of-time / prospective / online data.</p>",
     trap: "Don't reach for a formula (bias-variance doesn't apply here) — <b>investigate feature timing and re-validate cleanly</b>." },
 
-  { cluster: "D4 · ML systems", q: "Graph/relational vs. simpler tabular model — how to evaluate if it's worth it?",
-    a: "<p>1. <strong>Baseline first</strong> with the tabular model.<br>2. Measure <strong>incremental lift</strong> (tabular vs. tabular + graph) on the <strong>same leakage-proof split</strong>, right metric (PR-AUC / recall@precision).<br>3. <strong>Segment the errors</strong> — does graph recover the <strong>coordinated</strong> fraud (rings, shared devices) tabular misses?<br>4. Weigh against added <strong>latency / complexity / compute</strong>.</p>",
-    trap: "Fraud is often coordinated → graph captures relational patterns tabular can't. But the incremental lift must justify the extra latency/complexity." },
-
-  { cluster: "D4 · ML systems", q: "Batch vs. near-real-time scoring — the tradeoffs?",
-    a: "<p><strong>Driver: does the decision need to act in the moment?</strong></p><p><strong>Real-time:</strong> can block a live transaction (active prevention); costs low-latency infra + limits you to <strong>fast-to-compute features</strong>.<br><strong>Batch:</strong> cheaper/simpler but delayed — fine for risk scores, dashboards, retraining.<br>Often <strong>hybrid</strong>: real-time light model to block + batch heavy model for analysis.</p>",
-    trap: "Fraud blocking must be real-time (batch is too late); expensive graph features may need precomputing in batch." },
-
-  { cluster: "D4 · ML systems", q: "Labels are delayed and partially observed — how does that affect evaluation?",
-    a: "<p><strong>Delayed</strong> (chargebacks weeks later): recent labels are immature → only evaluate on <strong>matured cohorts</strong> past the confirmation window (label-maturity / embargo).</p><p><strong>Partially observed</strong> (some fraud never reported): a <strong>positive-unlabeled (PU)</strong> problem — negatives are contaminated with unreported positives → reported recall <strong>overstates</strong> true recall. <strong>Sample + human-review</strong> to estimate true prevalence and correct.</p>",
-    trap: "Measured recall is an <b>upper bound</b> — you're blind to fraud that's never reported." },
-
-  { cluster: "D4 · ML systems", q: "Is a problem prediction, optimization, or causal inference?",
+  { cluster: "D4 · Modeling rigor", q: "Is a problem prediction, optimization, or causal inference?",
     a: "<p><strong>Prediction</strong> — <em>what will happen?</em> Forecast an outcome (which transactions are fraud).<br><strong>Causal</strong> — <em>what's the effect if we intervene?</em> (does the rule reduce fraud — an A/B test <em>is</em> causal inference).<br><strong>Optimization</strong> — <em>what's the best action?</em> Maximize an objective under constraints (optimal fraud threshold, budget allocation).</p>",
     trap: "Optimization = choosing the best <b>decision/action</b>, NOT making a model more complex. They chain: predict → estimate causal effect → optimize the policy." },
 ];
