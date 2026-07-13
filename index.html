@@ -123,6 +123,14 @@
   table.cs code { background: var(--panel-2); padding: 1px 6px; border-radius: 5px; font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 12.5px; color: #b8e0ff; }
   table.cs .hint { color: var(--muted); }
   .cs-group { font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #cfe2ff; border-bottom: 2px solid var(--accent); padding-bottom: 6px; margin: 36px 0 8px; }
+  .ptable-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 4px 0 10px; border: 1px solid var(--border); border-radius: 12px; }
+  table.ptable { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 680px; background: var(--panel); }
+  table.ptable th { text-align: left; color: var(--accent); font-size: 10.5px; text-transform: uppercase; letter-spacing: .03em; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; white-space: nowrap; }
+  table.ptable td { padding: 9px 10px; border-top: 1px solid var(--border); vertical-align: top; }
+  table.ptable td.prod { font-weight: 700; color: #fff; white-space: nowrap; }
+  table.ptable td.ns { color: #cfe2ff; }
+  table.ptable ol { margin: 0; padding-left: 15px; }
+  table.ptable li { margin-bottom: 2px; }
 </style>
 </head>
 <body>
@@ -283,97 +291,58 @@
       </table>
     </div>
 
-    <div class="cs-group">📱 Google products</div>
-
-    <div class="cs-section">
-      <h2>🔍 Search — utility</h2>
-      <table class="cs">
-        <tr><td class="term">North star</td><td>Successful search sessions (task completed).</td></tr>
-        <tr><td class="term">Key</td><td>Query volume, <strong>long clicks</strong> (dwell = satisfaction), success rate, return rate.</td></tr>
-        <tr><td class="term">Guardrails</td><td>Relevance/quality, <strong>latency</strong>, <strong>pogo-sticking</strong> &amp; query reformulation (= failure), ad load, misinformation.</td></tr>
-        <tr><td class="term">⚠️</td><td><em>Less</em> time-to-answer is <strong>better</strong> — don't optimize time spent.</td></tr>
+    <div class="cs-group">🔧 Utility — success = task done efficiently (less time can be better)</div>
+    <div class="ptable-wrap">
+      <table class="ptable">
+        <thead><tr><th>Product</th><th>North star</th><th>Key metrics</th><th>Guardrail metrics</th><th>Considerations</th></tr></thead>
+        <tbody>
+          <tr><td class="prod">🔍 Search</td><td class="ns">Successful search sessions</td><td><ol><li>Query volume</li><li>Long clicks (dwell = satisfaction)</li><li>Success rate</li><li>Return rate</li></ol></td><td><ol><li>Relevance / quality</li><li>Latency</li><li>Pogo-sticking / reformulation</li><li>Ad load</li></ol></td><td>Less time-to-answer is <strong>better</strong> — don't optimize time spent.</td></tr>
+          <tr><td class="prod">🗺️ Maps</td><td class="ns">Successful navigations / trips</td><td><ol><li>Directions requests</li><li>DAU</li><li>Retention</li><li>ETA accuracy</li></ol></td><td><ol><li>ETA accuracy</li><li>Route quality / safety</li><li>Data freshness</li><li>Battery</li></ol></td><td>Faster arrival / less app time = success. Classic "engagement is the wrong metric."</td></tr>
+          <tr><td class="prod">✉️ Gmail</td><td class="ns">DAU / retention</td><td><ol><li>Active users</li><li>Sends / receives</li><li>Feature adoption (search, filters)</li></ol></td><td><ol><li>Spam catch rate</li><li>Spam false-positive rate</li><li>Uptime / latency</li><li>Privacy</li></ol></td><td>Spam precision ↔ recall tension is the key one.</td></tr>
+          <tr><td class="prod">🌐 Chrome</td><td class="ns">DAU / retention</td><td><ol><li>Active users</li><li>Page loads</li><li>Sync adoption</li></ol></td><td><ol><li>Page-load speed</li><li>Crash rate</li><li>Memory</li><li>Security (phishing/malware)</li><li>Privacy</li></ol></td><td>Strategic driver of Search usage.</td></tr>
+          <tr><td class="prod">🖼️ Photos</td><td class="ns">MAU / retention; backup adoption</td><td><ol><li>Photos backed up</li><li>Active users</li><li>Memories / search engagement</li><li>Sharing</li></ol></td><td><ol><li>Storage cost</li><li>Upload reliability</li><li>ML quality (face grouping)</li><li>Privacy / sensitive memories</li></ol></td><td>Bad ML surfacing can be actively harmful.</td></tr>
+        </tbody>
       </table>
     </div>
 
-    <div class="cs-section">
-      <h2>▶️ YouTube — content</h2>
-      <table class="cs">
-        <tr><td class="term">North star</td><td><strong>Watch time</strong> (increasingly satisfaction-adjusted).</td></tr>
-        <tr><td class="term">Key</td><td>Watch time/user, sessions, retention, creator health (active creators, uploads).</td></tr>
-        <tr><td class="term">Guardrails</td><td><strong>User satisfaction / "regretted watches,"</strong> borderline/harmful content, clickbait, well-being, ad load.</td></tr>
-        <tr><td class="term">⚠️</td><td>Watch time is gameable by clickbait → satisfaction guardrails essential.</td></tr>
+    <div class="cs-group">🎬 Content — engagement is the goal (guard quality)</div>
+    <div class="ptable-wrap">
+      <table class="ptable">
+        <thead><tr><th>Product</th><th>North star</th><th>Key metrics</th><th>Guardrail metrics</th><th>Considerations</th></tr></thead>
+        <tbody>
+          <tr><td class="prod">▶️ YouTube</td><td class="ns">Watch time (satisfaction-adjusted)</td><td><ol><li>Watch time / user</li><li>Sessions</li><li>Retention</li><li>Creator health (active creators, uploads)</li></ol></td><td><ol><li>Satisfaction / "regretted watches"</li><li>Harmful / borderline content</li><li>Clickbait</li><li>Well-being</li><li>Ad load</li></ol></td><td>Watch time is gameable by clickbait → satisfaction guardrails essential.</td></tr>
+        </tbody>
       </table>
     </div>
 
-    <div class="cs-section">
-      <h2>🗺️ Maps — utility</h2>
-      <table class="cs">
-        <tr><td class="term">North star</td><td>Successful navigations / trips completed.</td></tr>
-        <tr><td class="term">Key</td><td>Directions requests, DAU, retention, ETA accuracy.</td></tr>
-        <tr><td class="term">Guardrails</td><td><strong>ETA accuracy</strong>, route quality/safety, data freshness, latency, battery.</td></tr>
-        <tr><td class="term">⚠️</td><td>Faster arrival / <em>less</em> app time = success. The classic "engagement is the wrong metric" case.</td></tr>
+    <div class="cs-group">🛒 Marketplace — two-sided (users + supply side)</div>
+    <div class="ptable-wrap">
+      <table class="ptable">
+        <thead><tr><th>Product</th><th>North star</th><th>Key metrics</th><th>Guardrail metrics</th><th>Considerations</th></tr></thead>
+        <tbody>
+          <tr><td class="prod">🛍️ Play Store</td><td class="ns">Retained / engaged installs</td><td><ol><li>Store visits</li><li>Visit→install conversion</li><li>DAU</li><li>IAP revenue</li><li>Active developers</li></ol></td><td><ol><li>Malware / scam / impersonation rate</li><li>Uninstall rate (install quality)</li><li>False-positive enforcement</li><li>Fake-review rate</li></ol></td><td>Two-sided + T&amp;S-heavy — your interview turf.</td></tr>
+          <tr><td class="prod">📢 Ads</td><td class="ns">Revenue (balanced vs. UX)</td><td><ol><li>Ad revenue</li><li>CTR</li><li>Conversions</li><li>Advertiser ROI</li><li>Coverage</li></ol></td><td><ol><li>Ad load / relevance</li><li>Ad safety (scams/policy)</li><li>User retention</li><li>Advertiser trust</li></ol></td><td>The classic monetization ↔ user-experience tension.</td></tr>
+        </tbody>
       </table>
     </div>
 
-    <div class="cs-section">
-      <h2>✉️ Gmail — utility</h2>
-      <table class="cs">
-        <tr><td class="term">North star</td><td>DAU / retention (active use).</td></tr>
-        <tr><td class="term">Key</td><td>Active users, sends/receives, feature adoption (search, filters).</td></tr>
-        <tr><td class="term">Guardrails</td><td><strong>Spam catch rate AND false-positive rate</strong> (legit mail in spam = the tension), uptime, latency, privacy.</td></tr>
+    <div class="cs-group">💳 Payments / trust — fraud ↔ false-positive tension</div>
+    <div class="ptable-wrap">
+      <table class="ptable">
+        <thead><tr><th>Product</th><th>North star</th><th>Key metrics</th><th>Guardrail metrics</th><th>Considerations</th></tr></thead>
+        <tbody>
+          <tr><td class="prod">💳 Google Pay</td><td class="ns">Retained active payers / TPV</td><td><ol><li># transactions</li><li>TPV (total payment value)</li><li>P2P sends</li><li>Payment success rate</li><li>Linked methods</li></ol></td><td><ol><li>Fraud rate / losses</li><li>False-positive rate (blocked legit)</li><li>Payment failure rate</li><li>Chargebacks</li><li>Latency</li><li>Trust / NPS</li></ol></td><td><strong>Trust is the product</strong> — the fraud ↔ false-positive balance is <em>the</em> conversation.</td></tr>
+        </tbody>
       </table>
     </div>
 
-    <div class="cs-section">
-      <h2>🛍️ Play Store — marketplace + trust</h2>
-      <table class="cs">
-        <tr><td class="term">North star</td><td>Installs — better, <strong>retained / engaged installs</strong>.</td></tr>
-        <tr><td class="term">Key</td><td>Store visits, visit→install conversion, DAU, IAP revenue, active developers.</td></tr>
-        <tr><td class="term">Guardrails</td><td><strong>Malware/scam/impersonation rate</strong>, uninstall rate (install quality), <strong>false-positive enforcement</strong> (wrongly removing legit devs), fake-review rate.</td></tr>
-        <tr><td class="term">⚠️</td><td>Two-sided + T&amp;S-heavy — your interview turf.</td></tr>
-      </table>
-    </div>
-
-    <div class="cs-section">
-      <h2>💳 Google Pay — payments / trust</h2>
-      <table class="cs">
-        <tr><td class="term">North star</td><td><strong>Retained active payers</strong> / transaction value (TPV).</td></tr>
-        <tr><td class="term">Key</td><td># transactions, TPV, P2P sends, payment success rate, linked methods.</td></tr>
-        <tr><td class="term">Guardrails</td><td><strong>Fraud rate/losses ↔ false-positive rate</strong> (blocking legit txns = friction), payment failure rate, chargebacks, latency, trust/NPS, compliance.</td></tr>
-        <tr><td class="term">⚠️</td><td><strong>Trust is the product</strong> — the fraud/false-positive balance is <em>the</em> guardrail conversation.</td></tr>
-      </table>
-    </div>
-
-    <div class="cs-section">
-      <h2>🌐 Chrome — utility / platform</h2>
-      <table class="cs">
-        <tr><td class="term">North star</td><td>DAU / retention (strategically drives Search).</td></tr>
-        <tr><td class="term">Guardrails</td><td>Page-load speed, crash rate, memory, security (phishing/malware blocked), privacy.</td></tr>
-      </table>
-    </div>
-
-    <div class="cs-section">
-      <h2>🖼️ Photos — utility</h2>
-      <table class="cs">
-        <tr><td class="term">North star</td><td>MAU / retention; backup adoption.</td></tr>
-        <tr><td class="term">Guardrails</td><td>Storage cost, upload reliability, ML quality (bad face-grouping = harmful), privacy / sensitive-memory surfacing.</td></tr>
-      </table>
-    </div>
-
-    <div class="cs-section">
-      <h2>📢 Ads — monetization</h2>
-      <table class="cs">
-        <tr><td class="term">North star</td><td>Revenue — balanced against user experience.</td></tr>
-        <tr><td class="term">Guardrails</td><td><strong>Ad load / relevance</strong> (too many hurts long-term retention), ad safety (scams/policy), advertiser ROI/trust.</td></tr>
-        <tr><td class="term">⚠️</td><td>The classic <strong>monetization ↔ user-experience</strong> tension.</td></tr>
-      </table>
-    </div>
-
-    <div class="cs-section">
-      <h2>✨ Gemini / AI Overviews — current</h2>
-      <table class="cs">
-        <tr><td class="term">North star</td><td>Helpfulness / task completion, active users, retention.</td></tr>
-        <tr><td class="term">Guardrails</td><td><strong>Factuality / hallucination rate</strong>, safety/harmful output, latency, <strong>cost per query</strong>, cannibalization of monetized surfaces (AI Overviews vs. ad clicks).</td></tr>
+    <div class="cs-group">✨ AI / emerging</div>
+    <div class="ptable-wrap">
+      <table class="ptable">
+        <thead><tr><th>Product</th><th>North star</th><th>Key metrics</th><th>Guardrail metrics</th><th>Considerations</th></tr></thead>
+        <tbody>
+          <tr><td class="prod">✨ Gemini / AI Overviews</td><td class="ns">Helpfulness / task completion</td><td><ol><li>Queries</li><li>Sessions</li><li>Thumbs-up rate</li><li>Task success</li></ol></td><td><ol><li>Factuality / hallucination rate</li><li>Safety / harmful output</li><li>Latency</li><li>Cost per query</li><li>Cannibalization of monetized surfaces</li></ol></td><td>AI Overviews vs. ad-click cannibalization is the live tension.</td></tr>
+        </tbody>
       </table>
     </div>
     <div class="footer-hint">Name the archetype first → it tells you if engagement is good, if it's two-sided, and which guardrail tension dominates.</div>
