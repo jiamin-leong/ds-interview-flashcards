@@ -313,7 +313,7 @@
       <table class="ptable">
         <thead><tr><th>Product</th><th>North star</th><th>Key metrics</th><th>Guardrail metrics</th><th>Considerations</th></tr></thead>
         <tbody>
-          <tr><td class="prod">▶️ YouTube</td><td class="ns">Watch time (satisfaction-adjusted)</td><td><ol><li>Watch time / user</li><li>Sessions</li><li>Retention</li><li>Creator health (active creators, uploads)</li></ol></td><td><ol><li>Satisfaction / "regretted watches"</li><li>Harmful / borderline content</li><li>Clickbait</li><li>Well-being</li><li>Ad load</li></ol></td><td>Watch time is gameable by clickbait → satisfaction guardrails essential.</td></tr>
+          <tr><td class="prod">▶️ YouTube</td><td class="ns">Watch time (satisfaction-adjusted)</td><td><ol><li>Watch time / user</li><li>Sessions</li><li>Retention</li><li>Creator health (active creators, uploads)</li></ol></td><td><ol><li>Satisfaction / "regretted watches"</li><li>Harmful / borderline content</li><li>Clickbait</li><li>Well-being</li><li>Ad load</li></ol></td><td>Watch time is gameable by clickbait → satisfaction guardrails essential.<br><strong>Experiment network effect:</strong> the content ecosystem is shared — a treatment recommender inflates some videos' <em>global</em> engagement signals (views, trending), which the <em>control</em> recommender also reads (and shared retraining pools treatment interactions), so treatment <strong>spills into control</strong> (SUTVA violation → dilutes the effect). Fix: <strong>cluster / geo randomization</strong>.</td></tr>
         </tbody>
       </table>
     </div>
