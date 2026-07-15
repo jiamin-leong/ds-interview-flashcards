@@ -830,6 +830,14 @@ const CARDS = [
   { cluster: "🤖 Modeling", q: "Monte Carlo for risk / fraud-loss (tail estimation)?",
     a: "<p>To estimate a <strong>loss distribution / tail risk</strong>: model each event's probability + severity, simulate many scenarios (e.g. 100k days of transactions), sum losses per scenario, then read the distribution — mean, <strong>95th / 99th percentile (VaR)</strong>, worst case.</p><p>Captures tail risk that a single expected-value calculation hides.</p>",
     trap: "MC shines for tail / rare-event risk — read percentiles (99th = near-worst-case loss) off the simulated distribution, not just the mean." },
+
+  { cluster: "📊 Statistics", q: "z-test: one-sample vs two-sample, and one-sided vs two-sided — the two dials?",
+    a: "<p><strong>Two independent choices</strong> (people tangle them):</p><p><strong>Samples:</strong> <em>one-sample</em> = compare one group to a known value · <em>two-sample</em> = compare two groups (A/B test).</p><p><strong>Tails:</strong> <em>two-sided</em> = any difference (default, bar = 1.96) · <em>one-sided</em> = one pre-chosen direction (bar = 1.645, more power but commit first).</p><p>Most A/B tests = <strong>two-sample, two-sided</strong>.</p>",
+    trap: "'z-test vs two-sided z-test' isn't an either/or — every z-test is one/two-<b>sample</b> AND one/two-<b>sided</b>. Default: two-sample, two-sided." },
+
+  { cluster: "📊 Statistics", q: "z-test calculation — the one pattern + worked two-proportion example?",
+    a: "<p>Every z-test: <strong>\\(z = \\dfrac{\\text{difference}}{\\text{standard error}}\\)</strong> = signal / noise. Only the SE changes.</p><p><strong>Example</strong> — control 200/2000 (10%), treatment 240/2000 (12%):</p><p>1. Pooled \\(\\hat p = \\dfrac{200+240}{4000} = 0.11\\)<br>2. \\(SE = \\sqrt{0.11 \\times 0.89 \\times (\\tfrac{1}{2000}+\\tfrac{1}{2000})} \\approx 0.0099\\)<br>3. \\(z = \\dfrac{0.12 - 0.10}{0.0099} \\approx 2.02\\)<br>4. \\(2.02 > 1.96\\) → significant (p ≈ 0.043)</p>",
+    trap: "z = how many standard errors apart the groups are. Bigger difference or smaller SE → bigger z. Tails only change the bar (1.96 vs 1.645)." },
 ];
 
 // ---- state ----
