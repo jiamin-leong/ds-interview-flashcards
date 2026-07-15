@@ -790,6 +790,46 @@ const CARDS = [
   { cluster: "🧪 Experimentation", q: "Two variants tie on the primary metric but differ on a guardrail. How do you decide?",
     a: "<p><strong>Structure — metric hierarchy + tradeoff.</strong></p><p>If the primary is a true tie, the <strong>guardrail breaks the tie</strong> — pick the variant that doesn't harm (or improves) it. First confirm the tie isn't just <strong>underpowered</strong> (a wide CI hiding a real difference). Weigh the guardrail's <strong>severity</strong> — a trust/latency regression outweighs a neutral primary; ship neither if the regression is serious.</p>",
     trap: "A guardrail regression can veto a neutral primary — weigh severity, and check the 'tie' isn't just low power." },
+
+  { cluster: "📊 Statistics", q: "Sampling methods — simple random, stratified, cluster, systematic?",
+    a: "<p><strong>Simple random</strong> — every unit has an equal chance. Unbiased gold standard, but can be inefficient / miss small subgroups.</p><p><strong>Stratified</strong> — split into <strong>strata</strong> (subgroups), sample within each → guarantees representation + <strong>lower variance</strong>.</p><p><strong>Cluster</strong> — split into clusters, randomly pick <strong>whole clusters</strong> → cheaper when the population is grouped (geography), but <strong>higher variance</strong>.</p><p><strong>Systematic</strong> — take every k-th unit.</p>",
+    trap: "Stratified = sample <b>within</b> subgroups (representation + less variance); cluster = sample <b>whole</b> groups (cheaper, more variance)." },
+
+  { cluster: "🧪 Experimentation", q: "Stratified randomization & blocking in A/B tests — what and why?",
+    a: "<p><strong>Structure — design-time variance reduction.</strong></p><p>Instead of pure random assignment, first group units into <strong>blocks/strata</strong> by a key covariate (device tier, country, heavy vs. light user), then randomize <em>within</em> each block.</p><p><strong>Why:</strong> guarantees treatment &amp; control are <strong>balanced</strong> on that covariate → lower variance, more power, and every subgroup is represented. \"Blocking\" is the experimental-design term.</p>",
+    trap: "Block/stratify on a covariate correlated with the outcome → balanced groups, lower variance, more power (same goal as CUPED, done at design time)." },
+
+  { cluster: "🎲 Probability", q: "Bayesian methods — priors, posteriors, credible intervals, Bayesian A/B testing?",
+    a: "<p><strong>Bayesian inference:</strong> start with a <strong>prior</strong> belief, update with data via Bayes → a <strong>posterior</strong>.</p><p><strong>Credible interval:</strong> \"95% probability the parameter is in this range\" — the intuitive interpretation frequentist CIs do <em>not</em> have.</p><p><strong>Bayesian A/B testing:</strong> directly compute \\(P(\\text{B} > \\text{A})\\) and <strong>expected loss</strong> — no p-values; less rigid about peeking.</p><p><strong>Naive Bayes:</strong> a classifier applying Bayes with a feature-independence assumption.</p>",
+    trap: "Bayesian gives \\(P(\\text{hypothesis}\\mid\\text{data})\\) directly (credible interval = intuitive); frequentist gives \\(P(\\text{data}\\mid\\text{hypothesis})\\)." },
+
+  { cluster: "🧪 Experimentation", q: "Proxy / surrogate metrics — when do you use one, and what's the risk?",
+    a: "<p>A <strong>short-term, measurable stand-in</strong> for a long-term or hard-to-observe north star — e.g., day-1 retention as a proxy for LTV, or clicks as a proxy for satisfaction.</p><p><strong>Use when</strong> the true outcome is delayed or unobservable within the experiment window.</p><p><strong>Risk:</strong> the proxy must be <strong>causally predictive</strong> of the true metric — a bad proxy makes you optimize the wrong thing (clicks ↑ but satisfaction ↓).</p>",
+    trap: "A surrogate is valid only if moving it reliably moves the true metric — validate the link, or you optimize a vanity proxy." },
+
+  { cluster: "🧪 Experimentation", q: "Correlation vs. causation — what's a confounder, and how do you establish causation?",
+    a: "<p><strong>Correlation</strong> = two things move together; <strong>causation</strong> = one drives the other.</p><p>A <strong>confounder</strong> is a third variable that causes <em>both</em>, creating a spurious link (ice-cream sales &amp; drownings ← summer heat).</p><p><strong>Establish causation via:</strong> randomization (A/B test — gold standard), or quasi-experiments (DiD, RDD, IV) that approximate it when you can't randomize.</p>",
+    trap: "A spurious correlation is usually a hidden confounder. Only randomization (or a valid quasi-experiment) establishes causation." },
+
+  { cluster: "🤖 Modeling", q: "Linear regression — interpreting coefficients + key assumptions?",
+    a: "<p><strong>Coefficient</strong> = expected change in y per 1-unit increase in that x, <strong>holding the other variables constant</strong>.</p><p><strong>Assumptions:</strong> linearity, independent errors, homoscedasticity (constant error variance), ~normal errors, and no severe <strong>multicollinearity</strong>.</p><p><strong>Multicollinearity</strong> (correlated predictors) inflates coefficient variance → unstable, uninterpretable coefficients (check <strong>VIF</strong>).</p>",
+    trap: "Coefficient = effect of x holding others constant. Correlated predictors (multicollinearity) → unstable coefficients; check VIF." },
+
+  { cluster: "🤖 Modeling", q: "Monte Carlo — what is it and the general recipe?",
+    a: "<p>Estimate a hard-to-compute quantity by <strong>simulating the random process many times</strong> and aggregating.</p><p><strong>Recipe:</strong> 1) define the random inputs + their distributions · 2) draw many random samples (e.g. 10k–100k) · 3) compute the outcome for each draw · 4) aggregate (mean, full distribution, percentiles).</p><p>By the law of large numbers the empirical average → the true value; error shrinks like \\(1/\\sqrt{N}\\).</p>",
+    trap: "When the math is intractable, simulate. Error improves \\(\\sim 1/\\sqrt{N}\\) — 100× more sims → 10× less error." },
+
+  { cluster: "🤖 Modeling", q: "Monte Carlo worked example — estimate π?",
+    a: "<p>Throw N random points into the unit square \\([0,1]^2\\). The fraction landing inside the quarter circle (\\(x^2+y^2 \\le 1\\)) approximates the area ratio \\(\\pi/4\\).</p><p>So \\(\\pi \\approx 4 \\times \\dfrac{\\text{points inside}}{N}\\). More points → tighter estimate.</p>",
+    trap: "Core MC idea: the probability of an event = the fraction of random draws in which it happens." },
+
+  { cluster: "🤖 Modeling", q: "Monte Carlo for power / sample size (when there's no formula)?",
+    a: "<p>When the design is too complex for a closed-form power formula (ratio metrics, clustered data, weird distributions), <strong>simulate</strong>:</p><p>1) assume a true effect · 2) simulate many experiments at a given n · 3) run your test on each · 4) <strong>power = fraction that reach significance</strong>. Increase n until power hits ~80%.</p>",
+    trap: "Simulate thousands of experiments → power = % that reach significance. The go-to when no analytical formula exists." },
+
+  { cluster: "🤖 Modeling", q: "Monte Carlo for risk / fraud-loss (tail estimation)?",
+    a: "<p>To estimate a <strong>loss distribution / tail risk</strong>: model each event's probability + severity, simulate many scenarios (e.g. 100k days of transactions), sum losses per scenario, then read the distribution — mean, <strong>95th / 99th percentile (VaR)</strong>, worst case.</p><p>Captures tail risk that a single expected-value calculation hides.</p>",
+    trap: "MC shines for tail / rare-event risk — read percentiles (99th = near-worst-case loss) off the simulated distribution, not just the mean." },
 ];
 
 // ---- state ----
