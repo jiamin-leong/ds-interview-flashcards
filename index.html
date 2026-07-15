@@ -451,6 +451,10 @@ const CARDS = [
     a: "<p>When a condition is <strong>rare</strong>, a positive test is dominated by <strong>false positives</strong> — the small error rate applied to the huge negative population produces more false positives than there are true positives. So \"99% accurate\" ≠ \"99% likely sick.\"</p>",
     trap: "Through-line: this is exactly why <b>precision is low on rare-event detection</b> (scam/fraud classifiers)." },
 
+  { cluster: "🎲 Probability", q: "Bayes worked example: disease affects 1%, test 95% accurate (5% false positive). Test positive → P(disease)?",
+    a: "<p><strong>1. Components</strong><br>\\(P(D)=0.01\\) (prior), \\(P(\\neg D)=0.99\\)<br>\\(P(+\\mid D)=0.95\\) (true positive), \\(P(+\\mid \\neg D)=0.05\\) (false positive)</p><p><strong>2. Total probability of a positive</strong> = true + false positives:<br>\\(P(+) = P(+\\mid D)\\,P(D) + P(+\\mid \\neg D)\\,P(\\neg D)\\)<br>\\(= (0.95)(0.01) + (0.05)(0.99) = 0.0095 + 0.0495 = 0.059\\)</p><p><strong>3. Apply Bayes</strong><br>\\(P(D\\mid +) = \\dfrac{P(+\\mid D)\\,P(D)}{P(+)} = \\dfrac{0.0095}{0.059} \\approx 0.161\\)</p><p><strong>Conclusion:</strong> despite 95% accuracy, a positive means only a <strong>~16%</strong> chance of disease — the disease is rare, so false positives dominate.</p>",
+    trap: "Base-rate neglect: 'test accuracy' feels decisive, but for a rare condition the answer is dominated by the prior. Same reason fraud/scam classifiers have low precision." },
+
   { cluster: "🎲 Probability", q: "Bernoulli — what does it model, and its mean/variance?",
     a: "<p>A <strong>single yes/no trial</strong> with success probability p.</p><p>Mean = <strong>p</strong>, variance = <strong>p(1−p)</strong>.</p><p>Example: one transaction is fraud or not.</p>",
     trap: null },
