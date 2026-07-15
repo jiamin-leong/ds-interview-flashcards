@@ -734,6 +734,62 @@ const CARDS = [
   { cluster: "🧪 Experimentation", q: "Play Store: you tested 15 metrics and 2 came back significant. How do you interpret that?",
     a: "<p><strong>Structure — Multiple-testing check:</strong> expected false positives → primary metric? → correct (Bonferroni/FDR) → judge effect size.</p><p><strong>Multiple comparisons:</strong> at α=.05 you expect ~1 false positive per 20 tests → with 15 tests, 1–2 significant results can easily be <strong>chance</strong>.</p><p><strong>Ask:</strong> was there a <strong>pre-registered primary metric</strong>? Are the 2 significant ones the primary, or random secondaries?</p><p><strong>Fix:</strong> apply a correction (<strong>Bonferroni / FDR</strong>), check effect size + consistency. Don't ship on cherry-picked secondaries.</p>",
     trap: "1–2 'significant' out of 15 is roughly what pure noise produces — correct for multiple testing." },
+
+  { cluster: "🔍 Applied analysis", q: "Search: how would you measure the success of AI Overviews (direct AI answers on the results page)?",
+    a: "<p><strong>Structure — Goal → Signals → Metrics + guardrails.</strong></p><p><strong>Goal:</strong> answer the user's question faster and better on the page.</p><p><strong>Metrics:</strong> task success (query resolved with no follow-up search), reduced reformulation, satisfaction (survey / thumbs).</p><p><strong>Guardrails:</strong> factuality / hallucination rate, latency, <strong>cannibalization of ad clicks &amp; publisher traffic</strong>, over-triggering on queries that need real sources.</p>",
+    trap: "AI answers cannibalize monetized surfaces and publisher clicks → that tension + factuality are the key guardrails." },
+
+  { cluster: "🔍 Applied analysis", q: "Maps: ETA accuracy dropped in one city. How would you investigate?",
+    a: "<p><strong>Structure — C·H·I·R.</strong></p><p>Clarify metric/scope. Hypotheses: <strong>artifact</strong> (GPS/logging change) vs <strong>real</strong> — a traffic-data source degraded, a road/construction change, an algorithm update, or a seasonal/event cause (marathon, weather). <strong>Segment</strong> by time-of-day, road type, trip length. Rule out cheapest first; recommend.</p>",
+    trap: "Localized to one city → hunt a local cause (data source, event, road change) before blaming the global model." },
+
+  { cluster: "🔍 Applied analysis", q: "YouTube: how would you measure the health of the creator ecosystem?",
+    a: "<p><strong>Structure — two-sided (supply) measurement.</strong></p><p><strong>Supply health:</strong> active creators, new-creator retention, uploads, creators earning meaningfully, income distribution (not just the top 1%).</p><p><strong>Balance:</strong> is discovery spread across creators or concentrated? mid-tail creator growth.</p><p><strong>Guardrails:</strong> creator churn, monetization fairness, harmful-content share.</p>",
+    trap: "A marketplace's supply side has its own health metrics — watch concentration (top-creator dominance) and mid-tail growth, not just totals." },
+
+  { cluster: "🔍 Applied analysis", q: "Play Store: should we personalize app rankings for brand-new users with no history? How would you analyze it?",
+    a: "<p><strong>Structure — Decision: what must be true → evidence → risks → de-risk.</strong></p><p>New users have no history → a <strong>cold-start</strong> problem. Fall back to popularity / onboarding signals (declared interests, device, geo). Analyze whether popularity-based recs underperform personalized ones (for returning users) and whether there's enough onboarding signal to personalize early. <strong>A/B</strong> popularity vs light-personalization for new users; guardrail on retained installs.</p>",
+    trap: "No history = cold start → popularity/onboarding fallback; test whether early personalization actually beats it." },
+
+  { cluster: "🔍 Applied analysis", q: "Google Pay: size the opportunity to launch bill payments in a new country.",
+    a: "<p><strong>Structure — Sizing: clarify → top-down + bottom-up → assumptions → recommend.</strong></p><p><strong>Top-down:</strong> # households × avg monthly bills × addressable share (digital-payment adoption).</p><p><strong>Bottom-up:</strong> in-country Pay users × % who'd pay bills × frequency × value.</p><p>Demand signals: current bill-related searches, competitor adoption. State assumptions, give a range, flag the biggest sensitivity (adoption rate).</p>",
+    trap: "Do both top-down and bottom-up, state assumptions, give a range — not a false-precision single number." },
+
+  { cluster: "🔍 Applied analysis", q: "Gmail: user spam complaints rose 20% this week. How would you investigate?",
+    a: "<p><strong>Structure — C·H·I·R.</strong></p><p>Clarify: complaints, or actual spam volume? <strong>Real vs artifact</strong> (a report-button UI change inflating complaints); <strong>internal</strong> (a spam-filter update lowering recall) vs <strong>external</strong> (a new spam campaign). <strong>Segment</strong> by sender domain, geo, cohort — concentrated (one campaign) or broad (model regression)? Recommend.</p>",
+    trap: "Reports up ≠ spam up — could be a reporting-UI change or a filter-recall regression. Segment to tell campaign vs. model issue." },
+
+  { cluster: "🔍 Applied analysis", q: "A PM asks which of 3 features to build next. How would you use data to prioritize?",
+    a: "<p><strong>Structure — Frame → size impact → cost → prioritize → de-risk.</strong></p><p>Clarify the goal each feature serves (which metric). For each, estimate <strong>impact</strong> (opportunity size × expected lift from analogous launches), <strong>reach</strong> (users affected), <strong>confidence</strong>, and <strong>effort</strong>. Rank by impact × reach × confidence ÷ effort (RICE-style). Recommend, then validate the top pick with a small experiment.</p>",
+    trap: "Prioritize by impact × reach × confidence ÷ effort — and validate the top pick with a cheap test before committing." },
+
+  { cluster: "🧪 Experimentation", q: "How would you measure a change's LONG-TERM effect, not just the immediate A/B result?",
+    a: "<p><strong>Structure — long-horizon design.</strong></p><p>An immediate A/B misses long-term effects (habituation, retention, ecosystem). Keep a <strong>long-term holdback</strong> — a small % held on control for weeks/months — and track retention/engagement over time. Watch for effects that <strong>grow</strong> (learning) or <strong>decay</strong> (novelty). Essential when a short-term metric rises but long-term value may fall (e.g., more ads).</p>",
+    trap: "For delayed effects, a long-term holdback group is the tool — the short-term A/B can mislead." },
+
+  { cluster: "🧪 Experimentation", q: "You suspect a UI change's lift is just novelty. How do you separate novelty from the true effect?",
+    a: "<p><strong>Structure — diagnose novelty.</strong></p><p>1. Evaluate the <strong>steady-state</strong> effect after the early spike decays + a full business cycle.<br>2. Split <strong>new vs. existing</strong> users — novelty shows most in existing users seeing the change first.<br>3. Look at the effect's <strong>trend over time</strong> (fading = novelty). Decide on the converged effect, not week 1.</p>",
+    trap: "New-vs-returning split + steady-state trend separate novelty (fades, hits existing users) from a durable effect." },
+
+  { cluster: "🧪 Experimentation", q: "You're testing a fraud-model change, but fraud is rare (0.2%). How does the low base rate affect the experiment?",
+    a: "<p><strong>Structure — power under rarity.</strong></p><p>Rare positives → low base rate &amp; high relative variance, so you need a <strong>much larger sample / longer run</strong> to detect a change (\\(n \\propto \\text{variance}/MDE^2\\)). Options: a more frequent <strong>proxy metric</strong>, <strong>trigger analysis</strong> (only fraud-eligible traffic), <strong>variance reduction (CUPED)</strong>, or accept a larger MDE.</p>",
+    trap: "Rare events kill power → bigger n, proxy/trigger metrics, or CUPED. Don't under-power and call it 'no effect.'" },
+
+  { cluster: "🧪 Experimentation", q: "You can only randomize at the creator/channel level, not the viewer. What changes?",
+    a: "<p><strong>Structure — cluster randomization.</strong></p><p>Randomizing groups (creators) not individuals → the <strong>unit of analysis is the cluster</strong>. Within-cluster viewers are correlated, so effective sample size shrinks → <strong>less power</strong>. Analyze at the cluster level or with a <strong>hierarchical model</strong> (or cluster-robust SEs) that accounts for within-cluster correlation — otherwise you understate variance and over-call significance.</p>",
+    trap: "Cluster randomization → fewer effective units, correlated within cluster → cluster-level / hierarchical analysis or you inflate false positives." },
+
+  { cluster: "🧪 Experimentation", q: "Your A/B is significant on revenue, but the confidence interval is very wide. Would you ship?",
+    a: "<p><strong>Structure — statistical vs. practical significance.</strong></p><p>Significant but wide CI = <strong>underpowered</strong> — the magnitude is uncertain and could be tiny. Check the <strong>lower bound</strong>: is even the pessimistic end worth shipping? Weigh <strong>practical significance</strong> (is the point estimate big enough to matter) and <strong>run longer</strong> to tighten the CI before a costly or irreversible launch.</p>",
+    trap: "Significant ≠ done. A wide CI = uncertain magnitude → check the lower bound + practical significance; gather more data." },
+
+  { cluster: "🧪 Experimentation", q: "How would you use CUPED to increase power in an experiment?",
+    a: "<p><strong>Structure — variance reduction.</strong></p><p>CUPED uses <strong>pre-experiment data</strong> (e.g., each user's pre-period metric) as a covariate to <strong>remove predictable variance</strong> from the outcome before comparing groups. Lower variance → <strong>tighter CIs / more power at the same n</strong> (or same power with fewer users / a shorter run). Needs a stable pre-period covariate correlated with the outcome.</p>",
+    trap: "CUPED = regress out pre-period behavior → less noise → more power for 'free.' Requires a correlated pre-period covariate." },
+
+  { cluster: "🧪 Experimentation", q: "Two variants tie on the primary metric but differ on a guardrail. How do you decide?",
+    a: "<p><strong>Structure — metric hierarchy + tradeoff.</strong></p><p>If the primary is a true tie, the <strong>guardrail breaks the tie</strong> — pick the variant that doesn't harm (or improves) it. First confirm the tie isn't just <strong>underpowered</strong> (a wide CI hiding a real difference). Weigh the guardrail's <strong>severity</strong> — a trust/latency regression outweighs a neutral primary; ship neither if the regression is serious.</p>",
+    trap: "A guardrail regression can veto a neutral primary — weigh severity, and check the 'tie' isn't just low power." },
 ];
 
 // ---- state ----
