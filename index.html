@@ -282,6 +282,14 @@
         <tr><td class="term">Recommend</td><td>Leading story, the decision / next step, and what you'd monitor.</td></tr>
       </table>
     </div>
+    <div class="cs-section">
+      <h2>Answer frameworks — steps to hit</h2>
+      <table class="cs">
+        <tr><td class="term">Build a model</td><td>Frame (<strong>problem type + define target + error costs</strong>) → data/labels (<strong>imbalance, leakage, validation split</strong>) → features (+ domain signal) → model (baseline → complex) → evaluate (metric by cost, proper split) → deploy + <strong>monitor drift / adversarial</strong> → business action.</td></tr>
+        <tr><td class="term">Causal (no A/B)</td><td>Frame (<strong>confounding → need a counterfactual</strong>) → pick method by setup (DiD / RDD / IV / PSM / synthetic control / CausalImpact) → <strong>state + validate the key assumption</strong> (parallel pre-trends, placebo) → guardrails / net impact → <strong>land a recommendation, not just an estimate</strong>.</td></tr>
+        <tr><td class="term">A/B test</td><td>Goal + <strong>hypothesis</strong> → <strong>one primary</strong> metric (+ secondary + guardrails) → <strong>randomization unit</strong> → design (α = 0.05, power 80%, <strong>MDE</strong>, duration ≥ 1 cycle) → risks (novelty/primacy, interference, <strong>SRM</strong>) → decision rule (primary sig <strong>and</strong> guardrails intact <strong>and</strong> practically significant).</td></tr>
+      </table>
+    </div>
     <div class="footer-hint">Quick reference · switch to 🎴 Flashcards to self-quiz</div>
   </div>
 
