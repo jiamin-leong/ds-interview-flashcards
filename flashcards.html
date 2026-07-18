@@ -277,7 +277,7 @@
       <h2>Approach — C · H · I · R</h2>
       <table class="cs">
         <tr><td class="term">Clarify</td><td>Restate the question, define the metric, scope it, state assumptions.</td></tr>
-        <tr><td class="term">Hypothesize</td><td>A structured (MECE) space of causes — real vs. artifact, internal vs. external, by segment.</td></tr>
+        <tr><td class="term">Hypothesize</td><td>A layered <strong>MECE</strong> space, ordered by cost-to-rule-out: <strong>1) Real vs. artifact</strong> (logging / definition / pipeline — check first) → <strong>2) numerator vs. denominator</strong> (decompose the metric) → <strong>3) internal</strong> (a change we made) <strong>vs. external</strong> (seasonality, competitor, platform) → <strong>4) segment</strong> (geo / platform / device / new-vs-returning / surface) to localize. <span class="hint">Heuristic: <strong>sudden</strong> step → a specific event/launch/bug; <strong>gradual</strong> → seasonality, mix shift, or a <em>staged</em> instrumentation change (gradual ≠ not-an-artifact).</span></td></tr>
         <tr><td class="term">Investigate</td><td>Tie each hypothesis to a check; prioritize by <strong>cost-to-rule-out</strong> (cheapest first).</td></tr>
         <tr><td class="term">Recommend</td><td>Leading story, the decision / next step, and what you'd monitor.</td></tr>
       </table>
