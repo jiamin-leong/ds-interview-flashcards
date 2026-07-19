@@ -161,6 +161,7 @@
         <tr><td class="term">t-test</td><td>Compares a mean when the population SD is <strong>unknown</strong> (estimated by sample SD s) / small n; t-distribution (fatter tails). \( t = \dfrac{\bar X - \mu}{s/\sqrt{n}} \), df = \( n-1 \)<br><span class="hint">Same shape as z, but with sample SD s in place of σ.</span></td></tr>
         <tr><td class="term">Bootstrap</td><td>Resample <strong>with replacement</strong> many times, recompute the statistic → empirical <strong>sampling distribution</strong> → CI / SE with <strong>no distributional assumption</strong>. <span class="hint">Estimates <strong>uncertainty</strong> of a median / ratio / skewed metric. (A Monte Carlo method.)</span></td></tr>
         <tr><td class="term">Permutation test</td><td><strong>Shuffle the group labels</strong> many times to build the <strong>null distribution</strong> of the difference → p-value = fraction as extreme as observed. <span class="hint"><strong>Tests a difference</strong> non-parametrically; good for small samples / non-normal data.</span></td></tr>
+        <tr><td class="term">Critical values (z)</td><td><strong>Two-sided:</strong> 90% → ±1.645 · <strong>95% → ±1.96</strong> · 99% → ±2.576. &nbsp; <strong>One-sided:</strong> 90% → 1.28 · 95% → 1.645 · 99% → 2.33. <span class="hint">Reject H₀ if |z| &gt; critical value. For sample-size / power: 80% power → \( z_\beta = 0.84 \), 90% power → 1.28.</span></td></tr>
       </table>
     </div>
 
