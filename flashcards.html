@@ -254,6 +254,7 @@
     <div class="cs-section">
       <h2>Validation &amp; leakage</h2>
       <table class="cs">
+        <tr><td class="term">Reduce overfitting</td><td>Overfitting = <strong>high variance</strong> (memorizes training noise → train ≫ test performance). <strong>Fixes:</strong> more data · <strong>regularization (L1 / L2)</strong> · simpler model / feature selection · cross-validation for tuning · early stopping · dropout (NNs) · bagging / ensembles. <span class="hint">Underfitting = the opposite: high bias, model too simple.</span></td></tr>
         <tr><td class="term">Strategy vs. metric</td><td><strong>Validation strategy</strong> (holdout / CV / walk-forward) = HOW you split data to estimate generalization. <strong>Metric</strong> (precision, PR-AUC, RMSE…) = WHAT you compute on the held-out slice. Always used together.</td></tr>
         <tr><td class="term">Holdout</td><td>One train/test split. Simple, cheap; fine for <strong>large</strong> data. Higher-variance estimate.</td></tr>
         <tr><td class="term">k-fold CV</td><td>Rotate through k train/val splits, average. Best for <strong>limited</strong> data (stable estimate) &amp; tuning. Cost: k× training.</td></tr>
