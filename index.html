@@ -179,6 +179,7 @@
         <tr><td class="term">Bernoulli</td><td>Single yes/no trial · param <strong>p</strong> · mean p, var p(1−p). <span class="hint">One transaction: fraud or not.</span></td></tr>
         <tr><td class="term">Binomial</td><td># successes in n independent trials · params <strong>n, p</strong> · mean np, var np(1−p). <span class="hint"># conversions out of N visitors — every conversion-rate A/B test.</span></td></tr>
         <tr><td class="term">Poisson</td><td># rare events in a fixed interval · param <strong>λ</strong> (rate) · <strong>mean = var = λ</strong>. <span class="hint">Fraud events per day. If over-dispersed (var &gt; mean) → Negative Binomial.</span></td></tr>
+        <tr><td class="term">Geometric</td><td># trials <strong>until the first success</strong> · param <strong>p</strong> · mean 1/p, var (1−p)/p². <span class="hint">PMF \( (1-p)^{k-1}p \). E.g. transactions until the first fraud.</span></td></tr>
         <tr><td class="term">Normal</td><td>Continuous, symmetric; sums/means via CLT · params <strong>μ, σ²</strong> · mean μ, var σ². <span class="hint">Sampling distribution of a mean.</span></td></tr>
         <tr><td class="term">Exponential</td><td>Time <em>between</em> Poisson events · param <strong>λ</strong> · mean 1/λ, var 1/λ². <span class="hint">Time between fraud attempts.</span></td></tr>
         <tr><td class="term">Uniform</td><td>All outcomes equally likely · params <strong>a, b</strong> · mean (a+b)/2. <span class="hint">Random assignment / baselines.</span></td></tr>
