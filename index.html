@@ -243,6 +243,18 @@
     </div>
 
     <div class="cs-section">
+      <h2>Ranking metrics</h2>
+      <table class="cs">
+        <tr><td class="term">Precision@k</td><td>Of the <strong>top k</strong> results, the fraction that are relevant. <span class="hint">"Are the top results good?"</span></td></tr>
+        <tr><td class="term">Recall@k</td><td>Of <strong>all relevant</strong> items, the fraction that appear in the <strong>top k</strong>. <span class="hint">"Did we surface the relevant ones?"</span></td></tr>
+        <tr><td class="term">NDCG</td><td>Normalized Discounted Cumulative Gain — <strong>graded</strong> relevance + log position discount: \( DCG=\sum \dfrac{rel_i}{\log_2(i+1)} \), normalized by the ideal ranking → 0–1. <span class="hint">Best for graded relevance (search / recs).</span></td></tr>
+        <tr><td class="term">MAP</td><td>Mean Average Precision — <strong>binary</strong> relevance: average precision@k at each relevant rank, meaned over queries. <span class="hint">Best for binary relevance.</span></td></tr>
+        <tr><td class="term">MRR</td><td>Mean Reciprocal Rank = \( 1/(\text{rank of first relevant item}) \). <span class="hint">Best for known-item search (one right answer).</span></td></tr>
+      </table>
+      <div style="color:var(--muted);font-size:12.5px;margin-top:8px;">Computed per query, then averaged. Offline proxies → confirm with an online A/B.</div>
+    </div>
+
+    <div class="cs-section">
       <h2>Methods</h2>
       <table class="cs">
         <tr><td class="term">Clustering</td><td>Unsupervised <strong>segmentation</strong> by similarity. <strong>k-means</strong> (choose k via elbow/silhouette), <strong>hierarchical</strong> (dendrogram, no preset k), <strong>DBSCAN</strong> (density, finds outliers). <span class="hint">Standardize features → choose k → <strong>profile clusters into actionable personas</strong>.</span></td></tr>
