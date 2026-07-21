@@ -304,6 +304,29 @@
         <tr><td class="term">Build a model</td><td>Frame (<strong>problem type + define target + error costs</strong>) → data/labels (<strong>imbalance, leakage, validation split</strong>) → features (+ domain signal) → model (baseline → complex) → evaluate (metric by cost, proper split) → deploy + <strong>monitor drift / adversarial</strong> → business action.</td></tr>
         <tr><td class="term">Causal (no A/B)</td><td>Frame (<strong>confounding → need a counterfactual</strong>) → pick method by setup (DiD / RDD / IV / PSM / synthetic control / CausalImpact) → <strong>state + validate the key assumption</strong> (parallel pre-trends, placebo) → guardrails / net impact → <strong>land a recommendation, not just an estimate</strong>.</td></tr>
         <tr><td class="term">A/B test</td><td>Goal + <strong>hypothesis</strong> → <strong>one primary</strong> metric (+ secondary + guardrails) → <strong>randomization unit</strong> → design (α = 0.05, power 80%, <strong>MDE</strong>, duration ≥ 1 cycle) → risks (novelty/primacy, interference, <strong>SRM</strong>) → decision rule (primary sig <strong>and</strong> guardrails intact <strong>and</strong> practically significant).</td></tr>
+        <tr><td class="term">Decision / "should we launch?"</td><td><strong>Name the tension first</strong> (often short-term engagement vs. long-term trust/well-being — don't jump to "A/B it") → metric that captures it (e.g. satisfaction-weighted) → <strong>long-term holdback</strong> for slow effects → <strong>de-risk by design</strong> (off-switch / limit), not just measure the downside.</td></tr>
+        <tr><td class="term">Prioritization / "which first?"</td><td><strong>RICE</strong>: Reach × Impact × Confidence ÷ Effort → but <strong>ground each in data</strong> (Impact = what you'd query for <em>headroom</em>; Reach = <strong>segment by geo</strong> — 'niche' globally can be huge in emerging markets) → recommend + validate the top pick with a small test.</td></tr>
+      </table>
+    </div>
+    <div class="cs-group">💻 SQL — patterns &amp; gotchas</div>
+    <div class="cs-section">
+      <h2>Window patterns</h2>
+      <table class="cs">
+        <tr><td class="term">Top-N / first per group</td><td><code>ROW_NUMBER()/RANK() OVER (PARTITION BY key ORDER BY … )</code> → filter <code>rnk ≤ N</code>. <span class="hint"><strong>ROW_NUMBER</strong> = exactly N (add a tiebreaker); <strong>RANK</strong> keeps ties (can return &gt;N); <strong>DENSE_RANK</strong> = no gaps.</span></td></tr>
+        <tr><td class="term">Period-over-period</td><td><code>LAG(x) OVER (ORDER BY period)</code>, then <code>(cur/prev) − 1</code>. <span class="hint">The <code>− 1</code> goes <strong>outside</strong> the <code>OVER (…)</code>. <code>ORDER BY</code> lives <em>inside</em> <code>OVER</code>, not inside <code>LAG()</code>.</span></td></tr>
+        <tr><td class="term">Running total / share</td><td>Aggregate first, then <code>SUM(x) OVER (ORDER BY …)</code> (running) or <code>SUM(x) OVER ()</code> (denominator). <span class="hint">Use <strong>SUM</strong> of the per-group count, not <code>COUNT</code> again.</span></td></tr>
+        <tr><td class="term">Rolling window</td><td><code>… OVER (ORDER BY d ROWS BETWEEN 6 PRECEDING AND CURRENT ROW)</code>. <span class="hint">Counts <em>rows</em> not days → build a <strong>date spine</strong> for calendar gaps; <code>COALESCE(x,0)</code> so gaps count as 0.</span></td></tr>
+      </table>
+    </div>
+    <div class="cs-section">
+      <h2>Joins &amp; gotchas</h2>
+      <table class="cs">
+        <tr><td class="term">⚠️ LEFT JOIN + WHERE</td><td>A filter on the <strong>right</strong> table in <code>WHERE</code> silently turns a <code>LEFT JOIN</code> into an <code>INNER JOIN</code> → put the filter in the <strong><code>ON</code> clause</strong> (also how you put a time window on a join, e.g. retention).</td></tr>
+        <tr><td class="term">Combine two event tables</td><td>Aggregate each <strong>separately</strong> by day → join on date (avoids fan-out). Want all periods incl. one-sided? <strong><code>FULL OUTER JOIN</code></strong> + <code>COALESCE(a.key, b.key)</code> + <code>COALESCE(metric, 0)</code>.</td></tr>
+        <tr><td class="term">Rates after a LEFT JOIN</td><td><code>COALESCE(numerator, 0)</code> and <code>NULLIF(denominator, 0)</code> — otherwise a no-match row gives NULL, not 0.</td></tr>
+        <tr><td class="term">"% that have a follow-up"</td><td>Count the <strong>anchor</strong> rows meeting the condition: <code>COUNT(CASE WHEN cond THEN id END)</code>, not the matched rows. "Next event per user" → <strong><code>LEAD</code></strong>, not a self-join.</td></tr>
+        <tr><td class="term">Point-in-time active</td><td><code>start_ts &lt; month_start AND (end_ts IS NULL OR end_ts ≥ month_start)</code> — captures rows active as-of the date (incl. those that churn later). <span class="hint">Current <code>status</code> ≠ status as-of-then.</span></td></tr>
+        <tr><td class="term">⚠️ Small habits</td><td>Recency filter = <code>ts ≥ DATE_ADD('day', −N, CURRENT_DATE)</code> (not <code>≤</code>) · <code>COUNT(*)</code> over <code>COUNT(DISTINCT pk)</code> · <strong>exact</strong> <code>COUNT(DISTINCT)</code> not <code>approx_distinct</code> at a threshold/flag · rolling-time distinct count → <strong>self-join</strong> on the range (can't window <code>COUNT(DISTINCT)</code>).</td></tr>
       </table>
     </div>
     <div class="footer-hint">Quick reference · switch to 🎴 Flashcards to self-quiz</div>
@@ -864,6 +887,18 @@ const CARDS = [
   { cluster: "📊 Statistics", q: "z-test calculation — the one pattern + worked two-proportion example?",
     a: "<p>Every z-test: <strong>\\(z = \\dfrac{\\text{difference}}{\\text{standard error}}\\)</strong> = signal / noise. Only the SE changes.</p><p><strong>Example</strong> — control 200/2000 (10%), treatment 240/2000 (12%):</p><p>1. Pooled \\(\\hat p = \\dfrac{200+240}{4000} = 0.11\\)<br>2. \\(SE = \\sqrt{0.11 \\times 0.89 \\times (\\tfrac{1}{2000}+\\tfrac{1}{2000})} \\approx 0.0099\\)<br>3. \\(z = \\dfrac{0.12 - 0.10}{0.0099} \\approx 2.02\\)<br>4. \\(2.02 > 1.96\\) → significant (p ≈ 0.043)</p>",
     trap: "z = how many standard errors apart the groups are. Bigger difference or smaller SE → bigger z. Tails only change the bar (1.96 vs 1.645)." },
+
+  { cluster: "🤖 Modeling", q: "Building a fraud model — the two fraud-specific things to volunteer (before being asked)?",
+    a: "<p><strong>1. Cost asymmetry — amount-weighted.</strong> A false negative loses the fraud <em>amount</em>; a false positive blocks a legit user (friction + lost trust). Costs scale with value → set the <strong>threshold by expected cost, not a flat 0.8</strong>, and use <strong>graduated actions</strong>: allow → <strong>challenge (step-up auth / OTP)</strong> → block + review (challenge preserves the legit user <em>and</em> stops fraud).</p><p><strong>2. Label problem.</strong> Labels come from <strong>chargebacks / reports that lag</strong> weeks → train &amp; evaluate on <strong>matured</strong> data; and some fraud is <strong>never reported (PU problem)</strong> → measured recall is an <strong>upper bound</strong>.</p>",
+    trap: "Volunteer cost-asymmetry (amount-weighted + graduated actions) and label lag/PU <b>up front</b> — needing a probe for these is the pass→strong-hire gap." },
+
+  { cluster: "🧪 Experimentation", q: "How do you evaluate a fraud/abuse model that BLOCKS flagged cases — when you can't observe the counterfactual?",
+    a: "<p><strong>The problem (selective labels):</strong> in treatment the model blocks flagged transactions, so they never complete → you can't label whether they were truly fraud. The intervention hides the outcome.</p><p><strong>Design around it:</strong><br>• Compare <strong>net realized fraud losses</strong> (chargebacks / $) at the <strong>group level</strong> — observable regardless of blocking; lower in treatment if the model works.<br>• A <strong>let-through holdback</strong>: allow a small random % of <em>flagged</em> transactions through → measures precision on what you're blocking (costs some fraud, gives ground truth).<br>• Disputes / human review for false positives.</p>",
+    trap: "Don't try to label blocked cases — measure <b>observable net losses at the group level</b> + a <b>let-through holdback</b>. And frame legit-user friction as a <b>co-primary</b>, not just a guardrail." },
+
+  { cluster: "🔍 Applied analysis", q: "T&S diagnosis — a metric is declining. The framing that signals seniority?",
+    a: "<p>A declining metric can be the <strong>enforcement system working correctly</strong> — you removed fake / fraudulent activity:</p><p>• Play Store rating ↓ → removed <strong>fake positive reviews</strong> (now honest).<br>• Ads CTR ↓ → filtered <strong>click fraud</strong>.<br>• Fraud reports ↓ → better prevention.</p><p>Always pair it with the <strong>malicious</strong> reading: the same drop could be an <strong>attack</strong> (review bombing, coordinated 1-stars).</p>",
+    trap: "Volunteer <b>both</b> readings — 'good decline' (enforcement working) vs. 'attack' (coordinated abuse). Distinguishing them is the T&S judgment they're grading." },
 ];
 
 // ---- state ----
