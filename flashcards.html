@@ -143,6 +143,12 @@
   .katex-display > .katex { text-align: left; display: inline-block; white-space: nowrap; }
   .fml .katex-display { margin: 4px 0; }
   .fml-label { display: block; font-size: 12px; color: var(--muted); margin-bottom: -2px; }
+  .wex { display: block; background: rgba(79,209,139,.07); border-left: 2px solid #4fd18b;
+         border-radius: 0 6px 6px 0; padding: 7px 12px; margin: 10px 0; font-size: 13.5px; color: var(--text); }
+  .wex b { color: #8fe7b8; font-weight: 600; }
+  .wex-title { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: .06em;
+               color: #4fd18b; font-weight: 800; margin-bottom: 4px; }
+  .wex .step { display: block; margin: 2px 0; }
   .cs-group { font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #cfe2ff; border-bottom: 2px solid var(--accent); padding-bottom: 6px; margin: 36px 0 8px; }
   .ptable-wrap { overflow: auto; -webkit-overflow-scrolling: touch; margin: 4px 0 10px; border: 1px solid var(--border); border-radius: 12px; max-height: 80vh; }
   table.ptable { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 12px; min-width: 680px; background: var(--panel); }
@@ -195,12 +201,35 @@
         <tr><td class="term">Critical values (z)</td><td><strong>Two-sided:</strong> 90% → ±1.645 · <strong>95% → ±1.96</strong> · 99% → ±2.576. &nbsp; <strong>One-sided:</strong> 90% → 1.28 · 95% → 1.645 · 99% → 2.33. <span class="hint">Reject H₀ if |z| &gt; critical value. For sample-size / power: 80% power → \( z_\beta = 0.84 \), 90% power → 1.28.</span></td></tr>
         <tr><td class="term" style="white-space:normal">Confidence interval</td><td>The SE is the <em>same denominator you used in the z-test</em> — no new work.
           <span class="fml">\[ \text{CI} = \hat\theta \;\pm\; z_{\alpha/2} \times \text{SE}(\hat\theta) \]</span>
+          <span class="wex"><span class="wex-title">worked — one sample vs a benchmark</span>
+            <span class="step">SLA target <b>24 hrs</b>. Observed: <b>n = 400</b>, mean <b>25.2</b>, sd <b>12</b>.</span>
+            <span class="step">1. SE = sd/√n = 12/√400 = 12/20 = <b>0.6</b> &nbsp;<em>(not 12 — that's the SD)</em></span>
+            <span class="step">2. margin = 1.96 × 0.6 = <b>1.18</b></span>
+            <span class="step">3. CI = 25.2 ± 1.18 = <b>[24.02, 26.38]</b></span>
+            <span class="step">4. Excludes 24 — barely. Matches z = 1.2/0.6 = <b>2.0</b>, also barely over 1.96. <b>The test and the interval always agree.</b></span>
+            <span class="step">Two-sample: same recipe, but θ̂ is the <b>difference</b>. 6.0% vs 6.6% at n = 20,000 each → SE 0.00243 → CI <b>[+0.12pp, +1.08pp]</b>, i.e. <b>+2% to +18% relative</b>. Report both units.</span>
+          </span>
           <span class="hint"><strong>SE, never SD.</strong> SD spreads individual observations; SE spreads your <em>estimate</em>. For a mean, SE = SD/√n — a factor of √n apart.<br>For two-sample tests the interval goes around the <strong>difference</strong>, not around either group.<br><strong>Proportions:</strong> pooled SE for the <em>test</em> (under H₀ the rates are equal), unpooled for the <em>interval</em> (under the alternative they aren't). Common follow-up question.<br>CI and test always agree: excludes the null value ⟺ significant. Report the interval — the p-value says <em>whether</em>, the interval says <em>how much</em>.</span></td></tr>
         <tr><td class="term" style="white-space:normal">MDE &amp; sample size <span class="hint" style="display:block">(Lehr's rule)</span></td><td><span class="fml"><span class="fml-label">minimum detectable effect</span>\[ \text{MDE} = (z_{\alpha/2} + z_{\beta})\times \text{SE} \;\approx\; 2.8\,\text{SE} \]</span>
           <span class="fml"><span class="fml-label">sample size per arm — means</span>\[ n \approx \frac{16\,\sigma^2}{\Delta^2} \]</span>
           <span class="fml"><span class="fml-label">sample size per arm — proportions</span>\[ n \approx \frac{16\,p(1-p)}{\Delta^2} \]</span>
           <span class="fml"><span class="fml-label">inverted: smallest effect a given n can detect</span>\[ \Delta \approx \sqrt{\frac{16\,\sigma^2}{n}} \]</span>
-          <span class="hint">2.8 is for 95% two-sided at 80% power; use <strong>3.24</strong> for 90% power. The 16 is 2 × 2.8² ≈ 15.7 — <strong>the 2 is already in there for both arms</strong>, which is why going straight to the 16-formula stops you dropping the √2.<br><strong>Don't confuse two things:</strong> <strong>1.96 × SE</strong> is the <em>critical difference</em> — the smallest difference you'd have to <em>observe</em> to call it significant. <strong>2.8 × SE</strong> is the <em>MDE</em> — the smallest <em>true</em> effect you'd catch 80% of the time. At an effect equal to 1.96×SE you only have <strong>50% power</strong>.<br><strong>Worked:</strong> baseline 6% conversion, detect a 10% relative lift (Δ = 0.006) → 16(0.06)(0.94)/0.006² ≈ <strong>25,000 per arm</strong>. Means: sd 200s, detect 8s → 16(200²)/8² = <strong>10,000 per arm</strong>.<br><strong>Δ is squared</strong> — halving the effect you want to detect <strong>quadruples</strong> the sample. “Can we detect 1% instead of 2%?” is never a small request.<br><strong>Always convert to runtime:</strong> n per arm ÷ daily traffic per arm = days. That's the answer a PM can act on.<br><strong>Caveat:</strong> MDE is a <em>design</em> input computed before the test. Computing it retrospectively from the observed SE is a fair “what could this test have seen?” check — but <strong>observed power</strong> from the observed effect size is meaningless.</span></td></tr>
+          <span class="wex"><span class="wex-title">worked — MDE from a finished test</span>
+            <span class="step">Two arms: n = 5,000 (sd 8) and n = 15,000 (sd 9).</span>
+            <span class="step">1. SE = √(8²/5,000 + 9²/15,000) = √(0.0128 + 0.0054) = √0.0182 = <b>0.135</b></span>
+            <span class="step">2. <b>Critical difference</b> = 1.96 × 0.135 = <b>0.26</b> — smallest diff you'd have to <em>observe</em> to call it significant.</span>
+            <span class="step">3. <b>MDE</b> = 2.8 × 0.135 = <b>0.38</b> — smallest <em>true</em> effect you'd catch 80% of the time.</span>
+            <span class="step">Quote the MDE, not the critical difference. At an effect equal to 1.96×SE you only have <b>50% power</b>.</span>
+          </span>
+          <span class="wex"><span class="wex-title">worked — sample size before a test</span>
+            <span class="step">Baseline conversion <b>6%</b>. Want to detect a <b>10% relative</b> lift.</span>
+            <span class="step">1. Convert to absolute: Δ = 0.10 × 0.06 = <b>0.006</b> &nbsp;<em>(pin down relative vs absolute first — it's where most of the error lives)</em></span>
+            <span class="step">2. Variance from the rate: p(1−p) = 0.06 × 0.94 = <b>0.0564</b> &nbsp;<em>(proportions need no separate σ)</em></span>
+            <span class="step">3. n = 16 × 0.0564 / 0.006² = 0.9024 / 0.000036 ≈ <b>25,000 per arm</b> (50,000 total)</span>
+            <span class="step">4. Runtime at 4,000/arm/day = 6.3 days → <b>run a full 7</b>. Never run part-weeks; weekday and weekend users differ.</span>
+            <span class="step">Means version: sd 200s, detect 8s → 16 × 200²/8² = <b>10,000 per arm</b>.</span>
+          </span>
+          <span class="hint">2.8 is for 95% two-sided at 80% power; use <strong>3.24</strong> for 90% power. The 16 is 2 × 2.8² ≈ 15.7 — <strong>the 2 is already in there for both arms</strong>, which is why going straight to the 16-formula stops you dropping the √2.<br><strong>Don't confuse two things:</strong> <strong>1.96 × SE</strong> is the <em>critical difference</em> — the smallest difference you'd have to <em>observe</em> to call it significant. <strong>2.8 × SE</strong> is the <em>MDE</em> — the smallest <em>true</em> effect you'd catch 80% of the time. At an effect equal to 1.96×SE you only have <strong>50% power</strong>.<br><strong>Δ is squared</strong> — halving the effect you want to detect <strong>quadruples</strong> the sample. “Can we detect 1% instead of 2%?” is never a small request.<br><strong>Always convert to runtime:</strong> n per arm ÷ daily traffic per arm = days. That's the answer a PM can act on.<br><strong>Caveat:</strong> MDE is a <em>design</em> input computed before the test. Computing it retrospectively from the observed SE is a fair “what could this test have seen?” check — but <strong>observed power</strong> from the observed effect size is meaningless.</span></td></tr>
       </table>
     </div>
 
