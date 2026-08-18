@@ -149,6 +149,50 @@
   .wex-title { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: .06em;
                color: #4fd18b; font-weight: 800; margin-bottom: 4px; }
   .wex .step { display: block; margin: 2px 0; }
+  .cmp-wrap { overflow-x: auto; margin: 4px 0 14px; }
+  table.cmp { border-collapse: collapse; background: var(--panel); border: 1px solid var(--border);
+              border-radius: 12px; overflow: hidden; font-size: 13px; min-width: 640px; width: 100%; }
+  table.cmp th { text-align: left; padding: 9px 11px; background: var(--panel-2); color: #fff;
+                 font-size: 11.5px; font-weight: 800; letter-spacing: .03em; border-bottom: 1px solid var(--border); }
+  table.cmp td { padding: 9px 11px; border-top: 1px solid var(--border); vertical-align: top; }
+  table.cmp td:first-child { font-weight: 700; color: #cfe2ff; white-space: nowrap; }
+  table.cmp .err { display: block; color: #ff8a8a; font-weight: 600; font-size: 12px; margin-top: 4px; }
+  table.cmp .ok { display: block; color: #8fe7b8; font-size: 12px; margin-top: 4px; }
+
+  /* ---- collapsible cheatsheet ---- */
+  .cs-toolbar { position: sticky; top: 0; z-index: 20; background: var(--bg);
+                padding: 10px 0 10px; margin: 0 0 14px; border-bottom: 1px solid var(--border); }
+  .cs-searchrow { display: flex; gap: 8px; align-items: center; }
+  .cs-search { flex: 1; background: var(--panel); border: 1px solid var(--border); color: var(--text);
+               border-radius: 9px; padding: 9px 12px; font-size: 14px; font-family: inherit; }
+  .cs-search:focus { outline: none; border-color: var(--accent); }
+  .cs-btn { background: var(--panel); border: 1px solid var(--border); color: var(--muted);
+            border-radius: 9px; padding: 9px 11px; font-size: 12px; cursor: pointer; white-space: nowrap; font-family: inherit; }
+  .cs-btn:hover { color: var(--text); border-color: var(--accent); }
+  .cs-nav { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 9px; }
+  .cs-chip { background: var(--panel); border: 1px solid var(--border); color: var(--muted);
+             border-radius: 999px; padding: 5px 11px; font-size: 12px; cursor: pointer; font-family: inherit; }
+  .cs-chip:hover, .cs-chip.on { background: var(--accent); color: #04101f; border-color: var(--accent); }
+  .cs-hits { font-size: 12px; color: var(--muted); margin-top: 8px; }
+
+  .cs-block { margin: 0 0 10px; scroll-margin-top: 108px; }
+  .cs-block > .cs-group { margin: 0; display: flex; align-items: center; gap: 10px; cursor: pointer;
+                          border-bottom: 2px solid var(--border); padding: 11px 4px; user-select: none; }
+  .cs-block.open > .cs-group { border-bottom-color: var(--accent); }
+  .cs-block > .cs-group:hover { color: #fff; }
+  .cs-group .chev { font-size: 11px; color: var(--muted); transition: transform .15s ease; margin-left: auto; }
+  .cs-block.open .chev { transform: rotate(90deg); }
+  .cs-group .cnt { font-size: 11px; font-weight: 600; color: var(--muted); background: var(--panel-2);
+                   border-radius: 999px; padding: 2px 8px; letter-spacing: 0; text-transform: none; }
+  .cs-body { display: none; padding-top: 4px; }
+  .cs-block.open > .cs-body { display: block; }
+  .cs-block > .cs-body > .cs-section:first-child { margin-top: 14px; }
+
+  .to-top { position: fixed; right: 16px; bottom: 16px; z-index: 30; background: var(--panel);
+            border: 1px solid var(--border); color: var(--muted); border-radius: 999px;
+            padding: 9px 13px; font-size: 13px; cursor: pointer; display: none; font-family: inherit; }
+  .to-top.show { display: block; }
+  .to-top:hover { color: var(--text); border-color: var(--accent); }
   .cs-group { font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #cfe2ff; border-bottom: 2px solid var(--accent); padding-bottom: 6px; margin: 36px 0 8px; }
   .ptable-wrap { overflow: auto; -webkit-overflow-scrolling: touch; margin: 4px 0 10px; border: 1px solid var(--border); border-radius: 12px; max-height: 80vh; }
   table.ptable { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 12px; min-width: 680px; background: var(--panel); }
@@ -179,19 +223,50 @@
     <div class="cs-group">📊 Statistics</div>
     <div class="cs-section">
       <h2>Hypothesis testing</h2>
+      <p style="font-size:13px;color:var(--muted);margin:0 0 8px">
+        <strong style="color:var(--text)">z, CI and MDE never change form — only the SE changes.</strong>
+        &nbsp;\( z = \tfrac{\text{est}}{SE} \) &nbsp;·&nbsp; \( CI = \text{est} \pm 1.96\,SE \) &nbsp;·&nbsp; \( MDE = 2.8\,SE \)
+      </p>
+      <div class="cmp-wrap">
+      <table class="cmp">
+        <tr><th></th><th>One mean <span style="font-weight:400">(vs benchmark)</span></th><th>Two means</th><th>Two proportions</th></tr>
+        <tr><td>Estimate</td>
+            <td>\( \bar X - \mu_0 \)</td>
+            <td>\( \bar X_B - \bar X_A \)</td>
+            <td>\( \hat p_B - \hat p_A \)</td></tr>
+        <tr><td>SE</td>
+            <td>\( \sigma/\sqrt{n} \)<span class="err">⚠ not σ/n — variance over n, THEN square root</span></td>
+            <td>\( \sqrt{\dfrac{\sigma_A^2}{n_A} + \dfrac{\sigma_B^2}{n_B}} \)<span class="err">⚠ MY #1 SLIP — dropped 3×. A difference ALWAYS has two variance terms.</span></td>
+            <td><strong>test (pooled):</strong> \( \sqrt{\hat p(1-\hat p)\left(\tfrac{1}{n_A}+\tfrac{1}{n_B}\right)} \)<br><strong>CI (unpooled):</strong> \( \sqrt{\tfrac{p_A(1-p_A)}{n_A} + \tfrac{p_B(1-p_B)}{n_B}} \)<span class="err">⚠ pooled \( \hat p = \tfrac{x_A+x_B}{n_A+n_B} \) — volume-weighted, NEVER \( \tfrac{p_A+p_B}{2} \)</span></td></tr>
+        <tr><td>SE, equal n</td>
+            <td>\( \sigma/\sqrt{n} \)</td>
+            <td>\( \sigma\sqrt{2/n} \)<span class="ok">✓ SANITY CHECK: the difference SE is √2 ≈ 1.41× the one-arm SE. If yours isn't, you dropped a term.</span></td>
+            <td>\( \sqrt{2p(1-p)/n} \)</td></tr>
+        <tr><td>z</td>
+            <td>est / SE</td>
+            <td>est / SE</td>
+            <td>est / SE<sub>pooled</sub></td></tr>
+        <tr><td>CI</td>
+            <td>est ± 1.96 SE</td>
+            <td>est ± 1.96 SE</td>
+            <td>est ± 1.96 SE<sub>unpooled</sub></td></tr>
+        <tr><td>MDE</td>
+            <td>2.8 SE</td>
+            <td>2.8 SE</td>
+            <td>2.8 SE<span class="err">⚠ 1.96·SE is the CRITICAL DIFFERENCE (50% power), not the MDE</span></td></tr>
+        <tr><td>n per arm</td>
+            <td>\( \dfrac{8\sigma^2}{\Delta^2} \)</td>
+            <td>\( \dfrac{16\sigma^2}{\Delta^2} \)<span class="ok">✓ 8 → 16 IS the second arm. Which number you used tells you whether both arms are in there.</span></td>
+            <td>\( \dfrac{16\,p(1-p)}{\Delta^2} \)<span class="ok">✓ proportions need no separate σ — variance is p(1−p)</span></td></tr>
+        <tr><td>⚠ Before you compute</td>
+            <td colspan="3"><span class="err" style="margin-top:0">Δ IS SQUARED. Write it on its own line, box it, reuse the symbol — never retype the number. Using 2Δ understates n by 4×.</span><span class="err">Pin down RELATIVE vs ABSOLUTE first: a 5% relative lift on a 3.2% base is Δ = 0.0016, not 0.05.</span></td></tr>
+        <tr><td>⚠ Before you finish</td>
+            <td colspan="3"><span class="err" style="margin-top:0">ALWAYS give the CI — I skip it. The p-value says <em>whether</em>; the interval says <em>how much</em>.</span><span class="err">State the lift in BOTH units: "+0.51pp absolute, +9.8% relative."</span><span class="err">Convert n to RUNTIME, and round up to whole weeks.</span></td></tr>
+      </table>
+      </div>
       <table class="cs">
         <tr><td class="term">α (alpha)</td><td>Significance level — the pre-set <strong>false-positive</strong> rate: \( P(\text{reject } H_0 \mid H_0\ \text{true}) \) = Type I error. <span class="hint">Typically 0.05.</span></td></tr>
         <tr><td class="term">β (beta)</td><td><strong>False-negative</strong> rate: \( P(\text{fail to reject } H_0 \mid H_0\ \text{false}) \) = Type II error. <strong>Power \( = 1 - \beta \).</strong> <span class="hint">Typically β = 0.20 → 80% power.</span></td></tr>
-        <tr><td class="term">z-test (1-sample)</td><td>One group vs a <strong>known value</strong> μ₀ (σ known or large n).
-          <span class="fml">\[ Z = \frac{\bar X - \mu_0}{\sigma/\sqrt{n}} \]</span>
-          <span class="hint">“Is our mean different from a benchmark?”</span></td></tr>
-        <tr><td class="term">z-test (2-sample means)</td><td>Two groups' means vs <strong>each other</strong>.
-          <span class="fml">\[ Z = \frac{\bar X_A - \bar X_B}{\sqrt{\dfrac{\sigma_A^2}{n_A} + \dfrac{\sigma_B^2}{n_B}}} \]</span>
-          <span class="hint">A/B test on a continuous metric. <strong>Both</strong> variance terms — the SE of a difference always combines both arms. With equal n that's √2 larger than one arm alone; drop it and you overstate Z by 41%.</span></td></tr>
-        <tr><td class="term">z-test (2-proportion)</td><td>Two groups' rates vs each other. Pool first:
-          <span class="fml"><span class="fml-label">pooled rate</span>\[ \hat p = \frac{x_A + x_B}{n_A + n_B} \]</span>
-          <span class="fml"><span class="fml-label">test statistic</span>\[ Z = \frac{\hat p_A - \hat p_B}{\sqrt{\hat p\,(1-\hat p)\left(\dfrac{1}{n_A} + \dfrac{1}{n_B}\right)}} \]</span>
-          <span class="hint">A/B conversion test. <strong>All z-tests = signal / SE.</strong> Pooled \( \hat p \) for the <em>test</em>; each arm's own \( \hat p \) for the <em>CI</em>.</span></td></tr>
         <tr><td class="term">t-test</td><td>Compares a mean when the population SD is <strong>unknown</strong> (estimated by sample SD s) or n is small; t-distribution has fatter tails.
           <span class="fml">\[ t = \frac{\bar X - \mu}{s/\sqrt{n}}, \qquad df = n-1 \]</span>
           <span class="hint">Same shape as z, with sample SD s in place of σ. At large n the two are indistinguishable — swapping t for z is never a fix for anything.</span></td></tr>
@@ -1358,6 +1433,133 @@ document.addEventListener("keydown", (e) => {
 document.getElementById("tabCheat").onclick = () => showView("cheatsheet");
 document.getElementById("tabProducts").onclick = () => showView("products");
 document.getElementById("tabCards").onclick = () => showView("flashcards");
+
+/* ---------- collapsible cheatsheet ---------- */
+function buildCollapsible(viewId, key) {
+  const view = document.getElementById(viewId);
+  if (!view || view.dataset.built) return;
+  view.dataset.built = "1";
+
+  const groups = [...view.querySelectorAll(":scope > .cs-group")];
+  if (!groups.length) return;
+
+  let state = {};
+  try { state = JSON.parse(localStorage.getItem(key) || "{}"); } catch (e) {}
+
+  const bar = document.createElement("div");
+  bar.className = "cs-toolbar";
+  bar.innerHTML =
+    '<div class="cs-searchrow">' +
+      '<input class="cs-search" type="search" placeholder="Search\u2026 (e.g. CUPED, shrinkage, SE)">' +
+      '<button class="cs-btn" data-act="expand">Expand all</button>' +
+      '<button class="cs-btn" data-act="collapse">Collapse all</button>' +
+    '</div>' +
+    '<div class="cs-nav"></div>' +
+    '<div class="cs-hits" style="display:none"></div>';
+  view.insertBefore(bar, view.firstChild);
+  const nav = bar.querySelector(".cs-nav");
+  const hits = bar.querySelector(".cs-hits");
+
+  groups.forEach((g, i) => {
+    const wrap = document.createElement("div");
+    wrap.className = "cs-block";
+    wrap.id = key + "-blk-" + i;
+    const body = document.createElement("div");
+    body.className = "cs-body";
+    g.parentNode.insertBefore(wrap, g);
+    wrap.appendChild(g);
+    let n = wrap.nextSibling;
+    while (n && !(n.nodeType === 1 && n.classList.contains("cs-group"))) {
+      const nxt = n.nextSibling;
+      body.appendChild(n);
+      n = nxt;
+    }
+    wrap.appendChild(body);
+
+    const label = g.textContent.trim();
+    const rows = body.querySelectorAll("tr").length;
+    g.innerHTML = '<span class="lbl">' + label + '</span>' +
+                  '<span class="cnt">' + rows + '</span>' +
+                  '<span class="chev">\u25B6</span>';
+    if (state[i]) wrap.classList.add("open");
+    g.onclick = () => {
+      wrap.classList.toggle("open");
+      state[i] = wrap.classList.contains("open");
+      localStorage.setItem(key, JSON.stringify(state));
+    };
+
+    const chip = document.createElement("button");
+    chip.className = "cs-chip";
+    chip.textContent = label;
+    chip.onclick = () => {
+      wrap.classList.add("open");
+      state[i] = true;
+      localStorage.setItem(key, JSON.stringify(state));
+      wrap.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+    nav.appendChild(chip);
+  });
+
+  const blocks = [...view.querySelectorAll(".cs-block")];
+
+  function setAll(open) {
+    blocks.forEach((b, i) => { b.classList.toggle("open", open); state[i] = open; });
+    localStorage.setItem(key, JSON.stringify(state));
+  }
+  bar.querySelector('[data-act="expand"]').onclick = () => setAll(true);
+  bar.querySelector('[data-act="collapse"]').onclick = () => setAll(false);
+
+  function clearSearch() {
+    blocks.forEach((b, i) => {
+      b.style.display = "";
+      b.classList.toggle("open", !!state[i]);
+      b.querySelectorAll("tr").forEach(tr => { tr.style.display = ""; });
+      b.querySelectorAll(".cs-section").forEach(sec => { sec.style.display = ""; });
+    });
+    hits.style.display = "none";
+  }
+
+  const input = bar.querySelector(".cs-search");
+  input.oninput = () => {
+    const q = input.value.trim().toLowerCase();
+    if (!q) { clearSearch(); return; }
+    let total = 0, shown = 0;
+    blocks.forEach(b => {
+      let n = 0;
+      b.querySelectorAll("tr").forEach(tr => {
+        if (tr.closest("thead")) { tr.style.display = ""; return; }
+        const hit = tr.textContent.toLowerCase().includes(q);
+        tr.style.display = hit ? "" : "none";
+        if (hit) n++;
+      });
+      b.querySelectorAll(".cs-section").forEach(sec => {
+        const any = [...sec.querySelectorAll("tr")]
+          .some(tr => !tr.closest("thead") && tr.style.display !== "none");
+        sec.style.display = any ? "" : "none";
+      });
+      b.style.display = n ? "" : "none";
+      b.classList.toggle("open", n > 0);
+      total += n;
+      if (n) shown++;
+    });
+    hits.style.display = "block";
+    hits.textContent = total
+      ? total + " row" + (total === 1 ? "" : "s") + " in " + shown + " section" + (shown === 1 ? "" : "s")
+      : "No matches";
+  };
+}
+
+buildCollapsible("cheatsheetView", "cs_open_cheat");
+buildCollapsible("productsView", "cs_open_products");
+
+const toTop = document.createElement("button");
+toTop.className = "to-top";
+toTop.textContent = "\u2191 Top";
+toTop.onclick = () => window.scrollTo({ top: 0, behavior: "smooth" });
+document.body.appendChild(toTop);
+window.addEventListener("scroll", () => {
+  toTop.classList.toggle("show", window.scrollY > 500);
+});
 
 render();
 showView("cheatsheet");
