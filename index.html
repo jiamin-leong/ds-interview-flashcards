@@ -135,6 +135,65 @@
   table.cs .term { font-weight: 700; color: #fff; white-space: nowrap; width: 118px; }
   table.cs code { background: var(--panel-2); padding: 1px 6px; border-radius: 5px; font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 12.5px; color: #b8e0ff; }
   table.cs .hint { color: var(--muted); }
+  /* Display formulas: own line, left-aligned, scrollable on narrow screens */
+  .fml { display: block; background: var(--panel-2); border-left: 2px solid var(--accent);
+         border-radius: 0 6px 6px 0; padding: 4px 12px; margin: 9px 0; overflow-x: auto; }
+  .fml + .fml { margin-top: -3px; }
+  .katex-display { margin: 6px 0; text-align: left; }
+  .katex-display > .katex { text-align: left; display: inline-block; white-space: nowrap; }
+  .fml .katex-display { margin: 4px 0; }
+  .fml-label { display: block; font-size: 12px; color: var(--muted); margin-bottom: -2px; }
+  .wex { display: block; background: rgba(79,209,139,.07); border-left: 2px solid #4fd18b;
+         border-radius: 0 6px 6px 0; padding: 7px 12px; margin: 10px 0; font-size: 13.5px; color: var(--text); }
+  .wex b { color: #8fe7b8; font-weight: 600; }
+  .wex-title { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: .06em;
+               color: #4fd18b; font-weight: 800; margin-bottom: 4px; }
+  .wex .step { display: block; margin: 2px 0; }
+  .cmp-wrap { overflow-x: auto; margin: 4px 0 14px; }
+  table.cmp { border-collapse: collapse; background: var(--panel); border: 1px solid var(--border);
+              border-radius: 12px; overflow: hidden; font-size: 13px; min-width: 640px; width: 100%; }
+  table.cmp th { text-align: left; padding: 9px 11px; background: var(--panel-2); color: #fff;
+                 font-size: 11.5px; font-weight: 800; letter-spacing: .03em; border-bottom: 1px solid var(--border); }
+  table.cmp td { padding: 9px 11px; border-top: 1px solid var(--border); vertical-align: top; }
+  table.cmp td:first-child { font-weight: 700; color: #cfe2ff; white-space: nowrap; }
+  table.cmp .err { display: block; color: #ff8a8a; font-weight: 600; font-size: 12px; margin-top: 4px; }
+  table.cmp .ok { display: block; color: #8fe7b8; font-size: 12px; margin-top: 4px; }
+
+  /* ---- collapsible cheatsheet ---- */
+  .cs-toolbar { position: sticky; top: 0; z-index: 20; background: var(--bg);
+                padding: 10px 0 10px; margin: 0 0 14px; border-bottom: 1px solid var(--border); }
+  .cs-searchrow { display: flex; gap: 8px; align-items: center; }
+  .cs-search { flex: 1; background: var(--panel); border: 1px solid var(--border); color: var(--text);
+               border-radius: 9px; padding: 9px 12px; font-size: 14px; font-family: inherit; }
+  .cs-search:focus { outline: none; border-color: var(--accent); }
+  .cs-btn { background: var(--panel); border: 1px solid var(--border); color: var(--muted);
+            border-radius: 9px; padding: 9px 11px; font-size: 12px; cursor: pointer; white-space: nowrap; font-family: inherit; }
+  .cs-btn:hover { color: var(--text); border-color: var(--accent); }
+  .cs-nav { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 9px; }
+  .cs-chip { background: var(--panel); border: 1px solid var(--border); color: var(--muted);
+             border-radius: 999px; padding: 5px 11px; font-size: 12px; cursor: pointer; font-family: inherit; }
+  .cs-chip:hover, .cs-chip.on { background: var(--accent); color: #04101f; border-color: var(--accent); }
+  .cs-hits { font-size: 12px; color: var(--muted); margin-top: 8px; }
+  .cs-note { font-size: 12.5px; color: var(--muted); margin: 10px 4px 2px; line-height: 1.5; }
+
+  .cs-block { margin: 0 0 10px; scroll-margin-top: 108px; }
+  .cs-block > .cs-group { margin: 0; display: flex; align-items: center; gap: 10px; cursor: pointer;
+                          border-bottom: 2px solid var(--border); padding: 11px 4px; user-select: none; }
+  .cs-block.open > .cs-group { border-bottom-color: var(--accent); }
+  .cs-block > .cs-group:hover { color: #fff; }
+  .cs-group .chev { font-size: 11px; color: var(--muted); transition: transform .15s ease; margin-left: auto; }
+  .cs-block.open .chev { transform: rotate(90deg); }
+  .cs-group .cnt { font-size: 11px; font-weight: 600; color: var(--muted); background: var(--panel-2);
+                   border-radius: 999px; padding: 2px 8px; letter-spacing: 0; text-transform: none; }
+  .cs-body { display: none; padding-top: 4px; }
+  .cs-block.open > .cs-body { display: block; }
+  .cs-block > .cs-body > .cs-section:first-child { margin-top: 14px; }
+
+  .to-top { position: fixed; right: 16px; bottom: 16px; z-index: 30; background: var(--panel);
+            border: 1px solid var(--border); color: var(--muted); border-radius: 999px;
+            padding: 9px 13px; font-size: 13px; cursor: pointer; display: none; font-family: inherit; }
+  .to-top.show { display: block; }
+  .to-top:hover { color: var(--text); border-color: var(--accent); }
   .cs-group { font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #cfe2ff; border-bottom: 2px solid var(--accent); padding-bottom: 6px; margin: 36px 0 8px; }
   .ptable-wrap { overflow: auto; -webkit-overflow-scrolling: touch; margin: 4px 0 10px; border: 1px solid var(--border); border-radius: 12px; max-height: 80vh; }
   table.ptable { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 12px; min-width: 680px; background: var(--panel); }
@@ -142,10 +201,26 @@
   table.ptable td { padding: 9px 10px; border-top: 1px solid var(--border); vertical-align: top; }
   table.ptable td.prod, table.ptable th:first-child { position: sticky; left: 0; z-index: 1; background: var(--panel-2); box-shadow: 1px 0 0 var(--border); }
   table.ptable th:first-child { z-index: 3; }
-  table.ptable td.prod { font-weight: 700; color: #fff; white-space: nowrap; }
+  table.ptable td.prod { font-weight: 700; color: #fff; white-space: normal; overflow-wrap: break-word;
+                         width: 1%; min-width: 110px; max-width: 160px; }
   table.ptable td.ns { color: #cfe2ff; }
   table.ptable ol { margin: 0; padding-left: 15px; }
   table.ptable li { margin-bottom: 2px; }
+  .sayit { background: var(--accent-soft); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0;
+           padding: 9px 12px; margin: 11px 0 5px; font-size: 13px; line-height: 1.6; }
+  .sayit b { color: var(--accent); font-size: 10px; letter-spacing: .06em; text-transform: uppercase;
+           display: block; margin-bottom: 4px; font-weight: 700; }
+  .probe { font-size: 12px; color: var(--muted); margin: 0 0 13px 3px; line-height: 1.55; }
+  .tri { display: grid; gap: 7px; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); margin: 10px 0 4px; }
+  .tri > div { background: var(--panel); border: 1px solid var(--border); border-radius: 9px; padding: 9px 11px; font-size: 13px; line-height: 1.55; }
+  .tri .n { color: var(--accent); font-weight: 700; margin-right: 5px; }
+  table.ptable td.detail { background: var(--bg); border-top: 1px dashed var(--border);
+                           padding: 13px 14px 15px; line-height: 1.6; }
+  table.ptable td.detail .detail-hd { font-size: 10.5px; text-transform: uppercase; letter-spacing: .04em;
+                           color: var(--accent); margin-bottom: 9px; font-weight: 700; }
+  table.ptable td.detail .detail-grid { display: grid; gap: 9px 26px;
+                           grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); }
+  table.ptable td.detail .detail-grid > p { margin: 0; }
 </style>
 </head>
 <body>
@@ -165,16 +240,88 @@
     <div class="cs-group">📊 Statistics</div>
     <div class="cs-section">
       <h2>Hypothesis testing</h2>
+      <p style="font-size:13px;color:var(--muted);margin:0 0 8px">
+        <strong style="color:var(--text)">z, CI and MDE never change form — only the SE changes.</strong>
+        &nbsp;\( z = \tfrac{\text{est}}{SE} \) &nbsp;·&nbsp; \( CI = \text{est} \pm 1.96\,SE \) &nbsp;·&nbsp; \( MDE = 2.8\,SE \)
+      </p>
+      <div class="cmp-wrap">
+      <table class="cmp">
+        <tr><th></th><th>One mean <span style="font-weight:400">(vs benchmark)</span></th><th>Two means</th><th>Two proportions</th></tr>
+        <tr><td>Estimate</td>
+            <td>\( \bar X - \mu_0 \)</td>
+            <td>\( \bar X_B - \bar X_A \)</td>
+            <td>\( \hat p_B - \hat p_A \)</td></tr>
+        <tr><td>SE</td>
+            <td>\( \sigma/\sqrt{n} \)<span class="err">⚠ not σ/n — variance over n, THEN square root</span></td>
+            <td>\( \sqrt{\dfrac{\sigma_A^2}{n_A} + \dfrac{\sigma_B^2}{n_B}} \)<span class="err">⚠ MY #1 SLIP — dropped 3×. A difference ALWAYS has two variance terms.</span></td>
+            <td><strong>test (pooled):</strong> \( \sqrt{\hat p(1-\hat p)\left(\tfrac{1}{n_A}+\tfrac{1}{n_B}\right)} \)<br><strong>CI (unpooled):</strong> \( \sqrt{\tfrac{p_A(1-p_A)}{n_A} + \tfrac{p_B(1-p_B)}{n_B}} \)<span class="err">⚠ pooled \( \hat p = \tfrac{x_A+x_B}{n_A+n_B} \) — volume-weighted, NEVER \( \tfrac{p_A+p_B}{2} \)</span></td></tr>
+        <tr><td>SE, equal n</td>
+            <td>\( \sigma/\sqrt{n} \)</td>
+            <td>\( \sigma\sqrt{2/n} \)<span class="ok">✓ SANITY CHECK: the difference SE is √2 ≈ 1.41× the one-arm SE. If yours isn't, you dropped a term.</span></td>
+            <td>\( \sqrt{2p(1-p)/n} \)</td></tr>
+        <tr><td>z</td>
+            <td>est / SE</td>
+            <td>est / SE</td>
+            <td>est / SE<sub>pooled</sub></td></tr>
+        <tr><td>CI</td>
+            <td>est ± 1.96 SE</td>
+            <td>est ± 1.96 SE</td>
+            <td>est ± 1.96 SE<sub>unpooled</sub></td></tr>
+        <tr><td>MDE</td>
+            <td>2.8 SE</td>
+            <td>2.8 SE</td>
+            <td>2.8 SE<span class="err">⚠ 1.96·SE is the CRITICAL DIFFERENCE (50% power), not the MDE</span></td></tr>
+        <tr><td>n per arm</td>
+            <td>\( \dfrac{8\sigma^2}{\Delta^2} \)</td>
+            <td>\( \dfrac{16\sigma^2}{\Delta^2} \)<span class="ok">✓ 8 → 16 IS the second arm. Which number you used tells you whether both arms are in there.</span></td>
+            <td>\( \dfrac{16\,p(1-p)}{\Delta^2} \)<span class="ok">✓ proportions need no separate σ — variance is p(1−p)</span></td></tr>
+        <tr><td>⚠ Before you compute</td>
+            <td colspan="3"><span class="err" style="margin-top:0">Δ IS SQUARED. Write it on its own line, box it, reuse the symbol — never retype the number. Using 2Δ understates n by 4×.</span><span class="err">Pin down RELATIVE vs ABSOLUTE first: a 5% relative lift on a 3.2% base is Δ = 0.0016, not 0.05.</span></td></tr>
+        <tr><td>⚠ Before you finish</td>
+            <td colspan="3"><span class="err" style="margin-top:0">ALWAYS give the CI — I skip it. The p-value says <em>whether</em>; the interval says <em>how much</em>.</span><span class="err">State the lift in BOTH units: "+0.51pp absolute, +9.8% relative."</span><span class="err">Convert n to RUNTIME, and round up to whole weeks.</span></td></tr>
+      </table>
+      </div>
       <table class="cs">
         <tr><td class="term">α (alpha)</td><td>Significance level — the pre-set <strong>false-positive</strong> rate: \( P(\text{reject } H_0 \mid H_0\ \text{true}) \) = Type I error. <span class="hint">Typically 0.05.</span></td></tr>
         <tr><td class="term">β (beta)</td><td><strong>False-negative</strong> rate: \( P(\text{fail to reject } H_0 \mid H_0\ \text{false}) \) = Type II error. <strong>Power \( = 1 - \beta \).</strong> <span class="hint">Typically β = 0.20 → 80% power.</span></td></tr>
-        <tr><td class="term">z-test (1-sample)</td><td>One group vs a <strong>known value</strong> μ₀ (σ known or large n). \( Z = \dfrac{\bar X - \mu_0}{\sigma/\sqrt{n}} \) <span class="hint">"Is our mean different from a benchmark?"</span></td></tr>
-        <tr><td class="term">z-test (2-sample means)</td><td>Two groups' means vs <strong>each other</strong>. \( Z = \dfrac{\bar X_A - \bar X_B}{\sqrt{\sigma_A^2/n_A + \sigma_B^2/n_B}} \) <span class="hint">A/B test on a continuous metric.</span></td></tr>
-        <tr><td class="term">z-test (2-proportion)</td><td>Two groups' rates vs each other; pooled \( \hat p = \dfrac{x_A+x_B}{n_A+n_B} \). \( Z = \dfrac{\hat p_A - \hat p_B}{\sqrt{\hat p(1-\hat p)\left(\tfrac{1}{n_A}+\tfrac{1}{n_B}\right)}} \) <span class="hint">A/B conversion test. All z-tests = signal / SE.</span></td></tr>
-        <tr><td class="term">t-test</td><td>Compares a mean when the population SD is <strong>unknown</strong> (estimated by sample SD s) / small n; t-distribution (fatter tails). \( t = \dfrac{\bar X - \mu}{s/\sqrt{n}} \), df = \( n-1 \)<br><span class="hint">Same shape as z, but with sample SD s in place of σ.</span></td></tr>
-        <tr><td class="term">Bootstrap</td><td>Resample <strong>with replacement</strong> many times, recompute the statistic → empirical <strong>sampling distribution</strong> → CI / SE with <strong>no distributional assumption</strong>. <span class="hint">Estimates <strong>uncertainty</strong> of a median / ratio / skewed metric. (A Monte Carlo method.)</span></td></tr>
-        <tr><td class="term">Permutation test</td><td><strong>Shuffle the group labels</strong> many times to build the <strong>null distribution</strong> of the difference → p-value = fraction as extreme as observed. <span class="hint"><strong>Tests a difference</strong> non-parametrically; good for small samples / non-normal data.</span></td></tr>
+        <tr><td class="term">t-test</td><td>Compares a mean when the population SD is <strong>unknown</strong> (estimated by sample SD s) or n is small; t-distribution has fatter tails.
+          <span class="fml">\[ t = \frac{\bar X - \mu}{s/\sqrt{n}}, \qquad df = n-1 \]</span>
+          <span class="hint">Same shape as z, with sample SD s in place of σ. At large n the two are indistinguishable — swapping t for z is never a fix for anything.</span></td></tr>
+        <tr><td class="term">Bootstrap</td><td>Resample <strong>with replacement</strong>, recompute the statistic → empirical <strong>sampling distribution</strong> → <strong>CI / SE</strong>, no distributional assumption. Answers <strong>“how big, and how sure?”</strong> <span class="hint">Use when you want an <strong>interval</strong> on a median / ratio / skewed metric. (A Monte Carlo method.) <strong>Caveat:</strong> resampling doesn't fix a heavy tail — it faithfully reproduces it. A whale is either in your resample or not, so bootstrap CIs stay unstable. <strong>Capping fixes the tail; resampling only describes it honestly.</strong></span></td></tr>
+        <tr><td class="term">Permutation test</td><td><strong>Shuffle the group labels</strong> to build the <strong>null distribution</strong> of the difference → p-value = fraction as extreme as observed. Answers <strong>“is there an effect at all?”</strong> — exact under the sharp null, assumption-free. <span class="hint">Gives a <strong>p-value but NO confidence interval</strong>. Good for small samples / non-normal data.</span></td></tr>
+        <tr><td class="term" style="white-space:normal">Bootstrap <em>or</em> permutation?</td><td><strong>Permutation = hypothesis test. Bootstrap = interval estimate.</strong> An experiment readout almost always needs the effect size with uncertainty → <strong>bootstrap</strong>. <span class="hint">Say it as: “permutation answers <em>is there an effect</em>, bootstrap answers <em>how big and how sure</em>.” Both are non-parametric, so neither rescues you from a heavy tail — pre-register a cap for that.</span></td></tr>
         <tr><td class="term">Critical values (z)</td><td><strong>Two-sided:</strong> 90% → ±1.645 · <strong>95% → ±1.96</strong> · 99% → ±2.576. &nbsp; <strong>One-sided:</strong> 90% → 1.28 · 95% → 1.645 · 99% → 2.33. <span class="hint">Reject H₀ if |z| &gt; critical value. For sample-size / power: 80% power → \( z_\beta = 0.84 \), 90% power → 1.28.</span></td></tr>
+        <tr><td class="term" style="white-space:normal">Confidence interval</td><td>The SE is the <em>same denominator you used in the z-test</em> — no new work.
+          <span class="fml">\[ \text{CI} = \hat\theta \;\pm\; z_{\alpha/2} \times \text{SE}(\hat\theta) \]</span>
+          <span class="wex"><span class="wex-title">worked — one sample vs a benchmark</span>
+            <span class="step">SLA target <b>24 hrs</b>. Observed: <b>n = 400</b>, mean <b>25.2</b>, sd <b>12</b>.</span>
+            <span class="step">1. SE = sd/√n = 12/√400 = 12/20 = <b>0.6</b> &nbsp;<em>(not 12 — that's the SD)</em></span>
+            <span class="step">2. margin = 1.96 × 0.6 = <b>1.18</b></span>
+            <span class="step">3. CI = 25.2 ± 1.18 = <b>[24.02, 26.38]</b></span>
+            <span class="step">4. Excludes 24 — barely. Matches z = 1.2/0.6 = <b>2.0</b>, also barely over 1.96. <b>The test and the interval always agree.</b></span>
+            <span class="step">Two-sample: same recipe, but θ̂ is the <b>difference</b>. 6.0% vs 6.6% at n = 20,000 each → SE 0.00243 → CI <b>[+0.12pp, +1.08pp]</b>, i.e. <b>+2% to +18% relative</b>. Report both units.</span>
+          </span>
+          <span class="hint"><strong>SE, never SD.</strong> SD spreads individual observations; SE spreads your <em>estimate</em>. For a mean, SE = SD/√n — a factor of √n apart.<br>For two-sample tests the interval goes around the <strong>difference</strong>, not around either group.<br><strong>Proportions:</strong> pooled SE for the <em>test</em> (under H₀ the rates are equal), unpooled for the <em>interval</em> (under the alternative they aren't). Common follow-up question.<br>CI and test always agree: excludes the null value ⟺ significant. Report the interval — the p-value says <em>whether</em>, the interval says <em>how much</em>.</span></td></tr>
+        <tr><td class="term" style="white-space:normal">MDE &amp; sample size <span class="hint" style="display:block">(Lehr's rule)</span></td><td><span class="fml"><span class="fml-label">minimum detectable effect</span>\[ \text{MDE} = (z_{\alpha/2} + z_{\beta})\times \text{SE} \;\approx\; 2.8\,\text{SE} \]</span>
+          <span class="fml"><span class="fml-label">sample size per arm — means</span>\[ n \approx \frac{16\,\sigma^2}{\Delta^2} \]</span>
+          <span class="fml"><span class="fml-label">sample size per arm — proportions</span>\[ n \approx \frac{16\,p(1-p)}{\Delta^2} \]</span>
+          <span class="fml"><span class="fml-label">inverted: smallest effect a given n can detect</span>\[ \Delta \approx \sqrt{\frac{16\,\sigma^2}{n}} \]</span>
+          <span class="wex"><span class="wex-title">worked — MDE from a finished test</span>
+            <span class="step">Two arms: n = 5,000 (sd 8) and n = 15,000 (sd 9).</span>
+            <span class="step">1. SE = √(8²/5,000 + 9²/15,000) = √(0.0128 + 0.0054) = √0.0182 = <b>0.135</b></span>
+            <span class="step">2. <b>Critical difference</b> = 1.96 × 0.135 = <b>0.26</b> — smallest diff you'd have to <em>observe</em> to call it significant.</span>
+            <span class="step">3. <b>MDE</b> = 2.8 × 0.135 = <b>0.38</b> — smallest <em>true</em> effect you'd catch 80% of the time.</span>
+            <span class="step">Quote the MDE, not the critical difference. At an effect equal to 1.96×SE you only have <b>50% power</b>.</span>
+          </span>
+          <span class="wex"><span class="wex-title">worked — sample size before a test</span>
+            <span class="step">Baseline conversion <b>6%</b>. Want to detect a <b>10% relative</b> lift.</span>
+            <span class="step">1. Convert to absolute: Δ = 0.10 × 0.06 = <b>0.006</b> &nbsp;<em>(pin down relative vs absolute first — it's where most of the error lives)</em></span>
+            <span class="step">2. Variance from the rate: p(1−p) = 0.06 × 0.94 = <b>0.0564</b> &nbsp;<em>(proportions need no separate σ)</em></span>
+            <span class="step">3. n = 16 × 0.0564 / 0.006² = 0.9024 / 0.000036 ≈ <b>25,000 per arm</b> (50,000 total)</span>
+            <span class="step">4. Runtime at 4,000/arm/day = 6.3 days → <b>run a full 7</b>. Never run part-weeks; weekday and weekend users differ.</span>
+            <span class="step">Means version: sd 200s, detect 8s → 16 × 200²/8² = <b>10,000 per arm</b>.</span>
+          </span>
+          <span class="hint">2.8 is for 95% two-sided at 80% power; use <strong>3.24</strong> for 90% power. The 16 is 2 × 2.8² ≈ 15.7 — <strong>the 2 is already in there for both arms</strong>, which is why going straight to the 16-formula stops you dropping the √2.<br><strong>Don't confuse two things:</strong> <strong>1.96 × SE</strong> is the <em>critical difference</em> — the smallest difference you'd have to <em>observe</em> to call it significant. <strong>2.8 × SE</strong> is the <em>MDE</em> — the smallest <em>true</em> effect you'd catch 80% of the time. At an effect equal to 1.96×SE you only have <strong>50% power</strong>.<br><strong>Δ is squared</strong> — halving the effect you want to detect <strong>quadruples</strong> the sample. “Can we detect 1% instead of 2%?” is never a small request.<br><strong>Always convert to runtime:</strong> n per arm ÷ daily traffic per arm = days. That's the answer a PM can act on.<br><strong>Caveat:</strong> MDE is a <em>design</em> input computed before the test. Computing it retrospectively from the observed SE is a fair “what could this test have seen?” check — but <strong>observed power</strong> from the observed effect size is meaningless.</span></td></tr>
       </table>
     </div>
 
@@ -183,19 +330,30 @@
       <h2>Bayes' theorem</h2>
       <table class="cs">
         <tr><td class="term">Bayes' theorem</td><td>\( P(A \mid B) = \dfrac{P(B \mid A)\,P(A)}{P(B)} \) — updates the probability of hypothesis A given evidence B. <span class="hint">Denominator: \( P(B) = P(B\mid A)P(A) + P(B\mid \neg A)P(\neg A) \). Interview trick: reason with <strong>natural frequencies</strong> (counts), not the formula.</span></td></tr>
+        <tr><td class="term" style="white-space:normal">Shrinkage <span class="hint" style="display:block">(empirical Bayes)</span></td><td><strong>The problem:</strong> ranking units by a rate when sample sizes differ wildly — the top of the list is all tiny-n units with extreme values (a seller with 3 orders and 1 defect = 33%; a restaurant with 3 reviews at 5.0).<br><strong>The fix:</strong> pull each unit's estimate toward the population rate, weighted by its own volume.
+          <span class="fml"><span class="fml-label">rates — Beta–Binomial posterior mean</span>\[ \frac{x + \alpha}{n + \alpha + \beta} \]</span>
+          <span class="fml"><span class="fml-label">means / ratings — Bayesian average (C = global mean, m = prior weight)</span>\[ \frac{vR + mC}{v + m} \]</span>
+          <span class="fml"><span class="fml-label">both are the same weighted average</span>\[ w\cdot(\text{own}) + (1-w)\cdot(\text{population}), \qquad w = \frac{n}{n + \text{prior strength}} \]</span>
+          <span class="hint"><strong>Intuition — pseudo-counts.</strong> α and β are fake observations credited to everyone before they start: “each creative begins with 10 clicks and 490 misses, and has to earn its way off the population rate.” One identical rule for all units, and volume-dependent trust falls out automatically.<br><strong>Worked:</strong> population CTR 2%, prior strength 500 (α=10, β=490). 3/40 = 7.5% naive → (3+10)/(40+500) = <strong>2.4%</strong>. Same 7.5% off 300/4,000 → <strong>6.9%</strong>. <em>Identical rate, opposite conclusions.</em><br><strong>Picking the prior:</strong> empirical Bayes = fit the Beta to the observed spread of rates across all units (that's why it's “empirical”); or set α+β to “how many observations before I'd trust a unit alone.”<br><strong>Alternatives:</strong> rank on the <strong>lower bound of a Wilson interval</strong> (small n → wide interval → low bound → sinks on its own). A hard volume threshold is the crude version: it excludes information and creates a cliff.<br><strong>Same idea, other vocabulary:</strong> a random-effects / hierarchical model shrinks its fitted intercepts toward the grand mean by exactly this logic.<br><strong>Self-critique to volunteer:</strong> shrinkage deliberately biases individuals toward the mean to cut variance — if the goal is spotting a genuinely exceptional new unit fast, it will hide it.</span></td></tr>
       </table>
     </div>
 
     <div class="cs-section">
       <h2>Distributions</h2>
       <table class="cs">
-        <tr><td class="term">Bernoulli</td><td>Single yes/no trial · param <strong>p</strong> · mean p, var p(1−p). <span class="hint">One transaction: fraud or not.</span></td></tr>
-        <tr><td class="term">Binomial</td><td># successes in n independent trials · params <strong>n, p</strong> · mean np, var np(1−p). <span class="hint"># conversions out of N visitors — every conversion-rate A/B test.</span></td></tr>
-        <tr><td class="term">Poisson</td><td># rare events in a fixed interval · param <strong>λ</strong> (rate) · <strong>mean = var = λ</strong>. <span class="hint">Fraud events per day. If over-dispersed (var &gt; mean) → Negative Binomial.</span></td></tr>
-        <tr><td class="term">Geometric</td><td># trials <strong>until the first success</strong> · param <strong>p</strong> · mean 1/p, var (1−p)/p². <span class="hint">PMF \( (1-p)^{k-1}p \). E.g. transactions until the first fraud.</span></td></tr>
-        <tr><td class="term">Normal</td><td>Continuous, symmetric; sums/means via CLT · params <strong>μ, σ²</strong> · mean μ, var σ². <span class="hint">Sampling distribution of a mean.</span></td></tr>
-        <tr><td class="term">Exponential</td><td>Time <em>between</em> Poisson events · param <strong>λ</strong> · mean 1/λ, var 1/λ². <span class="hint">Time between fraud attempts.</span></td></tr>
-        <tr><td class="term">Uniform</td><td>All outcomes equally likely · params <strong>a, b</strong> · mean (a+b)/2. <span class="hint">Random assignment / baselines.</span></td></tr>
+        <tr><td class="term" style="white-space:normal">⤷ Routing: <strong>counts vs waits</strong></td><td><strong>First ask: am I counting events, or waiting for one?</strong><br><strong>COUNTS</strong> — fixed trials → <strong>Binomial</strong>; events in a window with var = mean → <strong>Poisson</strong>; var &gt; mean → <strong>Negative binomial</strong>.<br><strong>WAITS</strong> — discrete trials until first success → <strong>Geometric</strong>; continuous time to next event → <strong>Exponential</strong>; time to the r-th event → <strong>Gamma</strong>.<br><span class="hint"><strong>The bridge:</strong> if events arrive Poisson(λ), the <em>gaps between them</em> are Exponential(λ) — counts and waits are two views of one process.<br><strong>Waits carry two extra questions that counts never do:</strong> (1) is the <strong>hazard constant</strong>? (memorylessness — plot hazard by tenure); (2) <strong>who hasn't had the event yet</strong>? (censoring).</span></td></tr>
+        <tr><td class="term">Bernoulli</td><td>Single yes/no trial · param <strong>p</strong> · mean p, var p(1−p). <span class="hint">One transaction: fraud or not.<br><strong>Assumes:</strong> one atomic binary outcome, fixed p. <strong>Breaks when:</strong> the “trial” isn't atomic (a user can convert more than once) or p varies by unit.</span></td></tr>
+        <tr><td class="term">Binomial</td><td># successes in n independent trials · params <strong>n, p</strong> · mean np, var np(1−p). <span class="hint"># conversions out of N visitors — every conversion-rate A/B test. Note <strong>var &lt; mean always</strong> — a variance above the mean rules binomial out.<br><strong>Assumes:</strong> fixed n, <strong>independent</strong> trials, constant p. <strong>Breaks when:</strong> trials are correlated (sessions from one user, pages from one incident) or p varies across trials → over-dispersed → <strong>beta-binomial</strong> or cluster-robust SEs. Your CI is too narrow.</span></td></tr>
+        <tr><td class="term">Poisson</td><td># rare events in a fixed interval · param <strong>λ</strong> (rate) · <strong>mean = var = λ</strong>. <span class="hint">Fraud events per day. If over-dispersed (var &gt; mean) → Negative Binomial.<br><strong>Assumes:</strong> constant rate λ, <strong>independent</strong> events, equal exposure per unit. <strong>Breaks when:</strong> events arrive in <em>bursts</em> (one incident → ten pages); units differ in their rates (→ negative binomial); rate varies by time of day (→ non-homogeneous Poisson); units observed for unequal time (→ add an <strong>exposure offset</strong>, don't compare raw counts).</span></td></tr>
+        <tr><td class="term">Geometric</td><td># trials <strong>until the first success</strong> · param <strong>p</strong> · mean 1/p, var (1−p)/p². <span class="hint">PMF \( (1-p)^{k-1}p \). E.g. transactions until the first fraud.<br><strong>Assumes:</strong> constant p every trial = <strong>memoryless</strong> (history tells you nothing). <strong>Breaks when:</strong> hazard changes with tenure — learning curves, cliffs, renewal dates. Plus <strong>censoring</strong>: units that never had the event are silently excluded.</span></td></tr>
+        <tr><td class="term">Normal</td><td>Continuous, symmetric; sums/means via CLT · params <strong>μ, σ²</strong> · mean μ, var σ². <span class="hint">Sampling distribution of a mean.<br><strong>Assumes:</strong> for a <em>raw</em> variable, symmetry; for a <em>mean</em>, that n is large enough relative to the skew. <strong>Breaks when:</strong> the tail is heavy enough that a handful of points dominate the mean — the CLT may hold technically while the estimate stays unstable. Never apply it directly to bounded or count data.</span></td></tr>
+        <tr><td class="term">Exponential</td><td>Time <em>between</em> Poisson events · param <strong>λ</strong> · mean 1/λ, var 1/λ². <span class="hint">Time between fraud attempts.<br><strong>Assumes:</strong> <strong>memorylessness</strong> — constant hazard, waiting longer tells you nothing. <strong>Breaks when:</strong> arrivals cluster (after one page, another is far more likely within minutes) or the rate varies by time. Check: for a true exponential, <strong>var = mean²</strong>. If the hazard isn't flat → <strong>Weibull</strong> (monotone), <strong>piecewise-constant</strong> (boundary spikes), <strong>Cox PH</strong> (covariates), <strong>Kaplan–Meier</strong> (just the curve).</span></td></tr>
+        <tr><td class="term">Uniform</td><td>All outcomes equally likely · params <strong>a, b</strong> · mean (a+b)/2. <span class="hint">Random assignment / baselines.<br><strong>Assumes:</strong> genuinely equal probability across the range. <strong>Useful check:</strong> p-values under a true null are <strong>Uniform(0,1)</strong> — so a histogram of A/A test p-values should be flat. A spike near zero means your pipeline is broken.</span></td></tr>
+        <tr><td class="term" style="white-space:normal">Negative binomial</td><td>Counts that are <strong>over-dispersed</strong> — a mixture of Poissons because units differ in their rates (Poisson–Gamma). <strong>Mean = μ · Var = μ + μ²/r</strong> (r → ∞ recovers Poisson). Back it out: <strong>r = μ²/(Var − μ)</strong>. <span class="hint">Support tickets per customer, sessions per user, impressions per user — anywhere <strong>heterogeneity between units</strong> exists. Modelling it as Poisson understates variance → SEs too small → false significance.<br><strong>Assumes:</strong> the over-dispersion comes from <em>between-unit</em> rate differences (Gamma-distributed λ). <strong>Breaks when:</strong> the extra variance is really <em>within-unit bursting</em> — NB will fit the marginal counts but the mechanism is wrong, so predictions and interventions mislead. Unequal exposure still needs an offset.</span></td></tr>
+        <tr><td class="term" style="white-space:normal">Compound Bernoulli <span class="hint" style="display:block">(zero-inflated spend)</span></td><td>Convert w.p. <strong>p</strong>; if converted, value has mean <strong>μ</strong>, variance <strong>σ²</strong>; else 0.
+          <span class="fml"><span class="fml-label">expected value</span>\[ E[R] = p\,\mu \]</span>
+          <span class="fml"><span class="fml-label">variance — law of total variance</span>\[ \mathrm{Var}(R) = p\,\sigma^2 \;+\; p(1-p)\,\mu^2 \]</span>
+          <span class="hint"><strong>Worked:</strong> p=0.05, μ=$80, σ=$40 → E = $4; Var = 0.05(1600) + 0.05(0.95)(6400) = 80 + 304 = <strong>384</strong>, SD ≈ <strong>$19.6</strong> — SD is <strong>5× the mean</strong>.<br><strong>The insight:</strong> 304 of 384 (≈80%) comes from the second term — <em>whether</em> they convert, not <em>how much</em> they spend. So attack the zero-inflation, not order values: split into conversion rate × value-given-conversion, or CUPED on pre-period spend.<br><strong>Assumes:</strong> conversion and value-given-conversion are <strong>independent</strong>, and one purchase occasion per user. <strong>Breaks when:</strong> heavy buyers both convert more <em>and</em> spend more — that positive correlation adds a covariance term, so this formula <em>understates</em> the true variance. Multiple purchases per user break it too.</span></td></tr>
       </table>
       <div style="color:var(--muted);font-size:12.5px;margin-top:8px;">Links: Binomial = sum of n Bernoullis · Binomial ≈ Poisson when n large &amp; p small (λ = np) · Poisson counts ↔ Exponential inter-arrival times.</div>
     </div>
@@ -322,6 +480,32 @@
         <tr><td class="term">Prioritization / "which first?"</td><td><strong>RICE</strong>: Reach × Impact × Confidence ÷ Effort → but <strong>ground each in data</strong> (Impact = what you'd query for <em>headroom</em>; Reach = <strong>segment by geo</strong> — 'niche' globally can be huge in emerging markets) → recommend + validate the top pick with a small test.</td></tr>
       </table>
     </div>
+    <div class="cs-group">🐍 Python — code comprehension</div>
+    <div class="cs-section">
+      <h2>Edge cases — the six questions</h2>
+      <table class="cs">
+        <tr><td class="term" style="white-space:normal">1. What if it's <strong>empty</strong>?</td><td>Zero rows after a filter or join, or an empty arm. <span class="hint">Look for: <code>len(x)</code> in a denominator · <code>.mean()</code> / <code>.std()</code> on a possibly-empty Series · a groupby whose key may be absent. Usually returns <strong>NaN rather than raising</strong> — see the reference below.</span></td></tr>
+        <tr><td class="term" style="white-space:normal">2. What if there's only <strong>one</strong> row?</td><td>Single-element arms and single-member groups. <span class="hint"><code>.std()</code> uses <strong>ddof=1</strong>, so with n=1 it divides by zero → <strong>NaN</strong>. Any SE built on it is NaN, and every downstream comparison silently becomes False.</span></td></tr>
+        <tr><td class="term" style="white-space:normal">3. What if there are <strong>duplicates</strong>?</td><td>Duplicate keys on either side of a merge <strong>multiply rows</strong> (many-to-many blow-up), inflating counts and re-weighting every mean. <span class="hint">Also: <code>groupby([id, group])</code> where group <em>should</em> be constant per id will silently emit <strong>two rows</strong> for a user assigned twice — and put them in <strong>both arms</strong>. That's what an SRM check catches.</span></td></tr>
+        <tr><td class="term" style="white-space:normal">4. What if a value is <strong>null</strong>?</td><td>Ask the deciding question: <strong>is this missing, or is it a real zero?</strong> <span class="hint">Assigned users with no events are <strong>zeros</strong> — <code>fillna(0)</code>, never <code>dropna()</code>. Dropping them is a <strong>post-randomisation filter</strong> and breaks intent-to-treat. Any <code>dropna()</code> / <code>.notna()</code> / inner join between assignment and analysis deserves this question.</span></td></tr>
+        <tr><td class="term" style="white-space:normal">5. Does it <strong>mutate</strong> the input?</td><td>In-place operations change the caller's object. <span class="hint"><code>list.sort()</code> · <code>.append()</code> on a <strong>mutable default argument</strong> (created once at def time, shared across calls) · <code>inplace=True</code> · <code>del</code> while iterating a dict. Ask “is this a copy or a view?”</span></td></tr>
+        <tr><td class="term" style="white-space:normal">6. What's the <strong>complexity</strong>?</td><td>Look for a filter <em>inside</em> a loop over unique keys — <code>df[df.id == i]</code> per user is a full scan each time, so O(n·m). <span class="hint">Replace with one <code>groupby</code> / <code>merge</code>. Also say what you'd deliberately <strong>leave alone</strong>.</span></td></tr>
+      </table>
+    </div>
+    <div class="cs-section">
+      <h2>Silent failures — what actually happens (nothing crashes)</h2>
+      <table class="cs">
+        <tr><td class="term" style="white-space:normal">Any comparison with NaN</td><td><strong><code>NaN &gt; 1.96</code> → False. <code>NaN &lt; 0.05</code> → False.</strong> <span class="hint"><strong>The single most important one.</strong> A broken pipeline doesn't raise — it silently returns “not significant” / “don't ship”. Trace NaN all the way to the return value and say what the caller sees.</span></td></tr>
+        <tr><td class="term" style="white-space:normal">Empty Series</td><td><code>.mean()</code> → <strong>NaN</strong> · <code>.std()</code> → <strong>NaN</strong> · <code>.sum()</code> → <strong>0.0</strong>, not NaN. <span class="hint">The sum returning 0 is the nasty one: an empty group looks like a real zero.</span></td></tr>
+        <tr><td class="term" style="white-space:normal">Aggregations skip NaN</td><td><code>.mean()</code>, <code>.sum()</code>, <code>.std()</code> default to <strong>skipna=True</strong>. <span class="hint">They don't error and they don't return NaN — they <strong>quietly shrink the denominator</strong>. Two metrics in one function can end up computed over <em>different populations</em>. If nulls are non-random, that's a bias, not a rounding issue.</span></td></tr>
+        <tr><td class="term" style="white-space:normal">count vs size</td><td><code>.count()</code> <strong>excludes</strong> NaN · <code>.size</code> / <code>len()</code> <strong>includes</strong> it. <span class="hint">The gap between them <em>is</em> the null count — a free diagnostic.</span></td></tr>
+        <tr><td class="term" style="white-space:normal">Division by zero</td><td>Plain Python <code>1/0</code> → <strong>ZeroDivisionError</strong>. numpy/pandas floats: <code>1.0/0.0</code> → <strong>inf</strong> (warning only), <code>0.0/0.0</code> → <strong>NaN</strong>. <span class="hint">So a zero baseline in a lift calculation usually returns <strong>inf</strong> rather than crashing — and inf then fails every comparison quietly.</span></td></tr>
+        <tr><td class="term" style="white-space:normal">Default merge is inner</td><td><code>merge(...)</code> with no <code>how=</code> is an <strong>inner join</strong> and drops unmatched rows. <span class="hint">Between assignment and analysis that silently deletes assigned-but-inactive users. Same trap as SQL's LEFT JOIN + WHERE on the right table.</span></td></tr>
+        <tr><td class="term" style="white-space:normal">Sampling without replacement</td><td><code>random.sample(xs, len(xs))</code> is a <strong>permutation</strong>, not a bootstrap — every resample has the identical mean. <span class="hint">Bootstrap needs <strong>with replacement</strong> (<code>random.choices</code> / <code>np.random.choice</code>). Permutation is a different procedure testing a different null.</span></td></tr>
+        <tr><td class="term" style="white-space:normal">Standard error shape</td><td>Always <strong>variance over n, then square root</strong>: <code>(s**2/n)**0.5</code>, i.e. <code>s/√n</code>. <span class="hint"><code>s/n</code> is the classic planted bug — it makes SE far too small and z far too large. And for a <strong>difference</strong>, both arms contribute: <code>(sA**2/nA + sB**2/nB)**0.5</code>. One arm alone understates by √2.</span></td></tr>
+        <tr><td class="term" style="white-space:normal">Two-sided means abs()</td><td><code>z &gt; 1.96</code> and <code>1 - norm.cdf(z)</code> are both <strong>one-sided</strong>. <span class="hint">Correct: <code>abs(z) &gt; 1.96</code> and <code>2 * (1 - norm.cdf(abs(z)))</code>. Without it a strongly <em>harmful</em> result reports p ≈ 0.999 and “not significant” — you ship the harm. Drop the <code>abs()</code> and the two-sided p-value can also exceed 1, which is the tell.</span></td></tr>
+      </table>
+    </div>
     <div class="cs-group">💻 SQL — patterns &amp; gotchas</div>
     <div class="cs-section">
       <h2>Window patterns</h2>
@@ -347,6 +531,137 @@
   </div>
 
   <div id="productsView">
+    <div class="cs-group">⭐ The only 10 things to memorise</div>
+    <div class="cs-note">2–3 days of prep. Learn these ten sentences cold — everything below them is recognition-only, not recall.</div>
+    <div class="tri">
+      <div><span class="n">1</span><strong>Ask which user.</strong> Stripe’s customer is the <em>merchant</em>; the merchant’s customer is the <em>cardholder</em>. “Conversion” means different things for each.</div>
+      <div><span class="n">2</span><strong>The flow.</strong> Authorization → capture → settlement → payout. <em>Refund</em> = merchant-initiated. <em>Chargeback</em> = cardholder-initiated via their issuer.</div>
+      <div><span class="n">3</span><strong>TPV ≠ revenue.</strong> Interchange and scheme fees are pass-through. Volume can rise while net revenue falls.</div>
+      <div><span class="n">4</span><strong>Stripe is the backstop.</strong> Payouts in <em>days</em>, dispute liability in <em>months</em> — so every payout is unsecured credit.</div>
+      <div><span class="n">5</span><strong>False declines usually cost more than fraud.</strong> A blocked good customer loses the sale and often the relationship.</div>
+      <div><span class="n">6</span><strong>Threshold = cost ratio.</strong> <em>p* = C_FP / (C_FP + C_FN)</em> — which only means something if the score is a calibrated probability.</div>
+      <div><span class="n">7</span><strong>Don’t resample at 0.3%.</strong> Low probabilities are the correct output. Keep prevalence, use PR-AUC not accuracy, handle imbalance <em>at the threshold</em>.</div>
+      <div><span class="n">8</span><strong>Fraud labels lag 30–90 days</strong>, and blocked transactions have no outcome → label maturity + a let-through holdback.</div>
+      <div><span class="n">9</span><strong>Randomise at the grain the treatment is delivered.</strong> Usually the merchant → cluster the standard errors. Heavy tail → CUPED on pre-period volume.</div>
+      <div><span class="n">10</span><strong>Offers get declined.</strong> ITT is the headline, CACE the mechanism, IPW when the metric only exists for accepters. Propensity ≠ uplift.</div>
+    </div>
+    <div class="probe"><strong>Two habits that carry every answer:</strong> open with “what decision does this drive?” before naming a model or a metric · close with a recommendation, a threshold, and <strong>the sacrifice you’re choosing</strong>.</div>
+
+    <div class="cs-group">💳 Stripe basics</div>
+    <div class="cs-note">How to reason about any Stripe scenario.</div>
+    <div class="sayit"><b>Say this</b>“Before I start — when you say user, do you mean the merchant or their cardholder? Stripe’s revenue is the markup on volume, not the volume itself, so I’d want to know whether we’re optimising TPV or net revenue.”</div>
+    <div class="probe"><strong>If probed →</strong> auth/capture/settle/payout · interchange is pass-through · merchant volume is a power law, so state per-merchant vs dollar-weighted · quote risk in bps of volume.</div>
+    <div class="cs-section">
+      <table class="cs">
+        <tr><td class="term">Two users</td><td>Stripe’s customer = the <strong>merchant</strong>. The merchant’s customer = the <strong>cardholder</strong>. Ask which one, every time.</td></tr>
+        <tr><td class="term">Money flow</td><td>Cardholder → <strong>issuer</strong> → <strong>network</strong> → <strong>Stripe</strong> → merchant.<br><strong>Authorization</strong> (issuer approves — this is <em>auth rate</em>) → <strong>capture</strong> → <strong>settlement</strong> → <strong>payout</strong>.<br><strong>Refund</strong> = merchant-initiated. <strong>Chargeback</strong> = cardholder-initiated; merchant loses funds + fee. Networks penalise above ~1% dispute rate.</td></tr>
+        <tr><td class="term">Economics</td><td><strong>Net revenue</strong> = TPV − interchange − scheme fees (both pass-through). <strong>Net take rate</strong> = net revenue / TPV.<br>⚠️ Interchange varies by payment method, so a conversion win can be a revenue loss.</td></tr>
+        <tr><td class="term">Archetypes</td><td><strong>Infrastructure</strong> (Payments) · <strong>conversion surface</strong> (Checkout, Link) · <strong>risk &amp; trust</strong> (Radar, underwriting) · <strong>financial product</strong> (Capital) · <strong>platform</strong> (Connect).</td></tr>
+        <tr><td class="term">Universal guardrails</td><td>Dispute rate · fraud loss · <strong>false declines</strong> · auth rate · KYC/AML compliance · net take rate · merchant churn.</td></tr>
+        <tr><td class="term">Two speech habits</td><td>Say <strong>bps of volume</strong>, not counts. Say whether you mean <strong>per-merchant or dollar-weighted</strong> — volume is a power law, so they diverge.</td></tr>
+      </table>
+    </div>
+
+    <div class="cs-group">🚀 Global Growth funnel</div>
+    <div class="cs-note">The self-serve funnel — your team’s surface.</div>
+    <div class="sayit"><b>Say this</b>“Signups aren’t the goal — activated merchants and net revenue are. I’d make first live charge the primary metric, and because onboarding friction is mostly KYC and credit control, fraud and loss rate are the guardrails, not afterthoughts.”</div>
+    <div class="probe"><strong>If probed →</strong> time-to-first-charge · the developer and the business owner are two different humans · ramp takes months, so a 2-week test needs a surrogate.</div>
+    <div class="ptable-wrap">
+      <table class="ptable">
+        <thead><tr><th>Stage</th><th>Metric</th><th>Guardrails</th><th>The one thing to say</th></tr></thead>
+        <tbody>
+          <tr><td class="prod">🌐 Visit → signup</td><td class="ns">Signup rate</td><td>Lead quality · bot signups</td><td><strong>Vanity metric.</strong> Never accept a signup lift as the headline without activation follow-through.</td></tr>
+          <tr><td class="prod">📋 Profile / KYC</td><td class="ns">Onboarding completion</td><td><strong>Fraud + credit loss</strong> · KYC/AML · review queue</td><td><strong>Friction here is not a bug.</strong> “Remove fields” is a trap unless you name the loss guardrail in the same breath.</td></tr>
+          <tr><td class="prod">🔑 Integration</td><td class="ns">Test charge → live key</td><td>Support tickets · error rate</td><td>The buyer is often a <strong>developer, not the owner</strong> — the handoff between them is a real drop-off.</td></tr>
+          <tr><td class="prod">⚡ First live charge</td><td class="ns"><strong>Activation</strong> · TTFC</td><td>Fraud rate of new cohort</td><td>Usual activation definition — but <strong>ask</strong> whether they mean first charge or a volume threshold.</td></tr>
+          <tr><td class="prod">📈 Ramp → expansion</td><td class="ns">Net revenue / merchant · NRR</td><td>Net take rate · churn</td><td><strong>Outcomes are slow</strong> — surrogate metrics are mandatory, and say how you’d validate the surrogate.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cs-group">💸 Payments &amp; conversion</div>
+    <div class="cs-note">Auth rate, checkout, and the local-payment-method lever.</div>
+    <div class="sayit"><b>Say this</b>“The counterintuitive part is that false declines usually cost more than fraud — a blocked good customer loses the sale and often the relationship. So I’d price both sides in dollars before touching any threshold.”</div>
+    <div class="probe"><strong>If probed →</strong> hard vs soft decline (only retry soft) · network tokens · local methods launch by country so it’s geo DiD, not A/B · Link spans merchants → interference.</div>
+    <div class="ptable-wrap">
+      <table class="ptable">
+        <thead><tr><th>Product</th><th>North star</th><th>Guardrails</th><th>Considerations</th></tr></thead>
+        <tbody>
+          <tr><td class="prod">💳 Payments</td><td class="ns">Authorized volume · auth rate</td><td><strong>False declines</strong> · fraud bps · uptime · network fines</td><td><strong>Hard decline</strong> (stolen card, closed account) = never retry. <strong>Soft decline</strong> (insufficient funds, timeout) = retryable → retry timing is an ML problem.</td></tr>
+          <tr><td class="prod">🛒 Checkout / Links</td><td class="ns">Session → paid conversion</td><td><strong>Net take rate</strong> · fraud · latency</td><td><strong>The global-growth lever:</strong> local payment methods (iDEAL, SEPA, Pix, UPI, Klarna). Two traps — different interchange, so conversion ↑ can mean revenue ↓; and they launch country-by-country, so reach for <strong>geo DiD / synthetic control</strong>.</td></tr>
+          <tr><td class="prod">🔗 Link (wallet)</td><td class="ns">Repeat one-click conversion</td><td>Cardholder trust · saved-credential fraud</td><td>⚠️ <strong>The interference case.</strong> A cardholder saves a card at merchant A and sees Link at merchant B — treatment spans merchants, so merchant-level randomisation leaks.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cs-group">🛡️ Risk &amp; trust</div>
+    <div class="cs-note">Transaction fraud and merchant underwriting — the likeliest ML scenario.</div>
+    <div class="sayit"><b>Say this</b>“I’d set the threshold by expected loss — block when p × loss exceeds the cost of a false decline, so the cutoff is a cost ratio. That only means anything if the score is calibrated, which is why I wouldn’t resample the negatives without correcting for it.”</div>
+    <div class="probe"><strong>If probed →</strong> labels lag 30–90 days · selective labels → let-through holdback · walk-forward split, never shuffled k-fold · displacement, so measure net system loss · C_FP is measurable from the holdout, not assumed.</div>
+    <div class="ptable-wrap">
+      <table class="ptable">
+        <thead><tr><th>Product</th><th>North star</th><th>Guardrails</th><th>Considerations</th></tr></thead>
+        <tbody>
+          <tr><td class="prod">🛡️ Radar (fraud)</td><td class="ns">Fraud bps at a fixed false-decline rate</td><td><strong>False-decline rate</strong> · merchant churn · overturn rate</td><td>Every hard ML thing at once: <strong>delayed labels</strong> (chargebacks land 30–90d later) · <strong>selective labels</strong> (blocked → no outcome) · <strong>adversarial drift</strong> (walk-forward split) · <strong>calibration required</strong>, because the threshold is dollars not rank · <strong>displacement</strong> — blocked fraud moves elsewhere, so measure net system loss.</td></tr>
+          <tr><td class="prod">🏦 Merchant risk</td><td class="ns">Expected loss vs. volume enabled</td><td>False-positive rejections · <strong>activation rate</strong> · appeal overturn</td><td><strong>Credit risk wearing a fraud costume.</strong> The action is a <em>payout/reserve dial</em>, not block-or-allow. Full walkthrough below ↓</td></tr>
+          <tr><td class="detail" colspan="4">
+      <div class="detail-hd">🏦 Merchant risk — how the loss actually happens</div>
+      <div class="detail-grid">
+        <p><strong>◆ Stripe is the backstop.</strong> The cardholder is <em>always</em> made whole — the only question is who funds it. Merchant balance first; if the merchant is gone, <strong>Stripe pays</strong> as acquirer. Stripe never took the money and never failed to ship, but the network makes the acquirer liable.</p>
+        <p><strong>◆ It’s credit, not fraud.</strong> Payouts run in <strong>days</strong>; the dispute window runs in <strong>months</strong>. Every payout before that window closes is <strong>unsecured credit</strong> to a business onboarded in 90 seconds. <em>That mismatch is the exposure.</em></p>
+        <p><strong>◆ Exposure at default</strong> = volume <em>already paid out</em>, still disputable, <strong>not yet fulfilled</strong>. It compounds faster than revenue for a fast-growing merchant — which is why <strong>ramp velocity vs. peers</strong> is the load-bearing feature.</p>
+        <p><strong>◆ Two of the four failure modes involve no fraud at all.</strong> Long fulfilment lag (furniture, travel, pre-orders) · <strong>bust-out</strong> (build trust, one huge burst, disappear) · <strong>honest insolvency</strong> · subscription abuse. So you’re underwriting <strong>solvency</strong>, not just honesty.</p>
+        <p><strong>◆ The action is a dial.</strong> Delay payouts · rolling reserve · volume caps · proof of fulfilment · offboard. And payout speed is <em>also</em> a growth lever — good merchants get fast money as a benefit, risky ones fund their own exposure.</p>
+        <p><strong>◆ Don’t quote a payout number.</strong> ~2 business days is the common <em>US default</em>, not a policy — it varies by country, by account age, and is itself risk-adjusted. Safe phrasing: “rolling, a couple of days in the US, longer in some markets.”</p>
+      </div>
+    </td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cs-group">🧮 Calibration &amp; imbalance</div>
+    <div class="cs-note">Stripe named “calibrated probabilities” explicitly — this is the differentiator.</div>
+    <div class="sayit"><b>Say this</b>“At a 0.3% base rate I probably wouldn’t resample — low probabilities are the correct output. I’d keep natural prevalence, train on log-loss, evaluate with PR-AUC rather than accuracy, and handle the imbalance at the threshold instead of in the training data.”</div>
+    <div class="probe"><strong>If probed →</strong> AUC measures ranking, calibration measures whether 0.03 means 3% · downsample for compute only, then correct the intercept by ln(r) — exact and free · avoid SMOTE: fraud has many attack modes and categorical features, so interpolation invents structure · check calibration <em>by decile in the tail</em>, where you actually act · Platt vs isotonic · recalibrate weekly, retrain quarterly.</div>
+    <div class="cs-section">
+      <table class="cs">
+        <tr><td class="term">The trap</td><td>Saying “SMOTE” for imbalance and “expected loss” for thresholds. <strong>Those contradict</strong> — resampling shifts the base rate and inflates the probabilities the threshold depends on. Fix by not resampling, or by recalibrating.</td></tr>
+        <tr><td class="term">Imbalance is 3 problems</td><td><strong>Optimization</strong> (mostly a myth for GBM/logistic) · <strong>evaluation</strong> (fix with PR-AUC) · <strong>decision</strong> (fix with the threshold). Resampling only ever touches the first.<br>What’s actually hard is the <strong>absolute number of positives</strong>, not the ratio — and resampling doesn’t change that.</td></tr>
+        <tr><td class="term">The threshold</td><td><em>p* = C_FP / (C_FP + C_FN)</em>, where C_FN ≈ amount + dispute fee.<br>⚠️ <strong>State your C_FP assumption.</strong> If it’s mostly lost margin it scales with amount; if it’s mostly customer friction it doesn’t — and that determines whether the threshold falls or rises with ticket size. Best answer: <strong>measure C_FP from the let-through holdout</strong> rather than assuming it.</td></tr>
+        <tr><td class="term">Production</td><td>Labels lag, so watch the <strong>score distribution</strong> (PSI) as the leading indicator and confirm with calibration by decile once labels mature. Calibration drift → recalibrate (cheap). Discrimination drift → retrain (expensive).</td></tr>
+      </table>
+    </div>
+
+    <div class="cs-group">🧪 Experimentation quirks</div>
+    <div class="cs-note">What’s different about running tests at Stripe.</div>
+    <div class="sayit"><b>Say this</b>“First — at what grain is the treatment actually delivered? Onboarding and pricing land at the merchant level, so I’d randomise merchants and cluster the standard errors. And because volume is heavy-tailed I’d use CUPED on pre-period volume to get the power back.”</div>
+    <div class="probe"><strong>If probed →</strong> winsorize / stratify by size decile / delta method for ratio metrics · surrogates for slow outcomes · ITT vs CACE vs IPW · Link and Connect interference · run whole weeks, never into BFCM · geo DiD when you can’t randomise.</div>
+    <div class="cs-section">
+      <table class="cs">
+        <tr><td class="term">⚠️ The #1 trap</td><td>Randomise <strong>merchants</strong> but compute SEs on <strong>transactions</strong> → understated variance → false significance. Cluster, or aggregate to the merchant first.</td></tr>
+        <tr><td class="term">Heavy tails</td><td>TPV is power-law → <strong>CUPED on pre-period volume</strong> (strongest lever), winsorize, stratify by size decile, delta method for ratio variance.</td></tr>
+        <tr><td class="term">Non-compliance</td><td>Offers get declined → <strong>ITT headline · CACE mechanism · IPW</strong> when the metric only exists for accepters. And <strong>propensity ≠ uplift</strong> — uplift needs a randomised holdback.</td></tr>
+        <tr><td class="term">Can’t randomise</td><td>Country-by-country launches → <strong>geo DiD or synthetic control</strong>. ⚠️ Your logged gap: the causal reflex doesn’t fire when the prompt doesn’t say “experiment.”</td></tr>
+      </table>
+    </div>
+
+    <div class="cs-group">⚖️ The four tension pairs</div>
+    <div class="cs-note">Name the sacrifice, unprompted — this is the L4→L5 move.</div>
+    <div class="sayit"><b>Say this</b>“I’d ship it, and the thing I’m accepting is — [pick a pair] — up to X before I’d stop. Here’s what would change my mind.”</div>
+    <div class="ptable-wrap">
+      <table class="ptable">
+        <thead><tr><th>Lever</th><th>Buys</th><th>Costs</th></tr></thead>
+        <tbody>
+          <tr><td class="prod">Less onboarding friction</td><td class="ns">Signups, faster activation</td><td>Fraud + credit loss, KYC/AML exposure</td></tr>
+          <tr><td class="prod">Tighter fraud threshold</td><td class="ns">Less fraud loss</td><td>False declines → lost sales, merchant churn</td></tr>
+          <tr><td class="prod">More auth retries</td><td class="ns">Recovered revenue</td><td>Network penalties, issuer relationships</td></tr>
+          <tr><td class="prod">Cheaper method / plan</td><td class="ns">Conversion, TPV</td><td>Lower net take rate — TPV ↑, revenue ↓</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cs-group" style="margin-top:2.5rem;opacity:.65">─── Google (previous loop) ───</div>
+
     <div class="cs-group">🧭 How to reason about any product</div>
     <div class="cs-section">
       <table class="cs">
@@ -356,7 +671,8 @@
       </table>
     </div>
 
-    <div class="cs-group">🔧 Utility — success = task done efficiently (less time can be better)</div>
+    <div class="cs-group">🔧 Utility</div>
+    <div class="cs-note">Success = task done efficiently — less time can be better.</div>
     <div class="ptable-wrap">
       <table class="ptable">
         <thead><tr><th>Product</th><th>North star</th><th>Key metrics</th><th>Guardrail metrics</th><th>Considerations</th></tr></thead>
@@ -371,7 +687,8 @@
       </table>
     </div>
 
-    <div class="cs-group">🎬 Content — engagement is the goal (guard quality)</div>
+    <div class="cs-group">🎬 Content</div>
+    <div class="cs-note">Engagement is the goal — guard quality.</div>
     <div class="ptable-wrap">
       <table class="ptable">
         <thead><tr><th>Product</th><th>North star</th><th>Key metrics</th><th>Guardrail metrics</th><th>Considerations</th></tr></thead>
@@ -381,7 +698,8 @@
       </table>
     </div>
 
-    <div class="cs-group">🛒 Marketplace — two-sided (users + supply side)</div>
+    <div class="cs-group">🛒 Marketplace</div>
+    <div class="cs-note">Two-sided — users + supply side.</div>
     <div class="ptable-wrap">
       <table class="ptable">
         <thead><tr><th>Product</th><th>North star</th><th>Key metrics</th><th>Guardrail metrics</th><th>Considerations</th></tr></thead>
@@ -392,7 +710,8 @@
       </table>
     </div>
 
-    <div class="cs-group">💳 Payments / trust — fraud ↔ false-positive tension</div>
+    <div class="cs-group">💳 Payments / trust</div>
+    <div class="cs-note">Fraud ↔ false-positive tension.</div>
     <div class="ptable-wrap">
       <table class="ptable">
         <thead><tr><th>Product</th><th>North star</th><th>Key metrics</th><th>Guardrail metrics</th><th>Considerations</th></tr></thead>
@@ -467,8 +786,8 @@ const CARDS = [
     trap: "CLT does NOT assume the underlying data is normal — it <b>manufactures</b> normality in the mean from non-normal data. That's its whole power." },
 
   { cluster: "📊 Statistics", q: "Why can I A/B test a skewed metric (e.g. revenue/user) using CLT?",
-    a: "<p>Because you're doing inference on the <strong>mean</strong>, not individual values. Even if revenue/user is heavily skewed, the sampling distribution of the <em>mean</em> is ~normal for large n, so z/t-tests, SEs, and CIs are valid.</p><p>Nuance that scores: heavy skew needs a <strong>larger n</strong>, and outliers inflate variance → often <strong>winsorize/cap</strong> or <strong>bootstrap</strong>.</p>",
-    trap: null },
+    a: "<p>Because you're doing inference on the <strong>mean</strong>, not individual values. Even if revenue/user is heavily skewed, the sampling distribution of the <em>mean</em> is ~normal for large n, so z/t-tests, SEs, and CIs are valid.</p><p><strong>t vs z is a non-question at scale.</strong> t converges to the normal as n grows; at tens of thousands per arm they're indistinguishable. Swapping one for the other <em>fixes nothing</em> — if you're worried about skew, the concern is the CLT, not the choice of table.</p><p><strong>Separate validity from power.</strong> At large n the test is usually <em>approximately valid</em>; the real problems are (1) <strong>power</strong> — variance is enormous, so the MDE is large — and (2) <strong>stability</strong>: with a long tail, a single whale landing in one arm can flip the result.</p><p><strong>What you'd actually do, in order:</strong><br>1. <strong>Cap / winsorise</strong> at a pre-registered percentile (e.g. 99th) — biggest variance win; slightly changes the estimand, so declare it up front.<br>2. <strong>Decompose</strong> into conversion rate × value-given-conversion — usually most of the variance is the zero-inflation.<br>3. <strong>CUPED</strong> on pre-period spend.<br>4. <strong>Bootstrap</strong> the difference for a CI that makes no shape assumption.</p>",
+    trap: "Resampling does NOT fix a heavy tail — it reproduces it faithfully. A whale is either in your resample or it isn't. <b>Capping fixes the tail; bootstrapping only describes it honestly.</b> And “n is large” is an argument for the CLT, never an argument for z over t." },
 
   { cluster: "📊 Statistics", q: "Statistical vs. practical significance?",
     a: "<p><strong>Statistical</strong> significance = the effect is unlikely to be noise. <strong>Practical</strong> significance = the effect is big enough to matter for the business. With huge n, a trivial effect can be statistically significant but useless.</p>",
@@ -975,8 +1294,8 @@ const CARDS = [
     trap: "Fuzzy RDD IS IV at a threshold: divide the outcome jump by the take-up jump (Wald) → LATE, not the jump alone. Check the <b>McCrary density test</b> for manipulation/bunching at the cutoff (esp. when the threshold is desirable, like monetization eligibility)." },
 
   { cluster: "🐍 Code comprehension", q: "How do you run a code-comprehension round? (the protocol)",
-    a: "<p><strong>The rubric in two words: “human-led, AI-assisted.”</strong> You drive; the assistant is a tool. Immediately prompting “find the bugs” is scored <em>negatively</em>.</p><p><strong>Say these out loud, in this order:</strong></p><p>1. “Let me read top-down first and tell you what I think this does.”<br>2. “Unit of randomization looks like <em>user</em>. Unit of analysis here is <em>X</em>. Are those meant to match?”<br>3. “Before I change anything — my hypothesis is that this drops assigned users with no events, which breaks intent-to-treat. Let me check.”<br>4. “That's a correctness bug. Separately, here are two <em>design</em> concerns.”</p><p><strong>Ask two things before you start:</strong> <em>&ldquo;Can I assume pandas and scipy, or should I work in base Python?&rdquo;</em> and <em>&ldquo;Should I trace this by reading, or can I run it?&rdquo;</em> Both are legitimate and the answers change your approach — libraries are <strong>not guaranteed</strong> and code is <strong>not executed</strong>, so you must be able to say what a function returns for an empty list, a single element, or a zero denominator without running it.</p><p><strong>Separate the findings into three buckets — say which bucket you're in:</strong><br><span style='color:#ff8a8a;font-weight:600'>◆ correctness</span> — the code produces a <em>wrong number</em> (inner join drops users; <code>sd/n</code>; one-sided z; divide-by-zero).<br><span style='color:#e6b43c;font-weight:600'>◆ missing safeguard</span> — arguably correct but incomplete; you'd never ship without it (no SRM check, no confidence interval, no guardrail metrics, no outlier handling).<br><span style='color:#7fc4ff;font-weight:600'>◆ design question</span> — defensible, but you want the author's reasoning (<code>equal_var=True</code>; mean-of-ratios vs pooled; normal-approx CI on skewed data; is the covariate really pre-assignment?).</p><p><strong>Why it scores:</strong> listing ten issues flatly sounds like a checklist. <em>“One correctness bug makes the number wrong — I'd fix that first. Three things I'd add before trusting it. Two choices I'd want to ask about.”</em> sounds like someone who has shipped analyses. It also protects you: presenting a <em>design choice</em> as a bug means defending a claim you never had to make — “I'd ask why they chose this” is unfalsifiable and still shows you spotted it.</p><p><strong>Refactor ordering (say the ordering, not just the fixes):</strong> correctness → clarity that prevents bugs → performance (with a reason) → <strong>what you'd deliberately leave alone</strong> (“I wouldn't rename these columns; downstream depends on them”).</p>",
-    trap: "Form your OWN hypothesis before prompting. Precise prompts only — “list every place an assigned user could be excluded from the final sample,” never “fix this.” Say out loud when you disagree with the AI — that's scored positively." },
+    a: "<p><strong>Don't hunt for bugs. Build a mental model — the bugs fall out of it.</strong> The skill being tested is reading unfamiliar code and constructing an accurate picture of what it does, then comparing that against what it was <em>meant</em> to do. Same loop code review uses: establish context → inspect → trace → discuss → compare intent vs. behaviour.</p><p><strong>Pass 1 — Input, Transform, Output.</strong> Narrate all three before touching anything.</p><p><strong>1. What comes in?</strong> Data types? Shape? Columns? What is the function <em>assuming</em> about them?<br><strong>2. What happens to it?</strong> Filter? Join? Groupby? Loop? Mutation? Model? Transformation?<br><strong>3. What comes out?</strong> Type? Shape? Values? Side effects?</p><p><strong>Pass 2 — Edge cases.</strong> Ask each out loud:<br>• “What happens if this is empty?”<br>• “What if there are duplicates?”<br>• “What if this value is null?”<br>• “What if there are multiple rows per user?”<br>• “Is this operation changing the original object?”<br>• “What's the computational complexity?”</p><p><strong>Pass 3 — Correctness.</strong> “Does this actually do what the author intended?” This is the comparison step — behaviour vs. intent, not behaviour vs. your taste.</p><p><strong>Pass 4 — Improvement.</strong> “If this were production code, what would I change?” — and what you'd deliberately leave alone (“I wouldn't rename these columns; downstream depends on them”).</p><p><strong>Ask two things before you start:</strong> <em>&ldquo;Can I assume pandas and scipy, or should I work in base Python?&rdquo;</em> and <em>&ldquo;Should I trace this by reading, or can I run it?&rdquo;</em> Libraries are <strong>not guaranteed</strong> and code is <strong>not executed</strong> — so you must be able to say what a function returns for an empty list, a single element, or a zero denominator without running it.</p><p><strong>Label every finding as you say it:</strong><br><span style='color:#ff8a8a;font-weight:600'>◆ correctness</span> — produces a <em>wrong number</em> (inner join drops users; <code>sd/n</code>; divide-by-zero).<br><span style='color:#e6b43c;font-weight:600'>◆ missing safeguard</span> — arguably correct but incomplete (no SRM check, no confidence interval, no outlier handling).<br><span style='color:#7fc4ff;font-weight:600'>◆ design question</span> — defensible, but you want the author's reasoning (<code>equal_var=True</code>; mean-of-ratios vs pooled).</p><p><strong>Why it scores:</strong> “Here's what goes in, here's what happens to it, here's what comes out — and here's where that diverges from intent” sounds like someone who has shipped analyses. Ten flat bullet points sound like a checklist. Labelling also protects you: presenting a <em>design choice</em> as a bug means defending a claim you never had to make.</p>",
+    trap: "State the mental model BEFORE you look for problems — “I think this takes X, does Y, returns Z” — then test it. If you're AI-assisted: form your own hypothesis first, prompt precisely (“list every place an assigned user could be excluded”), never “find the bugs.” Say out loud when you disagree with the AI." },
 
   { cluster: "🐍 Code comprehension", q: "Experiment-pipeline bug classes — the checklist to scan for",
     a: "<p>Walk the pipeline as <strong>stages</strong> and name the failure mode at each — this beats listing bugs in the order you spotted them:</p><p><strong>1. Assignment</strong> → sample ratio mismatch (SRM) never checked.<br><strong>2. Exposure filtering</strong> → post-randomization filtering; inner joins that drop zero-activity users (breaks <strong>intent-to-treat</strong> — you must analyse every user as assigned).<br><strong>3. Aggregation</strong> → unit of analysis ≠ unit of randomization; NaN handling that silently changes a denominator.<br><strong>4. Variance</strong> → <code>sd/n</code> instead of <code>sd/√n</code>; ratio metrics needing the delta method; clustered data.<br><strong>5. Inference</strong> → peeking / optional stopping; one- vs two-sided; uncorrected multiple comparisons; <code>equal_var=True</code> by default.<br><strong>6. Readout</strong> → truncated axes, no CIs, only significant metrics plotted.</p>",
@@ -1018,7 +1337,7 @@ const CARDS = [
     trap: "Name the estimand before fixing the code: <b>ratio of means</b> (volume-weighted) vs <b>mean of ratios</b> (user-weighted). Excluding zero-impression users changes the population — do it deliberately, don't let a filter do it silently." },
 
   { cluster: "🐍 Code comprehension", q: "Base Python — what does this silently get wrong?<pre><code>def arm_differences(control, treatment):\n    return [t - c for c, t in zip(control, treatment)]\n\ndiffs = arm_differences(ctrl_revenue, trt_revenue)\nmean_diff = sum(diffs) / len(diffs)</code></pre><span class='hint'>Stuck? what if the arms have different numbers of users.</span><span class='ask'>The arms have 10,043 and 9,987 users. What does this actually compute?</span>",
-    a: "<p><span style='color:#ff8a8a;font-weight:600'>◆ correctness</span> <strong><code>zip</code> truncates to the shorter list, silently.</strong> You get 9,987 differences and the last 56 control users are discarded — no error, no warning.</p><p><span style='color:#ff8a8a;font-weight:600'>◆ correctness</span> <strong>Worse: it pairs users by list position.</strong> These are independent arms — user 5 in control has nothing to do with user 5 in treatment. Pairing is only valid for <em>the same unit measured twice</em> (before/after). Here it invents a relationship that doesn't exist, and the variance it implies is meaningless.</p><p>The right comparison is the <strong>difference of means</strong> with a two-sample standard error — not the mean of element-wise differences.</p><p><strong>🔧 How you'd fix it</strong></p><pre style='margin:6px 0'><code>mean_diff = sum(treatment) / len(treatment) - sum(control) / len(control)\n# then a TWO-SAMPLE standard error (see the Welch card),\n# not the standard deviation of element-wise differences.\n\n# genuinely paired data? join on the key, never on position:\npairs = [(pre[k], post[k]) for k in pre.keys() & post.keys()]</code></pre>",
+    a: "<p><span style='color:#ff8a8a;font-weight:600'>◆ correctness</span> <strong><code>zip</code> truncates to the shorter list, silently.</strong> You get 9,987 differences and the last 56 control users are discarded — no error, no warning.</p><p><span style='color:#ff8a8a;font-weight:600'>◆ correctness</span> <strong>Worse: it pairs users by list position.</strong> These are independent arms — user 5 in control has nothing to do with user 5 in treatment. Pairing is only valid for <em>the same unit measured twice</em> (before/after). Here it invents a relationship that doesn't exist, and the variance it implies is meaningless.</p><p>The right comparison is the <strong>difference of means</strong> with a two-sample standard error — not the mean of element-wise differences.</p><p><strong>🔧 How you'd fix it</strong></p><pre style='margin:6px 0'><code>n_c, n_t = len(control), len(treatment)\nmean_c = sum(control) / n_c\nmean_t = sum(treatment) / n_t\n\nmean_diff = mean_t - mean_c              # the effect estimate\n\n# sample variance of each arm, on its own, n-1 in the denominator\nvar_c = sum((x - mean_c) ** 2 for x in control)   / (n_c - 1)\nvar_t = sum((x - mean_t) ** 2 for x in treatment) / (n_t - 1)\n\n# two-sample (Welch) SE: the two VARIANCES add, then square-root\nse = (var_t / n_t + var_c / n_c) ** 0.5\n\nci = (mean_diff - 1.96 * se, mean_diff + 1.96 * se)</code></pre><p><strong>Why that SE and not the other one.</strong> The broken code was heading for the <em>paired</em> standard error — <code>stdev(diffs) / √n</code>. Those two formulas answer different questions:</p><p>• <strong>Paired:</strong> <code>Var(T − C) = Var(T) + Var(C) − 2·Cov(T, C)</code>. When the pairing is real (same user before/after, matched markets), that covariance is <strong>positive and large</strong> — the shared per-unit level cancels out, the SE shrinks, and you buy power. <em>That is the entire point of pairing.</em><br>• <strong>Two-sample:</strong> independent arms means <code>Cov(T, C) = 0</code>, so the term vanishes and the variances simply add: <code>var_t/n_t + var_c/n_c</code>.</p><p>Pair users who have nothing to do with each other and you don't get zero covariance — you get the <strong>sample</strong> covariance of an arbitrary ordering, which is random noise. Your SE is then wrong by a random amount <em>in a random direction</em> (too small if the sort orders happen to agree → false positive), computed on the shorter arm's n.</p><p><strong>The structural tell:</strong> the two-sample SE never needs <code>n_c == n_t</code>. If a formula silently requires the arms to be the same length, it's assuming a pairing — ask what makes the pairing real.</p><p><strong>If the data genuinely is paired</strong>, join on the key, never on position:</p><pre style='margin:6px 0'><code>keys = pre.keys() &amp; post.keys()         # and check what you dropped\ndiffs = [post[k] - pre[k] for k in keys]\nmean_d = sum(diffs) / len(diffs)\nvar_d  = sum((d - mean_d) ** 2 for d in diffs) / (len(diffs) - 1)\nse_d   = (var_d / len(diffs)) ** 0.5     # ONE sample of differences</code></pre>",
     trap: "Two errors, and the pairing one is the serious one: <b>paired vs two-sample</b> is a design question, not a coding convenience. Any <code>zip</code> across two arms deserves the question — what makes position meaningful?" },
 
   { cluster: "🐍 Code comprehension", q: "Base Python — three problems. What are they?<pre><code>def median(xs):\n    xs.sort()\n    n = len(xs)\n    return xs[n // 2]</code></pre><span class='hint'>Stuck? try [1, 2, 3, 4] — then check what happened to the caller's list.</span><span class='ask'>What does this return for [1,2,3,4]? What else has it changed?</span>",
@@ -1103,6 +1422,50 @@ const CARDS = [
   { cluster: "🧪 Experimentation", q: "Minimum detectable effect (MDE) — what is it and what drives it?",
     a: "<p>The <strong>smallest true effect your test could reliably detect</strong> at your chosen α and power. It is a <em>design input</em>, not a result: you pick the MDE, and it determines the sample size you need.</p><p><code>MDE ∝ σ / √n</code> — so to halve the MDE you need <strong>4× the sample</strong>. Driven by: variance (↑σ → worse), sample size (↑n → better), α and power.</p><p><strong>Set it from the business, not the stats:</strong> the MDE should be the smallest lift that would actually change the decision. If a 0.2% lift wouldn't justify shipping, don't power for it.</p><p><strong>Use it to interpret nulls:</strong> a flat result with an MDE of 5% doesn't mean “no effect” — it means “no effect larger than 5%.” Always check the CI against the MDE before declaring a null.</p>",
     trap: "“Flat = no effect” is the trap. Ask <b>true null or underpowered?</b> — especially when a flat outcome contradicts a big mechanism move. Also: MDE is set BEFORE the test; computing “observed power” after the fact is meaningless." },
+
+  { review: true, cluster: "🔍 Applied analysis", q: "The three families of applied-analysis question — and the spine for each",
+    a: "<p>Classify the question in the first 15 seconds. <strong>The family tells you the spine; the archetype tells you the trap.</strong></p><p><strong>A. Measurement</strong> — <em>“X launched or changed — how would you define success?”</em><br>Spine: <strong>Clarify, Goal, Primary metric, Supporting, Guardrails, Segmentation, Decision.</strong></p><p><strong>B. Diagnosis</strong> — <em>“Metric Y moved — what happened?”</em><br>Spine: <strong>Real-or-artifact, Scope, Decompose, Hypothesise, Validate, Recommend.</strong> Real-or-artifact goes first and gets <em>named</em>.</p><p><strong>C. Decision from data</strong> — <em>“Here are the datasets — make a recommendation.”</em><br>Spine: <strong>Objective, Validity, Like-for-Like, Marginal, Recommendation.</strong></p><p><strong>Real questions chain across families.</strong> C (“which countries should we hire from”) → A (“how would you know it worked?”) → B (“productivity dropped in month three — why?”). Carry your context forward across the chain instead of restarting; that carry-forward is itself a seniority signal.</p><p>Family D exists but is always a <em>follow-up</em>, never an opener: the tradeoff question — <em>“engagement is up and satisfaction is down, what do you do?”</em></p>",
+    trap: "The families share one spine underneath — clarify the decision, check the data is real, decompose, commit to a recommendation. If you blank on the archetype, that still carries you." },
+
+  { cluster: "🔍 Applied analysis", q: "Family A (measurement) — the archetypes and their signature traps",
+    a: "<p><strong>Access expansion</strong> (product opens to a wider audience) → volume growth is <em>mechanical</em>, you enlarged the eligible population. Plus cannibalisation of the paid tier.<br><strong>New surface in an existing product</strong> → adoption is vanity; primary metric is net/total platform-level, and the question is incremental vs cannibalised.<br><strong>Quality / ranking change</strong> → engagement can rise <em>because</em> quality fell. Needs satisfaction + long-run retention.<br><strong>Monetisation / pricing</strong> → revenue up, churn and LTV down. Short horizons lie.<br><strong>Removal / deprecation</strong> → measuring the removed thing instead of the substitution behaviour.<br><strong>Two-sided / ecosystem</strong> → measuring one side only.<br><strong>Enforcement / integrity</strong> → prevalence and harm rate, not enforcement volume; cost asymmetry of false positives.<br><strong>Zero-to-one launch</strong> → no baseline; lagging metrics aren't readable yet, so you need leading indicators with a stated theory linking them.<br><strong>Infrastructure / latency</strong> → user metrics are insensitive and the effect lives in the tail, not the mean.<br><strong>North-star for a whole product</strong> → picking something gameable, or something you can't move.</p>",
+    trap: "The Family A move that separates levels: <b>reframe the scope from feature to system.</b> “The primary metric isn't Shorts adoption, it's net platform watch time — did we grow the pie or move it?”" },
+
+  { cluster: "🔍 Applied analysis", q: "Family B (diagnosis) — the archetypes and their signature traps",
+    a: "<p><strong>Sudden step change</strong> → skipping to behavioural explanations. A discrete jump usually has a discrete cause: deploy, logging break, definition change, bot traffic.<br><strong>Gradual decline</strong> → assuming gradual means real. <em>Staged rollouts and slow logging degradation are gradual too.</em><br><strong>Mix vs rate</strong> → every segment's rate is flat but the total moved; composition changed, not behaviour. The most-missed decomposition in the family.<br><strong>Two metrics diverging</strong> → explaining one and ignoring the relationship.<br><strong>Segment-localised anomaly</strong> → stopping once you've localised it instead of asking why <em>there</em>.<br><strong>Expected-vs-actual / seasonality</strong> → no counterfactual; “down 8%” is meaningless without what normal looks like.<br><strong>Flat when a mechanism moved</strong> → reading flat as a confirmed null instead of asking <em>true null or underpowered</em> — check the CI against the MDE.</p><p><strong>The move that separates levels: commit to a most-likely cause.</strong> Rank hypotheses by prior probability <em>and cost to check</em> (“I'd check the deploy log first — five minutes, and it explains a step change better than anything behavioural”), then say <em>“my best guess is X, and the check that would falsify it is Y.”</em> A list of things to look at is junior no matter how complete.</p>",
+    trap: "Do the arithmetic out loud: <b>does my explanation account for the FULL magnitude?</b> If new users are X% of the base and order at Y the rate, that predicts a specific dilution. If it predicts 4% and you observed 6%, two points are unexplained — go looking." },
+
+  { cluster: "🔍 Applied analysis", q: "Family C (decision from data) — the archetypes and their signature traps",
+    a: "<p><strong>Allocation / prioritisation</strong> (where to invest) → ranking on a ratio before asking what's being maximised.<br><strong>Selection / ranking</strong> → ranking incumbent averages when the decision is about the marginal unit.<br><strong>Sizing</strong> → a point estimate with no confidence bound or downside case.<br><strong>Targeting</strong> → targeting on <em>propensity</em> when you should target on <strong>incremental response</strong>.<br><strong>Go / no-go</strong> → no decision criterion stated before looking at the data, so the threshold becomes whatever the data showed.<br><strong>Threshold setting</strong> → optimising accuracy instead of the cost-weighted objective.<br><strong>Forecast for planning</strong> → a single number instead of a range, named assumptions, and the lever that moves it.</p><p><strong>The two moves that separate levels:</strong></p><p><strong>1. Surface the objective before computing anything.</strong> “Which countries should we hire from” is unanswerable until you know whether you're maximising output per dollar, scaling headcount fastest, reducing concentration risk, or buying timezone coverage.</p><p><strong>2. Marginal, not average.</strong> The data describes <strong>incumbents</strong> — people or units already there, who were selected and survived. The decision is about the <strong>next</strong> one. Ramp time, talent-pool depth, attrition, diminishing returns, and whether unit economics hold as you scale are all invisible in incumbent averages.</p><p><strong>Then close by naming what the data cannot tell you</strong>, and recommending anyway under a stated assumption.</p>",
+    trap: "Watch the denominator you're dividing by. If you rank on productivity ÷ pay, you reward places where people are <b>underpaid for equivalent work</b> — existing pay data encodes existing inequity, so optimising against it recommends more of it. Say it once as a guardrail; don't moralise." },
+
+  { review: true, cluster: "🔍 Applied analysis", q: "L4 vs L5 in applied analysis — what actually separates them?",
+    a: "<p><strong>L4 produces the correct analysis. L5 owns the decision — including what it costs and what it can't tell you.</strong></p><p><strong>Four universal tells:</strong><br><strong>1. Sequencing</strong> — L5 says the most important thing first; L4 builds up to it. Identical content arriving at minute four reads junior.<br><strong>2. Sacrifice</strong> — an L5 answer contains a loss chosen on purpose (coverage for defensibility, speed for confidence, precision for recall). No loss = no judgment exercised.<br><strong>3. Calibration</strong> — L5 distinguishes <em>I know this</em> / <em>I'd assume this</em> / <em>I'd have to check this</em>. L4 delivers everything at one confidence level.<br><strong>4. Closure</strong> — L5 lands a recommendation with a threshold and names what would change their mind.</p><p><strong>Per family:</strong> A = reframe scope to net/system. B = commit to a most-likely cause + the falsification test. C = surface the objective first, then marginal-vs-average.</p><p><strong>The overshoot warning:</strong> naming frameworks and stacking second-order caveats without answering the question is <em>less</em> senior, not more. Keep scaffolds internal — framework name-dropping reads as canned at Google.</p>",
+    trap: "The compact test: <b>would someone hearing this know what to do on Monday?</b> If yes it's L5. If they'd know what to <i>look into</i>, it's L4." },
+
+  { review: true, cluster: "🔍 Applied analysis", q: "My recurring trap — the pattern across all four mock cases",
+    a: "<p><strong>You commit to a structure fast, then refine INSIDE it — instead of interrogating whether the structure is right.</strong> Four for four, and it recurred immediately after being named.</p><p>• <strong>Support-sites case</strong> — built a composite metric before validating whether the sites were comparable at all.<br>• <strong>Food-delivery case</strong> — accepted an explanation without quantifying whether it covered the full magnitude.<br>• <strong>Code-review case</strong> — designed metrics before asking how the intervention could fail.<br>• <strong>Retention-discount case</strong> — patched thresholds onto an expected-loss ranking instead of noticing that propensity ≠ uplift.</p><p><strong>Why it's costly:</strong> the reasoning is sound every time, so one probe fixes it. But the probe is doing work you should be doing, and that gap <em>is</em> the level difference.</p><p><strong>The per-family fix:</strong><br><strong>A</strong> — ask <em>“how does this fail?”</em> BEFORE naming any metric. Failure modes generate guardrails; you don't need to memorise guardrail lists.<br><strong>B</strong> — ask <em>“does my explanation account for the full magnitude?”</em> and do the arithmetic out loud.<br><strong>C</strong> — validate the comparison before building the metric.</p><p><strong>Second pattern, two for two: the causal reflex doesn't fire outside explicitly experimental framings.</strong> Missed staged-rollout attribution on a measurement case and a randomised holdout on a targeting case. It's an indexing problem, not a knowledge gap — so ask it deliberately, once, on every case.</p>",
+    trap: "Also four for four: <b>never closed with a recommendation + threshold</b>, and <b>never named a tradeoff</b>. Both follow from never stepping outside the commitment." },
+
+  { review: true, cluster: "🔍 Applied analysis", q: "The five questions to ask on every applied-analysis case",
+    a: "<p>In order, out loud:</p><p><strong>1. What decision does this feed, and what's being maximised?</strong> Say it even when the question looks easy — this is the first habit to drop under a tractable-seeming prompt.<br><strong>2. What would make this comparison invalid?</strong> Mix, selection, definition, unit of analysis.<br><strong>3. How does this fail?</strong> The failure modes are your guardrails.<br><strong>4. Does my explanation account for the full magnitude?</strong> Do the arithmetic out loud.<br><strong>5. How do I know this is causal?</strong> Ask once, deliberately, even outside experiment questions.</p><p><strong>Then close:</strong> a recommendation, a threshold, and what would change your mind.</p><p><strong>Two habits to force:</strong> lead with the single primary metric at the <em>total/net</em> level before any list, and volunteer guardrails plus practical significance unprompted.</p>",
+    trap: "Ask what you can answer with the data you ALREADY have before proposing to go ask another team. A cohort cut is faster, decisive, and needs nobody's cooperation." },
+
+  { cluster: "🔍 Applied analysis", q: "Mock case — six global support sites, budget for ~200 more agents. Which sites do you grow?<span class='ask'>You have agent-level staffing/cost data and ticket-level resolution data with product_area, reopened, and a nullable CSAT. Where are the traps?</span>",
+    a: "<p><strong>Family C · allocation.</strong> Cheapest site came out at $8 per 10 good resolutions vs $21 for the most expensive.</p><p><strong>◆ The comparison is invalid before any ranking.</strong> Sites don't handle the same work — one does password resets, another does billing disputes and enterprise escalations. Cost per resolution is measuring <strong>ticket difficulty</strong>, not site efficiency. Compare within <code>product_area</code>, or standardise to a common mix. <em>This is mix-vs-rate and it must come before the metric.</em></p><p><strong>◆ Don't delete quality — replace it.</strong> CSAT covered only 18% of tickets and is voluntary (solicitation bias). Correct response is not to drop quality from the objective, it's to switch to <code>reopened</code> — fully observed, hard to game, directly measures “closed but not solved.” Keep CSAT as a secondary directional read. A composite folding CSAT in <em>inherits</em> its coverage bias.</p><p><strong>◆ Marginal, not average.</strong> Every number describes incumbents; the decision is about 200 people who don't exist yet. Need hiring capacity and ramp time per site, contractor attrition, talent-pool depth, and whether unit cost holds as a site doubles.</p><p><strong>◆ Use the constraint you were given.</strong> Budget — not headcount — was the constraint, and the contractor/FTE mix was explicitly open. That's an invitation.</p><p><strong>◆ Second-order:</strong> timezone coverage for a global support org, concentration risk (both cheap sites in one region), contractor attrition, pay arbitrage.</p>",
+    trap: "When handed a confound, <b>invalidate the number first, then discuss remedies.</b> Jumping to “we could cross-train the sites” before saying “so that comparison doesn't hold” reads as not having registered the severity." },
+
+  { cluster: "🔍 Applied analysis", q: "Mock case — orders per weekly active user down 6% over eight weeks, gradual, all markets and platforms.<span class='ask'>Total orders are UP 9% and WAU is up 16%. What do you tell the VP?</span>",
+    a: "<p><strong>Family B · gradual decline.</strong> Denominator is growing faster than the numerator — a marketing acquisition push brought in new users who order less, diluting the average.</p><p><strong>◆ The trap: stopping at an explanation that is SUFFICIENT rather than COMPLETE.</strong> Mix explains <em>a</em> decline. Does it explain <strong>six points</strong>? If new users are X% of WAU and order at Y the rate of existing users, that predicts a specific dilution. Run the number. Here, existing users' own order rate was <em>also</em> down 2% — a real problem hiding underneath a growth story, invisible unless you cohort.</p><p><strong>◆ Cut your own data before asking another team.</strong> The cohort split answers this in an hour and doesn't depend on marketing's cooperation.</p><p><strong>◆ Connect the two findings, don't list them.</strong> The campaign may be <em>causing</em> the existing-user decline — couriers diverted to new-user demand → delivery times up → existing users order less. Or users learning to wait for promos. Proposing the linking mechanism is the senior move.</p><p><strong>◆ Guardrail before calling it a win:</strong> 9% order growth bought with first-order discounts may be unprofitable, and promo-acquired cohorts churn. Ask for week-four retention of the acquired cohort vs organic, and contribution margin on those orders.</p>",
+    trap: "Real-vs-artifact FIRST and by name — including that <b>gradual slides can still be artifacts</b> (staged rollouts, slow logging degradation). Then numerator/denominator. That opening sequence is now solid; protect it." },
+
+  { cluster: "🔍 Applied analysis", q: "Mock case — an AI code-review assistant rolls out to 4,000 engineers. Define success.<span class='ask'>The exec sponsor keeps quoting “68% of PRs get an AI comment, 40% acceptance rate.” What do you do with that?</span>",
+    a: "<p><strong>Family A · new internal tool.</strong> Stated goal was two-sided: shipping faster <em>without quality dropping</em>.</p><p><strong>◆ Those are INPUT metrics — push back on them.</strong> Adoption and acceptance prove the tool is being used, not that it works. And 40% acceptance is ambiguous: it could equally mean <strong>60% of AI comments are noise</strong>, which is a cost on reviewer attention. Never let an exec's favourite stat become the primary metric by default.</p><p><strong>◆ Generate guardrails from the failure mode.</strong> The defining risk of an AI reviewer is <strong>rubber-stamping</strong> — humans trusting the bot, reviewing less carefully, defects reaching production faster. So the quality guardrail is defect escape rate / reverts / incidents, in the design on day one. Acceptance rate is <em>engagement</em>, not a guardrail.</p><p><strong>◆ Org-level, not per-PR.</strong> Time-to-land can improve while org throughput is flat. And time-to-land is trivially gamed by splitting one PR into three — check PR volume and complexity mix alongside it.</p><p><strong>◆ Attribution.</strong> Beta teams self-selected and a company-wide rollout has no control. Stage the rollout by team and read it as difference-in-differences rather than before-after.</p><p><strong>Strong opening:</strong> “The primary can't be adoption — that's an input. I'd hold a paired primary: diffs landed per engineer per week at the org level, against a hard guardrail on defects reaching production.”</p>",
+    trap: "Ask <b>“how does this fail?”</b> before naming a single metric. Speed intervention → quality breaks. Automating review → human attention breaks. Any adoption metric → gaming." },
+
+  { cluster: "🔍 Applied analysis", q: "Mock case — 12,000 SaaS accounts, budget for a 20%-off retention discount on some of them. Who gets the offer?<span class='ask'>You have a churn model that scores every account. Is ranking by revenue × churn probability right?</span>",
+    a: "<p><strong>Family C · targeting.</strong> No — that ranks <strong>revenue at risk</strong>, which is not the same as where the offer <em>changes the outcome</em>.</p><p><strong>◆ Propensity vs uplift.</strong> You want incremental response, not churn risk:</p><p><strong>Persuadables</strong> — renew only if offered → the <em>only</em> group worth paying for.<br><strong>Sure things</strong> — renew either way → pure margin loss.<br><strong>Lost causes</strong> — churn either way → money burned.<br><strong>Sleeping dogs</strong> — contact makes it worse; the offer reminds a stable account that renewal is negotiable, or reads as desperation.</p><p><strong>◆ A churn model cannot tell you this.</strong> It ranks who leaves, not who responds. Uplift is only knowable from a <strong>randomised holdout</strong> — offer to a random subset, withhold from a matched subset, measure the difference in renewal, then model the heterogeneity to find where lift is highest.</p><p><strong>◆ Excluding the top and bottom of the churn distribution is a patch, not a principle.</strong> It's a crude proxy for dropping lost causes and sure things — fine as a stated v1 heuristic, wrong as an answer.</p><p><strong>◆ The offer's cost belongs in the objective.</strong> Maximise <em>net retained revenue</em> after discount cost, not revenue at risk.</p><p><strong>◆ Guardrail:</strong> once discounts are known to exist at renewal, you train accounts to threaten churn. That cost compounds and won't show up this quarter.</p>",
+    trap: "This is where the causal reflex must fire even though nobody said “experiment.” Any question of the form <b>“who should get X”</b> is an incremental-effect question, and incremental effects need a holdout." },
 ];
 
 // ---- state ----
@@ -1222,6 +1585,136 @@ document.addEventListener("keydown", (e) => {
 document.getElementById("tabCheat").onclick = () => showView("cheatsheet");
 document.getElementById("tabProducts").onclick = () => showView("products");
 document.getElementById("tabCards").onclick = () => showView("flashcards");
+
+/* ---------- collapsible cheatsheet ---------- */
+function buildCollapsible(viewId, key) {
+  const view = document.getElementById(viewId);
+  if (!view || view.dataset.built) return;
+  view.dataset.built = "1";
+
+  const groups = [...view.querySelectorAll(":scope > .cs-group")];
+  if (!groups.length) return;
+
+  let state = {};
+  try { state = JSON.parse(localStorage.getItem(key) || "{}"); } catch (e) {}
+
+  const showNav = viewId !== "productsView";
+  const bar = document.createElement("div");
+  bar.className = "cs-toolbar";
+  bar.innerHTML =
+    '<div class="cs-searchrow">' +
+      '<input class="cs-search" type="search" placeholder="Search\u2026 (e.g. CUPED, shrinkage, SE)">' +
+      '<button class="cs-btn" data-act="expand">Expand all</button>' +
+      '<button class="cs-btn" data-act="collapse">Collapse all</button>' +
+    '</div>' +
+    (showNav ? '<div class="cs-nav"></div>' : '') +
+    '<div class="cs-hits" style="display:none"></div>';
+  view.insertBefore(bar, view.firstChild);
+  const nav = bar.querySelector(".cs-nav");
+  const hits = bar.querySelector(".cs-hits");
+
+  groups.forEach((g, i) => {
+    const wrap = document.createElement("div");
+    wrap.className = "cs-block";
+    wrap.id = key + "-blk-" + i;
+    const body = document.createElement("div");
+    body.className = "cs-body";
+    g.parentNode.insertBefore(wrap, g);
+    wrap.appendChild(g);
+    let n = wrap.nextSibling;
+    while (n && !(n.nodeType === 1 && n.classList.contains("cs-group"))) {
+      const nxt = n.nextSibling;
+      body.appendChild(n);
+      n = nxt;
+    }
+    wrap.appendChild(body);
+
+    const label = g.textContent.trim();
+    const rows = body.querySelectorAll("tr").length;
+    g.innerHTML = '<span class="lbl">' + label + '</span>' +
+                  '<span class="cnt">' + rows + '</span>' +
+                  '<span class="chev">\u25B6</span>';
+    if (state[i]) wrap.classList.add("open");
+    g.onclick = () => {
+      wrap.classList.toggle("open");
+      state[i] = wrap.classList.contains("open");
+      localStorage.setItem(key, JSON.stringify(state));
+    };
+
+    if (nav) {
+      const chip = document.createElement("button");
+      chip.className = "cs-chip";
+      chip.textContent = label;
+      chip.onclick = () => {
+        wrap.classList.add("open");
+        state[i] = true;
+        localStorage.setItem(key, JSON.stringify(state));
+        wrap.scrollIntoView({ behavior: "smooth", block: "start" });
+      };
+      nav.appendChild(chip);
+    }
+  });
+
+  const blocks = [...view.querySelectorAll(".cs-block")];
+
+  function setAll(open) {
+    blocks.forEach((b, i) => { b.classList.toggle("open", open); state[i] = open; });
+    localStorage.setItem(key, JSON.stringify(state));
+  }
+  bar.querySelector('[data-act="expand"]').onclick = () => setAll(true);
+  bar.querySelector('[data-act="collapse"]').onclick = () => setAll(false);
+
+  function clearSearch() {
+    blocks.forEach((b, i) => {
+      b.style.display = "";
+      b.classList.toggle("open", !!state[i]);
+      b.querySelectorAll("tr").forEach(tr => { tr.style.display = ""; });
+      b.querySelectorAll(".cs-section").forEach(sec => { sec.style.display = ""; });
+    });
+    hits.style.display = "none";
+  }
+
+  const input = bar.querySelector(".cs-search");
+  input.oninput = () => {
+    const q = input.value.trim().toLowerCase();
+    if (!q) { clearSearch(); return; }
+    let total = 0, shown = 0;
+    blocks.forEach(b => {
+      let n = 0;
+      b.querySelectorAll("tr").forEach(tr => {
+        if (tr.closest("thead")) { tr.style.display = ""; return; }
+        const hit = tr.textContent.toLowerCase().includes(q);
+        tr.style.display = hit ? "" : "none";
+        if (hit) n++;
+      });
+      b.querySelectorAll(".cs-section").forEach(sec => {
+        const any = [...sec.querySelectorAll("tr")]
+          .some(tr => !tr.closest("thead") && tr.style.display !== "none");
+        sec.style.display = any ? "" : "none";
+      });
+      b.style.display = n ? "" : "none";
+      b.classList.toggle("open", n > 0);
+      total += n;
+      if (n) shown++;
+    });
+    hits.style.display = "block";
+    hits.textContent = total
+      ? total + " row" + (total === 1 ? "" : "s") + " in " + shown + " section" + (shown === 1 ? "" : "s")
+      : "No matches";
+  };
+}
+
+buildCollapsible("cheatsheetView", "cs_open_cheat");
+buildCollapsible("productsView", "cs_open_products");
+
+const toTop = document.createElement("button");
+toTop.className = "to-top";
+toTop.textContent = "\u2191 Top";
+toTop.onclick = () => window.scrollTo({ top: 0, behavior: "smooth" });
+document.body.appendChild(toTop);
+window.addEventListener("scroll", () => {
+  toTop.classList.toggle("show", window.scrollY > 500);
+});
 
 render();
 showView("cheatsheet");

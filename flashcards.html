@@ -174,6 +174,7 @@
              border-radius: 999px; padding: 5px 11px; font-size: 12px; cursor: pointer; font-family: inherit; }
   .cs-chip:hover, .cs-chip.on { background: var(--accent); color: #04101f; border-color: var(--accent); }
   .cs-hits { font-size: 12px; color: var(--muted); margin-top: 8px; }
+  .cs-note { font-size: 12.5px; color: var(--muted); margin: 10px 4px 2px; line-height: 1.5; }
 
   .cs-block { margin: 0 0 10px; scroll-margin-top: 108px; }
   .cs-block > .cs-group { margin: 0; display: flex; align-items: center; gap: 10px; cursor: pointer;
@@ -200,10 +201,26 @@
   table.ptable td { padding: 9px 10px; border-top: 1px solid var(--border); vertical-align: top; }
   table.ptable td.prod, table.ptable th:first-child { position: sticky; left: 0; z-index: 1; background: var(--panel-2); box-shadow: 1px 0 0 var(--border); }
   table.ptable th:first-child { z-index: 3; }
-  table.ptable td.prod { font-weight: 700; color: #fff; white-space: nowrap; }
+  table.ptable td.prod { font-weight: 700; color: #fff; white-space: normal; overflow-wrap: break-word;
+                         width: 1%; min-width: 110px; max-width: 160px; }
   table.ptable td.ns { color: #cfe2ff; }
   table.ptable ol { margin: 0; padding-left: 15px; }
   table.ptable li { margin-bottom: 2px; }
+  .sayit { background: var(--accent-soft); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0;
+           padding: 9px 12px; margin: 11px 0 5px; font-size: 13px; line-height: 1.6; }
+  .sayit b { color: var(--accent); font-size: 10px; letter-spacing: .06em; text-transform: uppercase;
+           display: block; margin-bottom: 4px; font-weight: 700; }
+  .probe { font-size: 12px; color: var(--muted); margin: 0 0 13px 3px; line-height: 1.55; }
+  .tri { display: grid; gap: 7px; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); margin: 10px 0 4px; }
+  .tri > div { background: var(--panel); border: 1px solid var(--border); border-radius: 9px; padding: 9px 11px; font-size: 13px; line-height: 1.55; }
+  .tri .n { color: var(--accent); font-weight: 700; margin-right: 5px; }
+  table.ptable td.detail { background: var(--bg); border-top: 1px dashed var(--border);
+                           padding: 13px 14px 15px; line-height: 1.6; }
+  table.ptable td.detail .detail-hd { font-size: 10.5px; text-transform: uppercase; letter-spacing: .04em;
+                           color: var(--accent); margin-bottom: 9px; font-weight: 700; }
+  table.ptable td.detail .detail-grid { display: grid; gap: 9px 26px;
+                           grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); }
+  table.ptable td.detail .detail-grid > p { margin: 0; }
 </style>
 </head>
 <body>
@@ -514,6 +531,137 @@
   </div>
 
   <div id="productsView">
+    <div class="cs-group">⭐ The only 10 things to memorise</div>
+    <div class="cs-note">2–3 days of prep. Learn these ten sentences cold — everything below them is recognition-only, not recall.</div>
+    <div class="tri">
+      <div><span class="n">1</span><strong>Ask which user.</strong> Stripe’s customer is the <em>merchant</em>; the merchant’s customer is the <em>cardholder</em>. “Conversion” means different things for each.</div>
+      <div><span class="n">2</span><strong>The flow.</strong> Authorization → capture → settlement → payout. <em>Refund</em> = merchant-initiated. <em>Chargeback</em> = cardholder-initiated via their issuer.</div>
+      <div><span class="n">3</span><strong>TPV ≠ revenue.</strong> Interchange and scheme fees are pass-through. Volume can rise while net revenue falls.</div>
+      <div><span class="n">4</span><strong>Stripe is the backstop.</strong> Payouts in <em>days</em>, dispute liability in <em>months</em> — so every payout is unsecured credit.</div>
+      <div><span class="n">5</span><strong>False declines usually cost more than fraud.</strong> A blocked good customer loses the sale and often the relationship.</div>
+      <div><span class="n">6</span><strong>Threshold = cost ratio.</strong> <em>p* = C_FP / (C_FP + C_FN)</em> — which only means something if the score is a calibrated probability.</div>
+      <div><span class="n">7</span><strong>Don’t resample at 0.3%.</strong> Low probabilities are the correct output. Keep prevalence, use PR-AUC not accuracy, handle imbalance <em>at the threshold</em>.</div>
+      <div><span class="n">8</span><strong>Fraud labels lag 30–90 days</strong>, and blocked transactions have no outcome → label maturity + a let-through holdback.</div>
+      <div><span class="n">9</span><strong>Randomise at the grain the treatment is delivered.</strong> Usually the merchant → cluster the standard errors. Heavy tail → CUPED on pre-period volume.</div>
+      <div><span class="n">10</span><strong>Offers get declined.</strong> ITT is the headline, CACE the mechanism, IPW when the metric only exists for accepters. Propensity ≠ uplift.</div>
+    </div>
+    <div class="probe"><strong>Two habits that carry every answer:</strong> open with “what decision does this drive?” before naming a model or a metric · close with a recommendation, a threshold, and <strong>the sacrifice you’re choosing</strong>.</div>
+
+    <div class="cs-group">💳 Stripe basics</div>
+    <div class="cs-note">How to reason about any Stripe scenario.</div>
+    <div class="sayit"><b>Say this</b>“Before I start — when you say user, do you mean the merchant or their cardholder? Stripe’s revenue is the markup on volume, not the volume itself, so I’d want to know whether we’re optimising TPV or net revenue.”</div>
+    <div class="probe"><strong>If probed →</strong> auth/capture/settle/payout · interchange is pass-through · merchant volume is a power law, so state per-merchant vs dollar-weighted · quote risk in bps of volume.</div>
+    <div class="cs-section">
+      <table class="cs">
+        <tr><td class="term">Two users</td><td>Stripe’s customer = the <strong>merchant</strong>. The merchant’s customer = the <strong>cardholder</strong>. Ask which one, every time.</td></tr>
+        <tr><td class="term">Money flow</td><td>Cardholder → <strong>issuer</strong> → <strong>network</strong> → <strong>Stripe</strong> → merchant.<br><strong>Authorization</strong> (issuer approves — this is <em>auth rate</em>) → <strong>capture</strong> → <strong>settlement</strong> → <strong>payout</strong>.<br><strong>Refund</strong> = merchant-initiated. <strong>Chargeback</strong> = cardholder-initiated; merchant loses funds + fee. Networks penalise above ~1% dispute rate.</td></tr>
+        <tr><td class="term">Economics</td><td><strong>Net revenue</strong> = TPV − interchange − scheme fees (both pass-through). <strong>Net take rate</strong> = net revenue / TPV.<br>⚠️ Interchange varies by payment method, so a conversion win can be a revenue loss.</td></tr>
+        <tr><td class="term">Archetypes</td><td><strong>Infrastructure</strong> (Payments) · <strong>conversion surface</strong> (Checkout, Link) · <strong>risk &amp; trust</strong> (Radar, underwriting) · <strong>financial product</strong> (Capital) · <strong>platform</strong> (Connect).</td></tr>
+        <tr><td class="term">Universal guardrails</td><td>Dispute rate · fraud loss · <strong>false declines</strong> · auth rate · KYC/AML compliance · net take rate · merchant churn.</td></tr>
+        <tr><td class="term">Two speech habits</td><td>Say <strong>bps of volume</strong>, not counts. Say whether you mean <strong>per-merchant or dollar-weighted</strong> — volume is a power law, so they diverge.</td></tr>
+      </table>
+    </div>
+
+    <div class="cs-group">🚀 Global Growth funnel</div>
+    <div class="cs-note">The self-serve funnel — your team’s surface.</div>
+    <div class="sayit"><b>Say this</b>“Signups aren’t the goal — activated merchants and net revenue are. I’d make first live charge the primary metric, and because onboarding friction is mostly KYC and credit control, fraud and loss rate are the guardrails, not afterthoughts.”</div>
+    <div class="probe"><strong>If probed →</strong> time-to-first-charge · the developer and the business owner are two different humans · ramp takes months, so a 2-week test needs a surrogate.</div>
+    <div class="ptable-wrap">
+      <table class="ptable">
+        <thead><tr><th>Stage</th><th>Metric</th><th>Guardrails</th><th>The one thing to say</th></tr></thead>
+        <tbody>
+          <tr><td class="prod">🌐 Visit → signup</td><td class="ns">Signup rate</td><td>Lead quality · bot signups</td><td><strong>Vanity metric.</strong> Never accept a signup lift as the headline without activation follow-through.</td></tr>
+          <tr><td class="prod">📋 Profile / KYC</td><td class="ns">Onboarding completion</td><td><strong>Fraud + credit loss</strong> · KYC/AML · review queue</td><td><strong>Friction here is not a bug.</strong> “Remove fields” is a trap unless you name the loss guardrail in the same breath.</td></tr>
+          <tr><td class="prod">🔑 Integration</td><td class="ns">Test charge → live key</td><td>Support tickets · error rate</td><td>The buyer is often a <strong>developer, not the owner</strong> — the handoff between them is a real drop-off.</td></tr>
+          <tr><td class="prod">⚡ First live charge</td><td class="ns"><strong>Activation</strong> · TTFC</td><td>Fraud rate of new cohort</td><td>Usual activation definition — but <strong>ask</strong> whether they mean first charge or a volume threshold.</td></tr>
+          <tr><td class="prod">📈 Ramp → expansion</td><td class="ns">Net revenue / merchant · NRR</td><td>Net take rate · churn</td><td><strong>Outcomes are slow</strong> — surrogate metrics are mandatory, and say how you’d validate the surrogate.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cs-group">💸 Payments &amp; conversion</div>
+    <div class="cs-note">Auth rate, checkout, and the local-payment-method lever.</div>
+    <div class="sayit"><b>Say this</b>“The counterintuitive part is that false declines usually cost more than fraud — a blocked good customer loses the sale and often the relationship. So I’d price both sides in dollars before touching any threshold.”</div>
+    <div class="probe"><strong>If probed →</strong> hard vs soft decline (only retry soft) · network tokens · local methods launch by country so it’s geo DiD, not A/B · Link spans merchants → interference.</div>
+    <div class="ptable-wrap">
+      <table class="ptable">
+        <thead><tr><th>Product</th><th>North star</th><th>Guardrails</th><th>Considerations</th></tr></thead>
+        <tbody>
+          <tr><td class="prod">💳 Payments</td><td class="ns">Authorized volume · auth rate</td><td><strong>False declines</strong> · fraud bps · uptime · network fines</td><td><strong>Hard decline</strong> (stolen card, closed account) = never retry. <strong>Soft decline</strong> (insufficient funds, timeout) = retryable → retry timing is an ML problem.</td></tr>
+          <tr><td class="prod">🛒 Checkout / Links</td><td class="ns">Session → paid conversion</td><td><strong>Net take rate</strong> · fraud · latency</td><td><strong>The global-growth lever:</strong> local payment methods (iDEAL, SEPA, Pix, UPI, Klarna). Two traps — different interchange, so conversion ↑ can mean revenue ↓; and they launch country-by-country, so reach for <strong>geo DiD / synthetic control</strong>.</td></tr>
+          <tr><td class="prod">🔗 Link (wallet)</td><td class="ns">Repeat one-click conversion</td><td>Cardholder trust · saved-credential fraud</td><td>⚠️ <strong>The interference case.</strong> A cardholder saves a card at merchant A and sees Link at merchant B — treatment spans merchants, so merchant-level randomisation leaks.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cs-group">🛡️ Risk &amp; trust</div>
+    <div class="cs-note">Transaction fraud and merchant underwriting — the likeliest ML scenario.</div>
+    <div class="sayit"><b>Say this</b>“I’d set the threshold by expected loss — block when p × loss exceeds the cost of a false decline, so the cutoff is a cost ratio. That only means anything if the score is calibrated, which is why I wouldn’t resample the negatives without correcting for it.”</div>
+    <div class="probe"><strong>If probed →</strong> labels lag 30–90 days · selective labels → let-through holdback · walk-forward split, never shuffled k-fold · displacement, so measure net system loss · C_FP is measurable from the holdout, not assumed.</div>
+    <div class="ptable-wrap">
+      <table class="ptable">
+        <thead><tr><th>Product</th><th>North star</th><th>Guardrails</th><th>Considerations</th></tr></thead>
+        <tbody>
+          <tr><td class="prod">🛡️ Radar (fraud)</td><td class="ns">Fraud bps at a fixed false-decline rate</td><td><strong>False-decline rate</strong> · merchant churn · overturn rate</td><td>Every hard ML thing at once: <strong>delayed labels</strong> (chargebacks land 30–90d later) · <strong>selective labels</strong> (blocked → no outcome) · <strong>adversarial drift</strong> (walk-forward split) · <strong>calibration required</strong>, because the threshold is dollars not rank · <strong>displacement</strong> — blocked fraud moves elsewhere, so measure net system loss.</td></tr>
+          <tr><td class="prod">🏦 Merchant risk</td><td class="ns">Expected loss vs. volume enabled</td><td>False-positive rejections · <strong>activation rate</strong> · appeal overturn</td><td><strong>Credit risk wearing a fraud costume.</strong> The action is a <em>payout/reserve dial</em>, not block-or-allow. Full walkthrough below ↓</td></tr>
+          <tr><td class="detail" colspan="4">
+      <div class="detail-hd">🏦 Merchant risk — how the loss actually happens</div>
+      <div class="detail-grid">
+        <p><strong>◆ Stripe is the backstop.</strong> The cardholder is <em>always</em> made whole — the only question is who funds it. Merchant balance first; if the merchant is gone, <strong>Stripe pays</strong> as acquirer. Stripe never took the money and never failed to ship, but the network makes the acquirer liable.</p>
+        <p><strong>◆ It’s credit, not fraud.</strong> Payouts run in <strong>days</strong>; the dispute window runs in <strong>months</strong>. Every payout before that window closes is <strong>unsecured credit</strong> to a business onboarded in 90 seconds. <em>That mismatch is the exposure.</em></p>
+        <p><strong>◆ Exposure at default</strong> = volume <em>already paid out</em>, still disputable, <strong>not yet fulfilled</strong>. It compounds faster than revenue for a fast-growing merchant — which is why <strong>ramp velocity vs. peers</strong> is the load-bearing feature.</p>
+        <p><strong>◆ Two of the four failure modes involve no fraud at all.</strong> Long fulfilment lag (furniture, travel, pre-orders) · <strong>bust-out</strong> (build trust, one huge burst, disappear) · <strong>honest insolvency</strong> · subscription abuse. So you’re underwriting <strong>solvency</strong>, not just honesty.</p>
+        <p><strong>◆ The action is a dial.</strong> Delay payouts · rolling reserve · volume caps · proof of fulfilment · offboard. And payout speed is <em>also</em> a growth lever — good merchants get fast money as a benefit, risky ones fund their own exposure.</p>
+        <p><strong>◆ Don’t quote a payout number.</strong> ~2 business days is the common <em>US default</em>, not a policy — it varies by country, by account age, and is itself risk-adjusted. Safe phrasing: “rolling, a couple of days in the US, longer in some markets.”</p>
+      </div>
+    </td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cs-group">🧮 Calibration &amp; imbalance</div>
+    <div class="cs-note">Stripe named “calibrated probabilities” explicitly — this is the differentiator.</div>
+    <div class="sayit"><b>Say this</b>“At a 0.3% base rate I probably wouldn’t resample — low probabilities are the correct output. I’d keep natural prevalence, train on log-loss, evaluate with PR-AUC rather than accuracy, and handle the imbalance at the threshold instead of in the training data.”</div>
+    <div class="probe"><strong>If probed →</strong> AUC measures ranking, calibration measures whether 0.03 means 3% · downsample for compute only, then correct the intercept by ln(r) — exact and free · avoid SMOTE: fraud has many attack modes and categorical features, so interpolation invents structure · check calibration <em>by decile in the tail</em>, where you actually act · Platt vs isotonic · recalibrate weekly, retrain quarterly.</div>
+    <div class="cs-section">
+      <table class="cs">
+        <tr><td class="term">The trap</td><td>Saying “SMOTE” for imbalance and “expected loss” for thresholds. <strong>Those contradict</strong> — resampling shifts the base rate and inflates the probabilities the threshold depends on. Fix by not resampling, or by recalibrating.</td></tr>
+        <tr><td class="term">Imbalance is 3 problems</td><td><strong>Optimization</strong> (mostly a myth for GBM/logistic) · <strong>evaluation</strong> (fix with PR-AUC) · <strong>decision</strong> (fix with the threshold). Resampling only ever touches the first.<br>What’s actually hard is the <strong>absolute number of positives</strong>, not the ratio — and resampling doesn’t change that.</td></tr>
+        <tr><td class="term">The threshold</td><td><em>p* = C_FP / (C_FP + C_FN)</em>, where C_FN ≈ amount + dispute fee.<br>⚠️ <strong>State your C_FP assumption.</strong> If it’s mostly lost margin it scales with amount; if it’s mostly customer friction it doesn’t — and that determines whether the threshold falls or rises with ticket size. Best answer: <strong>measure C_FP from the let-through holdout</strong> rather than assuming it.</td></tr>
+        <tr><td class="term">Production</td><td>Labels lag, so watch the <strong>score distribution</strong> (PSI) as the leading indicator and confirm with calibration by decile once labels mature. Calibration drift → recalibrate (cheap). Discrimination drift → retrain (expensive).</td></tr>
+      </table>
+    </div>
+
+    <div class="cs-group">🧪 Experimentation quirks</div>
+    <div class="cs-note">What’s different about running tests at Stripe.</div>
+    <div class="sayit"><b>Say this</b>“First — at what grain is the treatment actually delivered? Onboarding and pricing land at the merchant level, so I’d randomise merchants and cluster the standard errors. And because volume is heavy-tailed I’d use CUPED on pre-period volume to get the power back.”</div>
+    <div class="probe"><strong>If probed →</strong> winsorize / stratify by size decile / delta method for ratio metrics · surrogates for slow outcomes · ITT vs CACE vs IPW · Link and Connect interference · run whole weeks, never into BFCM · geo DiD when you can’t randomise.</div>
+    <div class="cs-section">
+      <table class="cs">
+        <tr><td class="term">⚠️ The #1 trap</td><td>Randomise <strong>merchants</strong> but compute SEs on <strong>transactions</strong> → understated variance → false significance. Cluster, or aggregate to the merchant first.</td></tr>
+        <tr><td class="term">Heavy tails</td><td>TPV is power-law → <strong>CUPED on pre-period volume</strong> (strongest lever), winsorize, stratify by size decile, delta method for ratio variance.</td></tr>
+        <tr><td class="term">Non-compliance</td><td>Offers get declined → <strong>ITT headline · CACE mechanism · IPW</strong> when the metric only exists for accepters. And <strong>propensity ≠ uplift</strong> — uplift needs a randomised holdback.</td></tr>
+        <tr><td class="term">Can’t randomise</td><td>Country-by-country launches → <strong>geo DiD or synthetic control</strong>. ⚠️ Your logged gap: the causal reflex doesn’t fire when the prompt doesn’t say “experiment.”</td></tr>
+      </table>
+    </div>
+
+    <div class="cs-group">⚖️ The four tension pairs</div>
+    <div class="cs-note">Name the sacrifice, unprompted — this is the L4→L5 move.</div>
+    <div class="sayit"><b>Say this</b>“I’d ship it, and the thing I’m accepting is — [pick a pair] — up to X before I’d stop. Here’s what would change my mind.”</div>
+    <div class="ptable-wrap">
+      <table class="ptable">
+        <thead><tr><th>Lever</th><th>Buys</th><th>Costs</th></tr></thead>
+        <tbody>
+          <tr><td class="prod">Less onboarding friction</td><td class="ns">Signups, faster activation</td><td>Fraud + credit loss, KYC/AML exposure</td></tr>
+          <tr><td class="prod">Tighter fraud threshold</td><td class="ns">Less fraud loss</td><td>False declines → lost sales, merchant churn</td></tr>
+          <tr><td class="prod">More auth retries</td><td class="ns">Recovered revenue</td><td>Network penalties, issuer relationships</td></tr>
+          <tr><td class="prod">Cheaper method / plan</td><td class="ns">Conversion, TPV</td><td>Lower net take rate — TPV ↑, revenue ↓</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cs-group" style="margin-top:2.5rem;opacity:.65">─── Google (previous loop) ───</div>
+
     <div class="cs-group">🧭 How to reason about any product</div>
     <div class="cs-section">
       <table class="cs">
@@ -523,7 +671,8 @@
       </table>
     </div>
 
-    <div class="cs-group">🔧 Utility — success = task done efficiently (less time can be better)</div>
+    <div class="cs-group">🔧 Utility</div>
+    <div class="cs-note">Success = task done efficiently — less time can be better.</div>
     <div class="ptable-wrap">
       <table class="ptable">
         <thead><tr><th>Product</th><th>North star</th><th>Key metrics</th><th>Guardrail metrics</th><th>Considerations</th></tr></thead>
@@ -538,7 +687,8 @@
       </table>
     </div>
 
-    <div class="cs-group">🎬 Content — engagement is the goal (guard quality)</div>
+    <div class="cs-group">🎬 Content</div>
+    <div class="cs-note">Engagement is the goal — guard quality.</div>
     <div class="ptable-wrap">
       <table class="ptable">
         <thead><tr><th>Product</th><th>North star</th><th>Key metrics</th><th>Guardrail metrics</th><th>Considerations</th></tr></thead>
@@ -548,7 +698,8 @@
       </table>
     </div>
 
-    <div class="cs-group">🛒 Marketplace — two-sided (users + supply side)</div>
+    <div class="cs-group">🛒 Marketplace</div>
+    <div class="cs-note">Two-sided — users + supply side.</div>
     <div class="ptable-wrap">
       <table class="ptable">
         <thead><tr><th>Product</th><th>North star</th><th>Key metrics</th><th>Guardrail metrics</th><th>Considerations</th></tr></thead>
@@ -559,7 +710,8 @@
       </table>
     </div>
 
-    <div class="cs-group">💳 Payments / trust — fraud ↔ false-positive tension</div>
+    <div class="cs-group">💳 Payments / trust</div>
+    <div class="cs-note">Fraud ↔ false-positive tension.</div>
     <div class="ptable-wrap">
       <table class="ptable">
         <thead><tr><th>Product</th><th>North star</th><th>Key metrics</th><th>Guardrail metrics</th><th>Considerations</th></tr></thead>
@@ -1446,6 +1598,7 @@ function buildCollapsible(viewId, key) {
   let state = {};
   try { state = JSON.parse(localStorage.getItem(key) || "{}"); } catch (e) {}
 
+  const showNav = viewId !== "productsView";
   const bar = document.createElement("div");
   bar.className = "cs-toolbar";
   bar.innerHTML =
@@ -1454,7 +1607,7 @@ function buildCollapsible(viewId, key) {
       '<button class="cs-btn" data-act="expand">Expand all</button>' +
       '<button class="cs-btn" data-act="collapse">Collapse all</button>' +
     '</div>' +
-    '<div class="cs-nav"></div>' +
+    (showNav ? '<div class="cs-nav"></div>' : '') +
     '<div class="cs-hits" style="display:none"></div>';
   view.insertBefore(bar, view.firstChild);
   const nav = bar.querySelector(".cs-nav");
@@ -1488,16 +1641,18 @@ function buildCollapsible(viewId, key) {
       localStorage.setItem(key, JSON.stringify(state));
     };
 
-    const chip = document.createElement("button");
-    chip.className = "cs-chip";
-    chip.textContent = label;
-    chip.onclick = () => {
-      wrap.classList.add("open");
-      state[i] = true;
-      localStorage.setItem(key, JSON.stringify(state));
-      wrap.scrollIntoView({ behavior: "smooth", block: "start" });
-    };
-    nav.appendChild(chip);
+    if (nav) {
+      const chip = document.createElement("button");
+      chip.className = "cs-chip";
+      chip.textContent = label;
+      chip.onclick = () => {
+        wrap.classList.add("open");
+        state[i] = true;
+        localStorage.setItem(key, JSON.stringify(state));
+        wrap.scrollIntoView({ behavior: "smooth", block: "start" });
+      };
+      nav.appendChild(chip);
+    }
   });
 
   const blocks = [...view.querySelectorAll(".cs-block")];
