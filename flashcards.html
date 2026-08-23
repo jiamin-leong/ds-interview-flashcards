@@ -175,6 +175,10 @@
   .cs-chip:hover, .cs-chip.on { background: var(--accent); color: #04101f; border-color: var(--accent); }
   html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   .cs-hits { font-size: 12px; color: var(--muted); margin-top: 8px; }
+  pre.ctree { background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
+              padding: 12px 14px; margin: 6px 0 15px; overflow-x: auto; font-size: 12px;
+              line-height: 1.5; color: var(--text); white-space: pre;
+              font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
   .cs-note { font-size: 12.5px; color: var(--muted); margin: 10px 4px 2px; line-height: 1.5; }
 
   .cs-block { margin: 0 0 10px; scroll-margin-top: 108px; }
@@ -387,6 +391,48 @@
 
     <div class="cs-section">
       <h2>Causal inference (no A/B test)</h2>
+      <pre class="ctree">Was assignment RANDOMISED?
+│
+├─ NO → observational
+│   ├─ natural instrument (lottery, officer, distance)? → IV / 2SLS
+│   ├─ assigned by a threshold?                        → RDD
+│   ├─ before/after + a control group?                 → DiD
+│   ├─ one treated market, many candidates?            → Synthetic control
+│   └─ none of the above                               → PSM / IPW / Double ML
+│                                                      ⚠ observed confounders ONLY
+│
+└─ YES
+    │
+    └─ Did everyone assigned actually TAKE IT UP?
+       │
+       ├─ YES, full compliance  → plain A/B. ITT = ATE. Difference in means.
+       │
+       └─ NO — they can decline
+          │
+          └─ Is the outcome observed for NON-takers too?
+             │
+             ├─ YES → ITT is the headline   ← the ship / no-ship number
+             │      │
+             │      └─ also want the effect on those who took up?
+             │         ├─ take-up healthy → CACE = ITT ÷ take-up rate
+             │         │    needs: exclusion restriction · monotonicity
+             │         │           · non-trivial first stage
+             │         └─ take-up tiny    → ITT only (CACE too noisy)
+             │
+             └─ NO — metric exists only for takers
+                ├─ can you redefine it for everyone (non-taker = 0)?
+                │     → YES: back to ITT ✓  — always try this first
+                └─ genuinely not → IPW / PSM among takers
+                      ⚠ observed confounders only → report as
+                        descriptive, not causal
+
+───────────────────────────────────────────────────────────────────────
+NEVER  takers vs. the whole control group — that is selection bias.
+ALSO   outcome missing differentially (attrition, non-response)?
+       → IPW on the response probability, layered on whichever branch
+         you landed in.
+IV     is the framework, not a rival: a randomised offer IS an instrument,
+       and CACE is its Wald estimator.</pre>
       <table class="cs">
         <tr><td class="term">Diff-in-Diff (DiD)</td><td>Compare the <strong>before→after change</strong> in a treated group vs. a control group. Assumes <strong>parallel trends</strong>. <span class="hint">Feature launched in one region at a known date.</span></td></tr>
         <tr><td class="term" style="white-space:normal">Regression Discontinuity Design (RDD)</td><td>Treatment assigned by a <strong>threshold</strong>; compare units <strong>just above vs. just below</strong> the cutoff. <span class="hint">Eligibility cutoffs — strong local causal estimate.</span></td></tr>
@@ -627,6 +673,49 @@
       </div>
     </td></tr>
         </tbody>
+      </table>
+    </div>
+
+    <div class="cs-group">🧬 Feature engineering</div>
+    <div class="cs-note">Cold start at approval time — the constraint that shapes everything else.</div>
+    <div class="sayit"><b>Say this</b>“The binding constraint is that at approval time the merchant has processed zero transactions — this is a cold-start problem. So I&rsquo;d pair a thin application-time model with conservative payout terms, and re-underwrite within days once behavioural signals arrive.”</div>
+    <div class="probe"><strong>If probed →</strong> point-in-time correctness · nothing post-decision · peer-relative beats absolute · declared-vs-observed divergence is itself a feature · out-of-fold target encoding · graph features are the most adversarially gamed.</div>
+    <div class="ptable-wrap">
+      <table class="ptable">
+        <thead><tr><th>T=0 · application time</th><th>Signals</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr><td class="prod">🏢 Business identity</td><td class="ns">MCC / declared category · incorporation age · legal structure · jurisdiction · registered vs. trading address mismatch</td><td><strong>MCC is the strongest single T=0 signal.</strong> Travel, events, ticketing, furniture and pre-order businesses carry <em>structural</em> fulfilment risk — months of exposure before anything ships.</td></tr>
+          <tr><td class="prod">👤 Principal / owner</td><td class="ns">Prior Stripe accounts · <strong>prior accounts closed for cause</strong> · identity record age · sanctions &amp; PEP screening</td><td>Closed-for-cause history is close to deterministic. Cheap to check, high precision.</td></tr>
+          <tr><td class="prod">🌐 Website &amp; product</td><td class="ns">Domain resolves · <strong>WHOIS domain age</strong> · SSL · refund policy / terms / contact details · price points vs. category norms · stated fulfilment lead time · pre-order language</td><td>Public, cheap, and surprisingly predictive. A three-week-old domain selling $2,000 furniture is a different risk from a five-year-old one.</td></tr>
+          <tr><td class="prod">🖱️ Application session</td><td class="ns">Time to complete · edit / copy-paste patterns · IP-geo vs. declared country · VPN or proxy · device fingerprint · email domain age · disposable email · phone reachability</td><td>Behavioural signal that exists <em>before</em> any transaction does — the only behaviour you have at T=0.</td></tr>
+          <tr><td class="prod">🔗 Graph / shared entity</td><td class="ns">Bank account, device, IP, phone, address or principal <strong>shared with accounts closed for cause</strong></td><td><strong>The strongest T=0 signal for deliberate bad actors</strong> — and the most adversarially gamed, so it decays fastest.</td></tr>
+          <tr><td class="prod">📝 Declared intent</td><td class="ns">Expected monthly volume · average ticket</td><td>Self-reported, so <strong>implausibility is the signal</strong> — and it becomes the baseline for declared-vs-observed divergence later.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="ptable-wrap">
+      <table class="ptable">
+        <thead><tr><th>T&gt;0 · seasoning</th><th>Signals</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr><td class="prod">📈 Ramp</td><td class="ns"><strong>Actual vs. declared volume</strong> · growth percentile within MCC-and-tenure cohort · ticket-size drift</td><td>Where most of the real predictive power lives. Always <strong>peer-normalised</strong> — a $50k month is unremarkable in one category and alarming in another.</td></tr>
+          <tr><td class="prod">🔄 Quality</td><td class="ns">Refund rate and refund latency · early dispute rate · first-dispute timing</td><td>The earliest honest read on fulfilment, weeks before chargebacks land.</td></tr>
+          <tr><td class="prod">💳 Authorization</td><td class="ns">Decline rate · card-testing signatures · BIN diversity · cardholder geography vs. merchant location</td><td>Catches stolen-card and testing activity rather than merchant insolvency.</td></tr>
+          <tr><td class="prod">🎯 Concentration</td><td class="ns">Few distinct cardholders · repeated cards · self-purchase patterns</td><td>A <strong>bust-out tell</strong> — manufactured volume to build trust before the burst.</td></tr>
+          <tr><td class="prod">📦 Fulfilment proxies</td><td class="ns">Charge → tracking-upload lag · delivery-related support contacts</td><td>The closest thing to observing whether goods actually ship.</td></tr>
+          <tr><td class="prod">🏦 Payout behaviour</td><td class="ns">Withdrawal speed · <strong>bank account changes</strong> · requests to accelerate payouts</td><td>A bank change plus a volume spike is a <strong>classic bust-out precursor</strong> — high precision, act immediately.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="cs-section">
+      <table class="cs">
+        <tr><td class="term">Point-in-time correctness</td><td>Every feature must be <strong>as-of the decision moment</strong>. Computing domain age <em>today</em> for a merchant onboarded last year leaks the future. Build from a snapshot at application time.</td></tr>
+        <tr><td class="term">Nothing post-decision</td><td>“Was manually reviewed” encodes the <em>old policy&rsquo;s opinion</em> → leaks the label and guarantees the model can&rsquo;t beat the policy it replaces.</td></tr>
+        <tr><td class="term">Peer-relative &gt; absolute</td><td>“Ramp at the 98th percentile <strong>within their MCC-and-tenure cohort</strong>” beats raw volume every time. Normalise within cohort.</td></tr>
+        <tr><td class="term">Divergence is a feature</td><td>Declared $10k/month, doing $200k — <strong>the gap is more informative than either number</strong>.</td></tr>
+        <tr><td class="term">High-cardinality categoricals</td><td>MCC, country, BIN, email domain → target-encode <strong>out of fold</strong>, or use embeddings. Encoding on the full training set is a classic leak.</td></tr>
+        <tr><td class="term">Graph features</td><td>Compute <strong>as-of time</strong>, and expect decay — they&rsquo;re the most actively gamed signal you have.</td></tr>
+        <tr><td class="term">⚠️ EAD is a <em>policy</em> variable</td><td><strong>Exposure at default is not a merchant property</strong> — payout delay, reserve % and volume caps set it directly. So the model forecasts a <strong>volume trajectory</strong>; the policy layer computes exposure given the terms you choose. That&rsquo;s why the decision is a dial, not approve-or-reject.</td></tr>
+        <tr><td class="term">LGD is segment-level</td><td>Per-merchant data is far too thin. Estimate <strong>loss given default</strong> by segment: reserve held · ability to debit their bank · historical recovery rate · dispute defensibility (tracking numbers win disputes; digital goods and services often can&rsquo;t).</td></tr>
       </table>
     </div>
 
